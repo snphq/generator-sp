@@ -1,0 +1,2 @@
+define [], ->
+  "'Allo 'Allo! CoffeeScript"
