@@ -20,15 +20,14 @@ CollectionGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
   var prompts = [{
     name: 'modelName',
-    message: "What model do you want to link with(without \"Model\" postfix)?\ndefault: "+this.name
+    message: "What model do you want to link with collection (without \"Model\" postfix)?",
+    default: this.name
   }];
   this.prompt(prompts, function (props) {
     if (props.modelName == ''){
       props.modelName = this.name
     }
-    console.log(props);
     this.model_name = capitalize(props.modelName) + "Model";
-    console.log(this.model_name);
     cb();
   }.bind(this));
 }
