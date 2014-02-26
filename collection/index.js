@@ -24,9 +24,6 @@ CollectionGenerator.prototype.askFor = function askFor() {
     default: this.name
   }];
   this.prompt(prompts, function (props) {
-    if (props.modelName == ''){
-      props.modelName = this.name
-    }
     this.model_name = capitalize(props.modelName) + "Model";
     cb();
   }.bind(this));
