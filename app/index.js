@@ -79,7 +79,7 @@ SpGenerator.prototype.app = function app() {
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
   this.directory('tasks','tasks');
-  this.mkdir('grunt', 'grunt');
+  this.directory('grunt', 'grunt');
   [
     'autoprefixer.coffee',
     'connect.coffee',
