@@ -2,8 +2,7 @@ define [
   "jquery"
   "underscore"
   "preprocess"
-  "packages/social"
-],($, _, preprocess, social)->
+],($, _, preprocess)->
   urlparams = _.reduce location.search.slice(1,location.search.length).split("&"),((memo,item)->
       pair = item.split("=")
       if pair.length is 2
@@ -40,12 +39,9 @@ define [
     urlparams:urlparams
     images: null
     async:-> $.Deferred()
-    #api: new ServerApi
-    #sapi:new social.SocialApi
-    #  vk: new social.VKApi preprocess.social.vk.appID
-    #  fb: new social.FBApi preprocess.social.fb.appID
-    #  ok: new social.OKApi preprocess.social.ok.appID, preprocess.social.ok.appKey
-    #user:new UserModel
+    api:null
+    sapi:null
+    user:null
     share:share
   }
   if window.PRELOADER?

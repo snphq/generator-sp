@@ -67,16 +67,7 @@ SpGenerator.prototype.app = function app() {
   this.directory('app/images','app/images');
   this.directory('app/styles','app/styles');
   this.directory('app/scripts/' + self.scriptType + '/','app/scripts');
-
-  ['_base', 'index'].forEach(function(path){
-    var ext = ".html";
-    if(self.templateType === "jade"){
-      ext = '.jade';
-    }
-
-    var apath = "app/html/" + path + ext;
-    self.copy(apath, apath);
-  });
+  this.directory('app/html/' + self.templateType, "app/html" )
 
 };
 SpGenerator.prototype.cap = function cap(){
