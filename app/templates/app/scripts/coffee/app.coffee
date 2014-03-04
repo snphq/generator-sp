@@ -1,11 +1,13 @@
 define [
   "backbone"
   "Router"
-  "view/layout"
   "ServerApi"
   "preprocess"
-
-], (Backone, Router, Layout, ServerApi, preproces)->
+  "view/layout"
+  "view/modal"
+  "view/page"
+  "view/widget"
+], (Backone, Router, ServerApi, preproces, Layout)->
   $ = Backone.$
 
   class Application

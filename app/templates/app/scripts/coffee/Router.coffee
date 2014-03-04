@@ -3,11 +3,13 @@ define [
   "utils/Middleware"
   "common"
   "view/page"
+  "view/modal"
 ],(
   Backbone
   Middleware
   common
-  page
+  Page
+  Modal
 )->
 
   showPage=(View,options={})->
@@ -27,10 +29,10 @@ define [
       "*default":"default_router"
 
     index: middleware.wrap ->
-      view = showPage page.IndexPage
+      view = showPage Page.IndexPage
 
     error404: middleware.wrap ->
-      showPage page.Error404Page
+      showPage Page.Error404Page
 
     default_router:->
       @navigate "!/404", trigger:true
