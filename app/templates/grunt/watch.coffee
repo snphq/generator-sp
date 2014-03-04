@@ -11,13 +11,11 @@ module.exports =
 
     js:
       files: ["<%= yeoman.app %>/scripts/**/*.js"]
-      tasks: ["newer:jshint", "copy:js"]
+      tasks: ["jshint", "copy:js"]
 
     coffee:
-      options:
-        livereload: false
       files: ["<%= yeoman.app %>/scripts/**/*.coffee"]
-      tasks: ["newer:coffeelint","newer:coffee"]
+      tasks: ["coffeelinter","coffee"]
 
     preprocess:
       files: ["<%= yeoman.tmpPath %>/scripts/preprocess_template.js"]

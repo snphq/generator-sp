@@ -2,9 +2,17 @@
   "name": "projects",
   "version": "0.0.0",
   "dependencies": {
-    "requirejs": "~2.1.8",
+    "requirejs": "~2.1.10",
     "modernizr": "~2.6.2",
-    "jquery": "~1.10.2"
+    "jquery": "~2.1.0",
+    "backbone": "~1.1.1",
+    "backbone.epoxy": "~1.1.0",
+    "backbone-mixin": "~0.1.6",
+    "lodash": "~2.4.1",
+    "bootstrap-sass": "~3.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "jquery": "~1.10.0"
+  }
 }

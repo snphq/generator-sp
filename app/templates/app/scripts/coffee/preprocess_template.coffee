@@ -5,6 +5,7 @@ window.PREPROCESS = {}
 ###
 window.PREPROCESS = {
   mode:"debug"
+  GA:"UA-XXXXX-X"
 }
 ###
 // @endif
@@ -17,6 +18,7 @@ window.PREPROCESS = {
 ###
 window.PREPROCESS = {
   mode:"testing"
+  GA:"UA-XXXXX-X"
 }
 ###
 // @endif
@@ -29,6 +31,7 @@ window.PREPROCESS = {
 ###
 window.PREPROCESS = {
   mode:"production"
+  GA:"UA-XXXXX-X"
 }
 ###
 // @endif

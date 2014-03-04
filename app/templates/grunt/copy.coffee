@@ -19,6 +19,18 @@ module.exports =
         cwd: "<%= yeoman.app %>/bower_components/requirejs"
         dest: "<%= yeoman.dist %>/bower_components/requirejs"
         src: "require.js"
+      ,
+        expand: true
+        dot: true
+        cwd: "<%= yeoman.tmpPath %>"
+        dest: "<%= yeoman.dist %>"
+        src: [
+          "*.{ico,png,txt}",
+          ".htaccess",
+          "images/**/*.{webp,gif}",
+          "styles/fonts/**/*.*"
+          "files/**/*.*"
+        ]
       ]
 
     js:
@@ -52,3 +64,6 @@ module.exports =
 
     custom:
       files: "<%= yeoman.copy %>"
+
+    deps:
+      files: "<%= yeoman.copy_deps %>"
