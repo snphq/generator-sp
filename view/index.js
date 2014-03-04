@@ -36,34 +36,74 @@ ViewGenerator.prototype.askFor = function askFor() {
     this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
     this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
     this.view_path = this.viewType;
+    this.coffee_base = "_" + capitalize(this.viewType);
     cb();
   }.bind(this));
 }
 
 ViewGenerator.prototype.files = function files() {
-  this.copy('view.coffee',  'app/scripts/view/' + this.view_path + "/" + this.normalize_name + '.coffee');
-  var jade_folder = 'app/html/' + this.view_path + "/";
-  var index_jade = jade_folder + "__" + this.view_path + ".jade";
-  this.copy('view.jade',  jade_folder + "_" + this.normalize_name + '.jade');
-  (function(self){
-    var data = "";
-    try{
-      data = self.dest.read(index_jade);
-    }catch(e){}
-    data += "\nscript#" + self.normalize_name + "(type=\"text/template\")\n  include _" + self.normalize_name + "\n";
-    self.write(index_jade,data);
-  })(this);
+  var self = this;
+  var rootPath = 'app/scripts/view/' + self.view_path + "/";
+  var packagePath = rootPath + self.normalize_name + "/";
+  var mainPath = self.dest._base + "/" + rootPath;
 
-  var scss_folder = 'app/styles/' + this.view_path + "/";
-  var index_scss = scss_folder + "__" + this.view_path + ".scss";
-  this.copy('view.scss', scss_folder + "_" + this.normalize_name + '.scss');
-  (function(self){
-    var data = "";
-    var indexPath = path.join(__dirname,index_scss);
-    try{
-      data = self.dest.read(index_scss);
-    }catch(e){}
-    data += "\n@import \"" + self.normalize_name + "\";\n";
-    self.write(index_scss,data);
-  })(this);
+  var exts = ['coffee','scss','jade'];
+  var imports = {'coffee':[],'scss':[],'jade':[]}
+
+  fs.readdirSync(mainPath).forEach(function(item){
+    var itemPath = mainPath + item;
+    var stat = fs.lstatSync(itemPath);
+    if(stat.isDirectory()){
+      exts.forEach(function(ext){
+        var filePath = itemPath + "/" + item + "." + ext;
+        if(fs.existsSync(filePath)){
+            imports[ext].push(item);
+        }
+      });
+    }
+  });
+
+  exts.forEach(function(ext){
+    self.copy(
+      'view.' + ext,
+      packagePath + self.normalize_name + '.' + ext
+    );
+    imports[ext].push(self.normalize_name);
+  });
+
+  (function(imports){
+
+    var str = "#genetated file\n";
+    str += "define (require, exports, module)->\n";
+    imports['coffee'].forEach(function(name){
+      str += "  " + name + ": require './" + name + "/" + name + "'\n";
+    });
+    self.write(rootPath + "main.coffee", str);
+
+  })(imports);
+
+  (function(imports){
+    if(self.viewType == "layout"){
+      return;
+    }
+    var str = "//-genetated file\n";
+    imports['jade'].forEach(function(name){
+      str += "script#" + name + "(type='text/template')\n";
+      str += "  include " + name + "/" + name + "\n";
+    });
+    self.write(rootPath + "main.jade", str);
+
+  })(imports);
+
+  (function(imports){
+
+    var str = "//genetated file\n";
+    imports['scss'].forEach(function(name){
+      str += "@import \"" + name + "/" + name + "\";\n";
+    });
+    self.write(rootPath + "main.scss", str);
+
+  })(imports);
+
+
 };
