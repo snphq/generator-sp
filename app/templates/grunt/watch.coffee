@@ -6,7 +6,10 @@ module.exports =
       livereload: true
 
     templates:
-      files: ["<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"]
+      files: [
+        "<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"
+        "<%= yeoman.app %>/scripts/view/**/*.{html,jade}"
+      ]
       tasks: ["link_templatecompiler"]
 
     js:
@@ -25,7 +28,10 @@ module.exports =
       options:
         livereload: false
         spawn: true
-      files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
+      files: [
+        "<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"
+        "<%= yeoman.app %>/scripts/view/**/*.{scss,sass}"
+      ]
       tasks: ["sass", "autoprefixer"]
 
     styles:
