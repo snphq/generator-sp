@@ -67,8 +67,9 @@ SpGenerator.prototype.app = function app() {
   this.directory('app/images','app/images');
   this.directory('app/styles','app/styles');
   this.directory('app/scripts/' + self.scriptType + '/','app/scripts');
-  this.directory('app/html/' + self.templateType, "app/html" )
-
+  this.directory('app/html/' + self.templateType, "app/html" );
+  this.copy("app/robots.txt","app/robots.txt");
+  this.copy("app/favicon.ico","app/favicon.ico");
 };
 SpGenerator.prototype.cap = function cap(){
   console.log("Accept " + this.cap_project_name);
