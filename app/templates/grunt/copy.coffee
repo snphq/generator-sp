@@ -11,7 +11,8 @@ module.exports =
           "*.{ico,png,txt}",
           ".htaccess",
           "images/**/*.{webp,gif}",
-          "styles/fonts/**/*.*"
+          "styles/fonts/**/*.*",
+          "files/**/*.*"
         ]
       ,
         expand: true
