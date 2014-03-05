@@ -11,7 +11,7 @@ require.config
     underscore: "#{VENDOR_PATH}/lodash/dist/lodash"
     epoxy: "#{VENDOR_PATH}/backbone.epoxy/backbone.epoxy"
     "backbone-mixin": "#{VENDOR_PATH}/backbone-mixin/build/backbone-mixin"
-    boostrap: "#{VENDOR_PATH}/bootstrap-sass/dist/js/bootstrap"
+    bootstrap: "#{VENDOR_PATH}/bootstrap-sass/dist/js/bootstrap"
   packages:[
     "view/layout"
     "view/widget"
@@ -22,6 +22,8 @@ require.config
   shim:
     preprocess:
       exports:"PREPROCESS"
+    bootstrap:
+      deps:["jquery"]
 
 require ["App", "common", "preprocess"], (App, common, preprocess) ->
   "use strict"
