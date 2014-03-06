@@ -28,27 +28,46 @@ ViewGenerator.prototype.askFor = function askFor() {
       { 'name':'layout', value:'layout' },
       { 'name':'modal', value:'modal' },
       { 'name':'page', value:'page' },
+      { 'name':'collectionwidget',value:"list"}
     ],
     default: 'widget'
   }];
   this.prompt(prompts, function (props) {
     this.viewType = props.viewType;
-    this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
-    this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
+    this.viewTypeList = this.viewType == "list";
+    if(this.viewTypeList){
+      this.normalize_name = capitalize(this.name) + "Item";
+      this.normalize_name_list = capitalize(this.name) + "List";
+      this.css_classname = (this.name + "_Item").toLowerCase();
+      this.css_classname_list = (this.name + "_List").toLowerCase();
+      this.collection_name = capitalize(this.name) + "Collection";
+    }
+    else {
+      this.normalize_name_list = this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
+      this.css_classname_list = this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
+    }
+
     this.view_path = this.viewType;
     this.coffee_base = "_" + capitalize(this.viewType);
+
     cb();
   }.bind(this));
 }
 
-ViewGenerator.prototype.files = function files() {
-  var self = this;
+
+var createView = function(self){
+  var normalize_name = self.normalize_name;
+  var normalize_name_list = self.normalize_name_list;
+
+  var viewType = self.viewType;
   var rootPath = 'app/scripts/view/' + self.view_path + "/";
-  var packagePath = rootPath + self.normalize_name + "/";
+  var packagePath = rootPath + normalize_name + "/";
+  var packagePathList = rootPath + normalize_name_list + "/";
   var mainPath = self.dest._base + "/" + rootPath;
 
   var exts = ['coffee','scss','jade'];
   var imports = {'coffee':[],'scss':[],'jade':[]}
+  self.mkdir(rootPath);
 
   fs.readdirSync(mainPath).forEach(function(item){
     var itemPath = mainPath + item;
@@ -66,10 +85,20 @@ ViewGenerator.prototype.files = function files() {
   exts.forEach(function(ext){
     self.copy(
       'view.' + ext,
-      packagePath + self.normalize_name + '.' + ext
+      packagePath + normalize_name + '.' + ext
     );
-    imports[ext].push(self.normalize_name);
+    imports[ext].push(normalize_name);
   });
+
+  if(self.viewTypeList){
+    exts.forEach(function(ext){
+      self.copy(
+        'view_list.' + ext,
+        packagePathList + normalize_name_list + '.' + ext
+      );
+      imports[ext].push(normalize_name_list);
+    });
+  }
 
   (function(imports){
 
@@ -83,7 +112,7 @@ ViewGenerator.prototype.files = function files() {
   })(imports);
 
   (function(imports){
-    if(self.viewType == "layout"){
+    if(viewType == "layout"){
       return;
     }
     var str = "//-genetated file\n";
@@ -105,5 +134,13 @@ ViewGenerator.prototype.files = function files() {
 
   })(imports);
 
+}
 
+ViewGenerator.prototype.files = function files() {
+  createView(this);
+  if(this.viewTypeList){
+    this.invoke("sp:collection",{
+      args:[this.name]
+    });
+  }
 };

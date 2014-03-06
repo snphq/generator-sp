@@ -17,6 +17,7 @@ require.config
     "view/widget"
     "view/modal"
     "view/page"
+    "view/list"
     "packages/social"
   ]
   shim:
