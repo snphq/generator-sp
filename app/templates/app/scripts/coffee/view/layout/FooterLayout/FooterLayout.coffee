@@ -1,5 +1,5 @@
-define [
-  "view/layout/_Layout"
-],(Layout)->
+define (require, exports, module)->
+  Layout = require "../_Layout"
+
   FooterLayout = Layout.extend
     initialize:->
