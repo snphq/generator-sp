@@ -86,14 +86,8 @@ SpGenerator.prototype.cap = function cap(){
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
   this.directory('tasks','tasks');
-  fs.readdirSync(__dirname + '/templates/grunt/').forEach(function(item){
-    var data = self.read('grunt/' + item );
-    self.write('grunt/' + item, data);
-  });
-
-  (function(data){
-    self.write('Gruntfile.coffee',data)
-  })(self.read('Gruntfile.coffee'));
+  this.bulkDirectory("grunt","grunt");
+  this.bulkCopy("Gruntfile.coffee","Gruntfile.coffee");
 
   [
     'README.md',
