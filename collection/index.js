@@ -19,12 +19,14 @@ util.inherits(CollectionGenerator, yeoman.generators.NamedBase);
 CollectionGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
   var prompts = [{
-    name: 'modelName',
-    message: "What model do you want to link with collection (without \"Model\" postfix)?",
-    default: this.name
+    type: "confirm",
+    name: 'model_generate',
+    message: "Whould ypu like generate model " + this.name + "Model",
+    default: true
   }];
   this.prompt(prompts, function (props) {
-    this.model_name = capitalize(props.modelName) + "Model";
+    this.model_name = this.name + "Model";
+    this.model_generate = props.model_generate;
     cb();
   }.bind(this));
 }
@@ -32,4 +34,9 @@ CollectionGenerator.prototype.askFor = function askFor() {
 CollectionGenerator.prototype.files = function files() {
     this.normalize_name = capitalize(this.name) + "Collection"
     this.copy('collection.coffee',  'app/scripts/collection/' + this.normalize_name + '.coffee');
+    if(this.model_generate){
+      this.invoke("sp:model",{
+        args:[this.name]
+      });
+    }
 }
