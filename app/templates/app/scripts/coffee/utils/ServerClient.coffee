@@ -43,13 +43,16 @@ define ["jquery"],($)->
       options.stub = null
       $.ajax(options)
         .done (data)->
-          async.resolve data
+          unless data.result is "error"
+            async.resolve data
+          else
+            async.reject data
         .fail (err)->
           async.reject err
         .always =>
           @lock.unlock url, lockname
 
-    ajax:(options,{stub,server})->
+    ajax:(options)->
       async = $.Deferred()
       options or options = {}
 
@@ -62,15 +65,12 @@ define ["jquery"],($)->
           @_ajax options, async
       async.promise()
 
-    get:(options,stub)->
+    get:(options)->
       options or options = {}
       options.type = "GET"
-      @ajax options, stub
+      @ajax options
 
-    post:(options,stub)->
+    post:(options)->
       options or options = {}
       options.type = "POST"
-      @ajax options, stub
-
-
-
+      @ajax options
