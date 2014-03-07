@@ -138,9 +138,10 @@ var createView = function(self){
 
 ViewGenerator.prototype.files = function files() {
   createView(this);
+  /*
   if(this.viewTypeList){
     this.invoke("sp:collection",{
       args:[this.name]
     });
-  }
+  }*/
 };
