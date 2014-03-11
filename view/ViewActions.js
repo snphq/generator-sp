@@ -26,6 +26,9 @@ var ViewActions = {
     imports['coffee'].forEach(function(name){
       str += "  " + name + ": require './" + name + "/" + name + "'\n";
     });
+    if(!imports['coffee'].length){
+      str += "  {}\n";
+    }
     this.write(rootPath + "main.coffee", str);
   },
   validateJade:function(view_path, imports, viewType){
