@@ -3,7 +3,7 @@ var util = require('util');
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
 var path = require('path');
-var BaseActions = require("./BaseActions")
+var ViewActions = require("./ViewActions")
 var capitalize = function(name){
   return name[0].toUpperCase() + name.slice(1,name.length);
 }
@@ -56,7 +56,7 @@ ViewGenerator.prototype.askFor = function askFor() {
 
 ViewGenerator.prototype.files = function files() {
 
-  BaseActions.createView.call(
+  ViewActions.createView.call(
     this,
     this.view_path,
     this.normalize_name,

@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 var yeoman = require('yeoman-generator');
-var BaseActions = require("./../view/BaseActions")
+var ViewActions = require("./../view/ViewActions")
 
 var ValidateGenerator = module.exports = function ValidateGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -12,7 +12,7 @@ util.inherits(ValidateGenerator, yeoman.generators.Base);
 ValidateGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
   var choicesViews = [{name:"all",value:"_all"}];
-  var views = BaseActions.getAvailableViewPath.call(this);
+  var views = ViewActions.getAvailableViewPath.call(this);
   views.forEach(function(item){
     choicesViews.push({
       name:item, value:item
@@ -42,7 +42,7 @@ ValidateGenerator.prototype.validate = function validate() {
     views = [this.view_path];
   }
   views.forEach(function(view_path){
-    var imports = BaseActions.getImports.call(self, view_path,_base);
-    BaseActions.validate.call(self, view_path, view_path, imports);
+    var imports = ViewActions.getImports.call(self, view_path,_base);
+    ViewActions.validate.call(self, view_path, view_path, imports);
   });
 };

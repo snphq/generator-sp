@@ -3,7 +3,7 @@ var path = require('path');
 var util = require('util');
 var _ = require('yeoman-generator/node_modules/lodash');
 
-var BaseActions = {
+var ViewActions = {
   getRootPath:function(view_path){
     return 'app/scripts/view/' + view_path + "/";
   },
@@ -20,7 +20,7 @@ var BaseActions = {
     return folders;
   },
   validateCoffee:function(view_path, imports){
-    var rootPath = BaseActions.getRootPath.call(this, view_path);
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
     var str = "#genetated file\n";
     str += "define (require, exports, module)->\n";
     imports['coffee'].forEach(function(name){
@@ -29,7 +29,7 @@ var BaseActions = {
     this.write(rootPath + "main.coffee", str);
   },
   validateJade:function(view_path, imports, viewType){
-    var rootPath = BaseActions.getRootPath.call(this, view_path);
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
     if(viewType == "layout"){
       return;
     }
@@ -41,7 +41,7 @@ var BaseActions = {
     this.write(rootPath + "main.jade", str);
   },
   validateScss:function(view_path, imports){
-    var rootPath = BaseActions.getRootPath.call(this, view_path);
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
     var str = "//genetated file\n";
     imports['scss'].forEach(function(name){
       str += "@import \"" + name + "/" + name + "\";\n";
@@ -49,7 +49,7 @@ var BaseActions = {
     this.write(rootPath + "main.scss", str);
   },
   getImports:function(view_path, _base){
-    var rootPath = BaseActions.getRootPath.call(this, view_path);
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
     var mainPath = _base + "/" + rootPath;
     var exts = ['coffee','scss','jade'];
     var imports = {'coffee':[],'scss':[],'jade':[]};
@@ -73,19 +73,19 @@ var BaseActions = {
 
   validate:function(view_path, viewType,imports){
 
-    BaseActions.validateCoffee.call(this, view_path, imports);
-    BaseActions.validateJade.call(this, view_path, imports, viewType);
-    BaseActions.validateScss.call(this, view_path, imports);
+    ViewActions.validateCoffee.call(this, view_path, imports);
+    ViewActions.validateJade.call(this, view_path, imports, viewType);
+    ViewActions.validateScss.call(this, view_path, imports);
   },
   createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base){
     var self = this;
-    var rootPath = BaseActions.getRootPath.call(this, view_path);
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
     var packagePath = rootPath + normalize_name + "/";
     var packagePathList = rootPath + normalize_name_list + "/";
 
     var exts = ['coffee','scss','jade'];
 
-    var imports = BaseActions.getImports.call(this, view_path, _base);
+    var imports = ViewActions.getImports.call(this, view_path, _base);
 
     this.mkdir(rootPath);
 
@@ -107,8 +107,8 @@ var BaseActions = {
       });
     }
 
-    BaseActions.validate.call(this, view_path, viewType, imports);
+    ViewActions.validate.call(this, view_path, viewType, imports);
   }
 };
 
-module.exports = BaseActions;
+module.exports = ViewActions;
