@@ -1,8 +1,9 @@
 define [
   "jquery"
   "underscore"
+  "localization/ru"
   "preprocess"
-],($, _, preprocess)->
+],($, _, Localization, preprocess)->
   urlparams = _.reduce location.search.slice(1,location.search.length).split("&"),((memo,item)->
       pair = item.split("=")
       if pair.length is 2
@@ -43,6 +44,7 @@ define [
     sapi:null
     user:null
     share:share
+    localization: new Localization
   }
   if window.PRELOADER?
     common.images = new window.PRELOADER
