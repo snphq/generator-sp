@@ -1,16 +1,13 @@
 define ["jquery"],($)->
 
   class Lock
-    constructor:->
+    constructor:(@accept_logs=false)->
       @_locks = {}
-      @initialize.apply this, arguments
-
-    initialize:->
-      #for overwrite
 
     trylock:(url, name)->
       key = @hash url, name
       if !!@_locks[key]
+        console.warn "tryLock #{url} #{name}" if @accept_logs
         false
       else
         @_locks[key] = true
@@ -22,6 +19,7 @@ define ["jquery"],($)->
         @_locks[key] = null
         true
       else
+        console.warn "unlock #{url} #{name}" if @accept_logs
         false
 
     hash:(url,name)->
@@ -30,8 +28,12 @@ define ["jquery"],($)->
       "#{name}#{url}"
 
   class ServerClient
-    constructor:->
-      @lock = new Lock
+    constructor:(options)->
+      @lock = new Lock {accept_logs:options.accept_logs}
+      @initialize.apply this, arguments
+
+    initialize:->
+      #for overwrite
 
     _isServer:-> true
 
@@ -43,10 +45,11 @@ define ["jquery"],($)->
       options.stub = null
       $.ajax(options)
         .done (data)->
-          unless data.result is "error"
-            async.resolve data
-          else
+          if not data or data.result is "error"
             async.reject data
+          else
+            async.resolve data
+
         .fail (err)->
           async.reject err
         .always =>
@@ -73,4 +76,9 @@ define ["jquery"],($)->
     post:(options)->
       options or options = {}
       options.type = "POST"
+      @ajax options
+
+    put:(options)->
+      options or options = {}
+      options.type = "PUT"
       @ajax options
