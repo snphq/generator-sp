@@ -12,17 +12,19 @@ define [
 
   class Application
     constructor:(common, @_gaq)->
+      #import models/UserModel
+      #common.user = new UserModel
       common.router = new Router
       common.api = new ServerApi
+
+      # Init google analitics
+      # common.ga = new GAConstructor preprocess.GA, Backbone
 
       # import "packages/social"
       #common.sapi = new social.SocialApi
       #  vk: new social.VKApi preprocess.social.vk.appID
       #  fb: new social.FBApi preprocess.social.fb.appID
       #  ok: new social.OKApi preprocess.social.ok.appID, preprocess.social.ok.appKey
-
-      #import models/UserModel
-      #common.user = new UserModel
 
     start:->
       layout = {}
