@@ -14,7 +14,7 @@ module.exports =
     params:{}
 
   copy:[]
-
+  copy_deps:[]
   proxy:
     port: 9001
     default:"test"

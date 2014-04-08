@@ -2,6 +2,7 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
+var fs = require('fs');
 
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
@@ -40,11 +41,16 @@ SpGenerator.prototype.askFor = function askFor() {
       { 'name':'Swig', value:'swig' },
     ],
     default: 'swig'
+  },{
+    name:'capprojectname',
+    message:'Input project name for Capistrano',
+    default:"sp-project"
   }];
 
   this.prompt(prompts, function (props) {
     this.scriptType = props.scriptType;
     this.templateType = props.templateType;
+    this.capprojectname = props.capprojectname;
     cb();
   }.bind(this));
 };
@@ -54,73 +60,43 @@ SpGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.mkdir('app/html');
   this.mkdir('app/scripts');
+  this.mkdir('app/files');
+
+  this.mkdir('config');
 
   this.directory('app/images','app/images');
   this.directory('app/styles','app/styles');
-
-
-  ['app','main','preprocess_template','test'].forEach(function(path){
-    var apath = "app/scripts/" + path + "." + self.scriptType;
-    self.copy(apath, apath);
-  });
-
-  ['_base', 'index'].forEach(function(path){
-    var ext = ".html";
-    if(self.templateType === "jade"){
-      ext = '.jade';
-    }
-
-    var apath = "app/html/" + path + ext;
-    self.copy(apath, apath);
-  });
-
+  this.directory('app/scripts/' + self.scriptType + '/','app/scripts');
+  this.directory('app/html/' + self.templateType, "app/html" );
+  this.copy("app/robots.txt","app/robots.txt");
+  this.copy("app/favicon.ico","app/favicon.ico");
 };
-
+SpGenerator.prototype.cap = function cap(){
+  console.log("Accept " + this.cap_project_name);
+  var self = this;
+  [
+    'Capfile',
+    'Gemfile',
+    'Gemfile.lock',
+  ].forEach(function(path){
+    self.copy(path,path);
+  });
+  self.directory('config','config');
+}
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
   this.directory('tasks','tasks');
-  this.directory('grunt', 'grunt');
-  [
-    'autoprefixer.coffee',
-    'connect.coffee',
-    'newer.coffee',
-    'rev.coffee',
-    'bower.coffee',
-    'copy.coffee',
-    'open.coffee',
-    'sass.coffee',
-    'clean.coffee',
-    'htmlmin.coffee',
-    'preprocess.coffee',
-    'swig.coffee',
-    'coffee.coffee',
-    'jade.coffee',
-    'proxy.coffee',
-    'watch.coffee',
-    'coffeelint.coffee',
-    'jshint.coffee',
-    'replace.coffee',
-    'compress.coffee',
-    'modernizr.coffee',
-    'requirejs.coffee'
-  ].forEach(function(item){
-    var data = self.read('grunt/' + item );
-    self.write('grunt/' + item, data);
-  });
-
-  (function(data){
-    self.write('Gruntfile.coffee',data)
-  })(self.read('Gruntfile.coffee'));
-
-
+  this.bulkDirectory("grunt","grunt");
+  this.bulkCopy("Gruntfile.coffee","Gruntfile.coffee");
 
   [
     'README.md',
     'package.json',
-    'bower.json'
+    'bower.json',
   ].forEach(function(path){
     self.copy(path,path)
   });
+
 
   [
     'gruntconfig.coffee',
@@ -128,7 +104,8 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     'gitignore',
     'bowerrc',
     'editorconfig',
-    'jshintrc'
+    'jshintrc',
+    'coffeelintrc'
   ].forEach(function(path){
     self.copy(path,'.' + path)
   });

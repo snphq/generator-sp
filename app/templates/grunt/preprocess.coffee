@@ -16,7 +16,7 @@ module.exports =
         context:
           DIST:true
 
-    prodaction:
+    production:
       files:"<%= preprocess.server.files %>"
       options:
         context:

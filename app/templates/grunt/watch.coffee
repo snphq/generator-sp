@@ -6,18 +6,19 @@ module.exports =
       livereload: true
 
     templates:
-      files: ["<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"]
+      files: [
+        "<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"
+        "<%= yeoman.app %>/scripts/view/**/*.{html,jade}"
+      ]
       tasks: ["link_templatecompiler"]
 
     js:
       files: ["<%= yeoman.app %>/scripts/**/*.js"]
-      tasks: ["newer:jshint", "copy:js"]
+      tasks: ["jshint", "copy:js"]
 
     coffee:
-      options:
-        livereload: false
       files: ["<%= yeoman.app %>/scripts/**/*.coffee"]
-      tasks: ["newer:coffeelint","newer:coffee"]
+      tasks: ["coffeelinter","coffee"]
 
     preprocess:
       files: ["<%= yeoman.tmpPath %>/scripts/preprocess_template.js"]
@@ -27,7 +28,10 @@ module.exports =
       options:
         livereload: false
         spawn: true
-      files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
+      files: [
+        "<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"
+        "<%= yeoman.app %>/scripts/view/**/*.{scss,sass}"
+      ]
       tasks: ["sass", "autoprefixer"]
 
     styles:

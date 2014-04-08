@@ -1,7 +1,7 @@
 module.exports =
-	autoprefixer:
+  autoprefixer:
     options:
-      browsers: ["last 1 version","last 1 version", "ie >= 8",  "ff >= 17", "opera >=10"]
+      browsers: ["last 222 version", "ie >= 8",  "ff >= 17", "opera >=10"]
 
     dist:
       files: [

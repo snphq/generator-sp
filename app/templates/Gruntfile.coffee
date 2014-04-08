@@ -62,11 +62,13 @@ module.exports = (grunt) ->
 
     concurrent: do ->
       server = [
+        "copy:deps"
         "sass"
         "link_templatecompiler"
         "copy:styles"
       ]
       dist = [
+        "copy:deps"
         "sass"
         "copy:styles"
         "copy:images"
@@ -90,7 +92,7 @@ module.exports = (grunt) ->
     "jshint"
     "coffee"
     "preprocess"
-    "coffeelint"
+    "coffeelinter"
     "sass"
     "autoprefixer"
     "copy"
@@ -102,7 +104,7 @@ module.exports = (grunt) ->
     "bower"
     "connect"
     "proxy"
-    "newer"
+    "image_preload"
   ]
 
   TASKS_MAP.forEach (task)->
@@ -132,7 +134,7 @@ module.exports = (grunt) ->
     grunt.registerTask "link_templatecompiler", tasks
 
   do ->
-    tasks = if yeomanConfig.scriptlang is "coffee" then ["coffeelint"] else ["jshint"]
+    tasks = if yeomanConfig.scriptlang is "coffee" then ["coffeelinter"] else ["jshint"]
     grunt.registerTask "link_lintscript", tasks
 
   grunt.registerTask "link_requirejs", [
@@ -147,8 +149,8 @@ module.exports = (grunt) ->
     preprocess = "preprocess:#{mode}"
     build = "build:#{mode}"
 
-    tasks = if "dist" in targets or "prodaction" in targets
-      targets = _.without targets, ["dist","prodaction"]
+    tasks = if "dist" in targets or "production" in targets
+      targets = _.without targets, ["dist","production"]
       [
         build
         "open"
@@ -161,6 +163,7 @@ module.exports = (grunt) ->
         "clean:server"
         "copy:js"
         "concurrent:server"
+        "image_preload:server"
         preprocess
         "autoprefixer"
         "connect:livereload"
@@ -184,7 +187,7 @@ module.exports = (grunt) ->
 
     mode = get_preprocess_target targets
     preprocess = "preprocess:#{mode}"
-
+    image_preload = "image_preload:#{mode}"
     require("load-grunt-tasks") grunt
     grunt.task.run [
       "link_lintscript"
@@ -201,6 +204,7 @@ module.exports = (grunt) ->
       "modernizr:bust"
       "copy:dist"
       "rev"
+      image_preload
       "usemin"
       "copy:custom"
       "compress:dist"
