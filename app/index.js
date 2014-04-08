@@ -91,6 +91,7 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
 
   [
     'README.md',
+    'haproxy-config.txt',
     'package.json',
     'bower.json',
   ].forEach(function(path){
