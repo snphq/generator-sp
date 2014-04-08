@@ -28,6 +28,7 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-spritesmith": "~1.22.0",
     "load-grunt-tasks": "~0.2.1",
     "grunt-concurrent": "~0.4.2",
     "time-grunt": "~0.2.7",

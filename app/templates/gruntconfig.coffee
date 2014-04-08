@@ -15,6 +15,15 @@ module.exports =
 
   copy:[]
   copy_deps:[]
+
+  sprite:
+    all:
+      # не занимать путь `sprites`, туда генерируются спрайты
+      path: "sprites"
+      format: "png"
+      # шаблон для генерации стилей, по умолчанию используется другой шаблон, генерирующий миксины
+      template: "grunt/spritetemplates/class.scss.mustache"
+
   proxy:
     port: 9001
     default:"test"
