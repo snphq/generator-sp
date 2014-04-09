@@ -8,4 +8,4 @@ server "<--input production host-->", :app, :web, :db, :primary => true
 set :user, "<%= capprojectname %>"
 set :group, "<%= capprojectname %>"
 set :password, '<--password-->'
-set :keep_releases, 10
+set :keep_releases, 5

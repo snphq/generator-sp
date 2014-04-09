@@ -1,0 +1,41 @@
+global
+  maxconn 4096
+  pidfile ~/tmp/haproxy-queue.pid
+
+defaults
+  log global
+  log 127.0.0.1 local0
+  log 127.0.0.1 local1 notice
+  mode http
+  timeout connect 300000
+  timeout client 300000
+  timeout server 300000
+  maxconn 2000
+  option redispatch
+  retries 3
+  option httpclose
+  option httplog
+  option forwardfor
+
+
+frontend incoming
+  bind *:80
+  acl is_api path_beg /api/
+  acl is_auth path_beg /auth/
+  acl is_admin path_beg /admin
+  acl is_assets path_beg /assets
+  acl is_system path_beg /system/
+
+  use_backend www_api_backend  if is_api
+  use_backend www_api_backend  if is_auth
+  use_backend www_api_backend  if is_admin
+  use_backend www_api_backend  if is_assets
+  use_backend www_api_backend  if is_system
+  default_backend www_frontend
+
+backend www_frontend
+  server nodehost 127.0.0.1:9000
+
+backend www_api_backend
+  reqirep ^Host: Host:\ hostname.t.snpdev.ru
+  server nodehost hostname-2.t.snpdev.ru

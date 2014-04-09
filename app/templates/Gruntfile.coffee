@@ -20,7 +20,7 @@ module.exports = (grunt) ->
     tmpPath:      ".tmp"
   }, yeomanConfig, localConfig
 
-  OPTIONS =
+  global.OPTIONS = OPTIONS =
     yeoman:     do-> yeomanConfig
     TIMESTAMP: do (d=new Date) -> "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}-#{+(d)}"
     cssmin:       {}
@@ -105,6 +105,7 @@ module.exports = (grunt) ->
     "connect"
     "proxy"
     "image_preload"
+    "sprite"
   ]
 
   TASKS_MAP.forEach (task)->
@@ -162,6 +163,7 @@ module.exports = (grunt) ->
         "link_lintscript"
         "clean:server"
         "copy:js"
+        "sprite"
         "concurrent:server"
         "image_preload:server"
         preprocess
@@ -194,6 +196,7 @@ module.exports = (grunt) ->
       "clean:dist"
       "link_templatecompiler"
       "useminPrepare"
+      "sprite"
       "concurrent:dist"
       "autoprefixer"
       preprocess
