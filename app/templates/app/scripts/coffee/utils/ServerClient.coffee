@@ -28,7 +28,7 @@ define ["jquery"],($)->
       "#{name}#{url}"
 
   class ServerClient
-    constructor:(options)->
+    constructor:(options={})->
       @lock = new Lock {accept_logs:options.accept_logs}
       @initialize.apply this, arguments
 
@@ -38,14 +38,16 @@ define ["jquery"],($)->
     _isServer:-> true
 
     _ajax:(options, async)->
-      lockname = options.lock
+      lockname = options.type + options.lock
       url = options.url
       options.lock = null
       return unless @lock.trylock url, lockname
       options.stub = null
       $.ajax(options)
-        .done (data)->
-          if not data or data.result is "error"
+        .done (data,info, options)->
+          if options.status is 204
+            async.resolve data
+          else if not data or data.result is "error"
             async.reject data
           else
             async.resolve data
@@ -82,3 +84,12 @@ define ["jquery"],($)->
       options or options = {}
       options.type = "PUT"
       @ajax options
+
+
+    delete:(options)->
+      options or options = {}
+      async = $.Deferred()
+      options.type = "DELETE"
+      @ajax(options)
+        .always (resp)->
+          console.log resp

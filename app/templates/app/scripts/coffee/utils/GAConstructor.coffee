@@ -16,8 +16,14 @@ define ["jquery"],($)->
         @trackPageView()
 
     initElementClick:($el,category,actions="",labels="")->
+      return if $el.attr "data-ga-click"
       $el.click => @trackEvent category, actions, labels
       $el.attr "data-ga-click", "#{category};#{actions};#{labels}"
+      $el
+
+    unlinkElementClick:($el)->
+      $el.off("click")
+      $el.attr "data-ga-click",""
 
     trackPageView:->
       window._gaq.push ['_trackPageview', window.location.href]

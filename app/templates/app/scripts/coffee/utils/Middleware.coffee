@@ -10,7 +10,7 @@ class Middleware
           return func.apply this, innerArguments
 
         async = $.Deferred()
-        async.promise().done =>
+        async.promise().done ->
           middlewareCall index + 1
         mname = args[index]
         self[mname].call this, async, arguments

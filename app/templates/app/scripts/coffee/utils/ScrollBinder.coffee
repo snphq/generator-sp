@@ -1,6 +1,6 @@
-define [],->
+define ['jquery-mousewheel'],->
   class ScrollBinder
-    constructor:(@view)->
+    constructor:(@view,@$el=@view.$el)->
     bind:(listenViewScrollCallback)->
       unless !!@_bind then @_bind = true else return
       mousewheel = false
@@ -14,10 +14,10 @@ define [],->
         @__hdl_scroll = (e)=>
           return if mousewheel
           listenViewScrollCallback.apply @view, arguments
-      @view.$el.on "mousewheel", @__hdl_mousewheel
-      @view.$el.on "scroll", @__hdl_scroll
+      @$el.on "mousewheel", @__hdl_mousewheel
+      @$el.on "scroll", @__hdl_scroll
 
     unbind:->
       @_bind = false
-      @view.$el.off "mousewheel",@__hdl_mousewheel
-      @view.$el.off "scroll", @__hdl_scroll
+      @$el.off "mousewheel",@__hdl_mousewheel
+      @$el.off "scroll", @__hdl_scroll
