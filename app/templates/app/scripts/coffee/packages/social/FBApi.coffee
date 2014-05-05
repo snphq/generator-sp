@@ -11,7 +11,7 @@ FBApi = ($,_)->
       @user = null
 
     _getRoles:(FB)->
-      "user_photos"
+      ""
 
     _startWaitResponse:(callback)->
       @_stopWaitResponse()
@@ -24,7 +24,7 @@ FBApi = ($,_)->
       clearTimeout @timeout if @timeout?
 
     _getStatus:(async,FB)->
-      @_startWaitResponse =>
+      @_startWaitResponse ->
         async.reject "not FB connect",FB
 
       FB.getLoginStatus (r)=>
@@ -129,6 +129,31 @@ FBApi = ($,_)->
                 async.resolve @user,FB
           .fail (err)->
             async.reject err
+      async.promise()
+
+    postWall:(options)->
+      { title, description, link, image } = _.defaults options, {
+        title:""
+        description:""
+        link:""
+        image:""
+      }
+      async = $.Deferred()
+      @getFB()
+        .done (FB)->
+          FB.ui {
+           method: 'feed'
+           name: title
+           caption: ''
+           description: description
+           link: link
+           picture: image
+          },(r)->
+            return async.reject("null responce") if !r
+            return async.reject(r.error) if !!r.error
+            async.resolve r.post_id
+        .fail (err)->
+          async.reject err
       async.promise()
 
     getAlbums:->

@@ -2,29 +2,6 @@ SocialApi = ($)->
   class SocialApi
     constructor:(@social)->
 
-    _getCurrentSocial:->
-      unless @currentSocial?
-        @currentSocial = $.Deferred()
-        names = _.keys(@social)
-        currentName = null
-
-        finishCheckStatus = _.after names.length,=>
-          unless currentName?
-            @currentSocial.reject("not auth")
-
-        _.each names, (name)=>
-          @checkAuth(name)
-            .done (name)=>
-              unless currentName?
-                currentName = name
-                @currentSocial.resolve name
-              else
-                @social[name].logout()
-            .always ->
-              finishCheckStatus(name)
-
-      @currentSocial.promise()
-
     checkAuth:(name)->
       async = $.Deferred()
       if(api = @social[name])
@@ -37,16 +14,17 @@ SocialApi = ($)->
         async.reject "no provider #{name}"
       async.promise()
 
-    _get:(callback)->
+    getProvider:(name)->
       async = $.Deferred()
-      @_getCurrentSocial()
-        .done (name)=>
-          if @social[name]?
-            callback async, @social[name], name
-          else
-            async.reject "no provider #{name}"
-        .fail (err)->
-          async.reject err
+      if(api = @social[name])
+        api.checkAuth()
+          .done -> async.resolve api
+          .fail =>
+            @login(name)
+              .done ->  async.resolve api
+              .fail (err)->   async.reject err
+      else
+        async.reject "no available provider with name=#{name}"
       async.promise()
 
     isAuth:->
@@ -80,12 +58,18 @@ SocialApi = ($)->
     getUser:->
       @_get (async,self,name)=>
         self.getUser()
-          .done (data)=>
+          .done (data)->
             data.soc_type = name
             async.resolve data
           .fail (err)=>
             @logout().always ->
               async.reject(err)
+
+    postWall:(options)->
+      @_get (async,self)->
+        self.postWall(options)
+          .done (data)-> async.resolve data
+          .fail (err)-> async.reject(err)
 
     getAlbums:->
       @_get (async,self)->
@@ -102,6 +86,41 @@ SocialApi = ($)->
             async.resolve data
           .fail (err)->
             async.reject(err)
+
+    _getCurrentSocial:->
+      unless @currentSocial?
+        @currentSocial = $.Deferred()
+        names = _.keys(@social)
+        currentName = null
+
+        finishCheckStatus = _.after names.length,=>
+          unless currentName?
+            @currentSocial.reject("not auth")
+
+        _.each names, (name)=>
+          @checkAuth(name)
+            .done (name)=>
+              unless currentName?
+                currentName = name
+                @currentSocial.resolve name
+              else
+                @social[name].logout()
+            .always ->
+              finishCheckStatus(name)
+
+      @currentSocial.promise()
+
+    _get:(callback)->
+      async = $.Deferred()
+      @_getCurrentSocial()
+        .done (name)=>
+          if @social[name]?
+            callback async, @social[name], name
+          else
+            async.reject "no provider #{name}"
+        .fail (err)->
+          async.reject err
+      async.promise()
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
   define ["jquery"],($)-> SocialApi($)

@@ -1,7 +1,7 @@
 VKApi = ($)->
   class VKApi
     constructor:(@appID)->
-      @version = "5.11"
+      @version = "5.20"
       @reset()
       @timeout = null
       @TIMEOUT_WAIT = 10000
@@ -52,10 +52,10 @@ VKApi = ($)->
       async.promise()
 
     _getRoles:(VK)->
-      VK.access.PHOTOS
+      VK.access.PHOTOS + 8192
 
     _getStatus:(async,VK)->
-      @_startWaitResponse =>
+      @_startWaitResponse ->
         async.reject "not VK connect",VK
 
       VK.Auth.getLoginStatus (resp)=>
@@ -150,6 +150,43 @@ VKApi = ($)->
               async.resolve r.response
         .fail (err)->
           async.reject err
+      async.promise()
+
+    postWall:(options)->
+      { title, description, link, attachments } = _.defaults options, {
+        title: ""
+        description: ""
+        link: ""
+        attachments: ""
+      }
+      #link = encodeURIComponent(link)
+      if !!link
+        attachments += "," if !!attachments
+        attachments += link
+      async = $.Deferred()
+      return async.reject("not openapi use") unless window.VK?
+      if !@user or !@isAuth
+        VK.Auth.login ((r)=>
+          if r.session
+            @isAuth = true
+            @getUser().done (user,VK)->
+              postWall(user)
+          else
+            @reset()
+            async.reject "no auth VK",VK
+          ), @_getRoles(VK)
+      else
+        VK.Api.call "wall.post",{
+          owner_id:@user.id,
+          message: "#{title} #{description}"
+          attachments
+          version:@version
+        },(r)->
+          return async.reject(r.error) if !!r.error
+          if(post_id = r.response.post_id)
+            async.resolve post_id
+          else
+            async.reject r
       async.promise()
 
     getPhotos:(album_id)->

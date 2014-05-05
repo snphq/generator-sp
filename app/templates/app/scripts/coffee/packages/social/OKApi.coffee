@@ -60,16 +60,16 @@ OKApi = ($, _, md5)->
     login:->
       async = $.Deferred()
       @getOK()
-        .done =>
+        .done ->
           async.resolve true
         .fail (err)->
           window.open "/users/auth/odnoklassniki", "ok_auth"
-          window.callAuthSuccess = =>
+          window.callAuthSuccess = ->
             window.callAuthSuccess = null
             window.callAuthFail = null
             async.resolve true
 
-          window.callAuthFail = =>
+          window.callAuthFail = ->
             window.callAuthSuccess = null
             window.callAuthFail = null
             async.reject err
@@ -102,7 +102,7 @@ OKApi = ($, _, md5)->
                   birthday: birthday
                   soc_type: "ok"
                 async.resolve @user
-              .fail (err)=>
+              .fail (err)->
                 async.reject err
           .fail (err)->
             async.reject err
@@ -126,7 +126,7 @@ OKApi = ($, _, md5)->
             method: 'photos.getAlbums'
             fields: 'album.aid,photo.pic128x128,photo.pic640x480'
           requestAsync
-            .done (data)=>
+            .done (data)->
               data = _.map data['albums'], (item)->
                 if item.main_photo?
                   thumb_src = item.main_photo.pic640x480 or item.main_photo.pic128x128
@@ -137,7 +137,7 @@ OKApi = ($, _, md5)->
                 item.title = ""
                 item
               async.resolve data
-            .fail (err)=>
+            .fail (err)->
               async.reject err
         .fail (err)->
           async.reject err
@@ -151,13 +151,13 @@ OKApi = ($, _, md5)->
             method: 'photos.getPhotos'
             aid: album_id
           requestAsync
-            .done (data)=>
+            .done (data)->
               data = _.map data['photos'], (item)->
                 item.picture = item.pic128x128
                 item.source = item.pic640x480
                 item
               async.resolve data
-            .fail (err)=>
+            .fail (err)->
               async.reject err
         .fail (err)->
           async.reject err
