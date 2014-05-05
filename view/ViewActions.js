@@ -23,6 +23,7 @@ var ViewActions = {
     var rootPath = ViewActions.getRootPath.call(this, view_path);
     var str = "#genetated file\n";
     str += "define (require, exports, module)->\n";
+    imports['coffee'].sort();
     imports['coffee'].forEach(function(name){
       str += "  " + name + ": require './" + name + "/" + name + "'\n";
     });
@@ -37,6 +38,7 @@ var ViewActions = {
       return;
     }
     var str = "//-genetated file\n";
+    imports['jade'].sort();
     imports['jade'].forEach(function(name){
       str += "script#" + name + "(type='text/template')\n";
       str += "  include " + name + "/" + name + "\n";
@@ -46,6 +48,7 @@ var ViewActions = {
   validateScss:function(view_path, imports){
     var rootPath = ViewActions.getRootPath.call(this, view_path);
     var str = "//genetated file\n";
+    imports['scss'].sort();
     imports['scss'].forEach(function(name){
       str += "@import \"" + name + "/" + name + "\";\n";
     });
