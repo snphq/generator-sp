@@ -7,3 +7,5 @@ app/bower_components
 /app/*.html
 /.gruntconfig.local.coffee
 /arhive
+/app/images/vendor/
+/app/styles/vendor/

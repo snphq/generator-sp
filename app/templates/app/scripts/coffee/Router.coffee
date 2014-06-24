@@ -1,6 +1,6 @@
 define [
   "backbone"
-  "utils/Middleware"
+  "sp-utils-middleware"
   "common"
   "view/page"
   "view/modal"
@@ -12,8 +12,8 @@ define [
   Modal
 )->
 
-  showPage=(View,options={})->
-    common.app.content.show View, options
+  showPage=(View,options={},callback)->
+    common.app.content.show View, options, callback
 
   class MiddlewareRouter extends Middleware
     auth:(async,args)->
@@ -35,4 +35,4 @@ define [
       showPage Page.Error404Page
 
     default_router:->
-      @navigate "!/404", trigger:true
+      @navigate "!/404", {trigger:true,replace:true}

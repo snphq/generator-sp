@@ -1,4 +1,4 @@
-define ["utils/ServerClient"],(ServerClient)->
+define ["sp-utils-serverclient"],(ServerClient)->
   class ServerAPI extends ServerClient
     initialize:->
 

@@ -15,6 +15,6 @@ module.exports =
       files: [
         expand: true
         cwd: "<%= yeoman.tmpPath %>"
-        src: "{,*/}*.html"
+        src: "**/*.html"
         dest: "<%= yeoman.dist %>"
       ]

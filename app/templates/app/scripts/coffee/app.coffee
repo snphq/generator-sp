@@ -1,26 +1,31 @@
-define [
-  "backbone"
-  "Router"
-  "ServerApi"
-  "preprocess"
-  "view/layout"
-  "view/modal"
-  "view/page"
-  "view/widget"
-], (Backone, Router, ServerApi, preproces, Layout)->
+define (require, exports, module)->
+  Backone = require "backbone"
+  Router = require "Router"
+  ServerApi = require "ServerApi"
+  preprocess = require "preprocess"
+  Layout = require "view/layout"
+  Modal = require "view/modal"
+  Page = require "view/page"
+  Widget = require "view/widget"
+
+  #GAConstructor = require "sp-utils-gaconstructor"
+  #UserModel = require "models/UserModel"
+  #require "packages/social"
+
   $ = Backone.$
 
   class Application
-    constructor:(common, @_gaq)->
-      #import models/UserModel
-      #common.user = new UserModel
+    constructor:(common)->
       common.router = new Router
       common.api = new ServerApi
+
+      # Init UserModel
+      #common.user = new UserModel
 
       # Init google analitics
       # common.ga = new GAConstructor preprocess.GA, Backbone
 
-      # import "packages/social"
+
       #common.sapi = new social.SocialApi
       #  vk: new social.VKApi preprocess.social.vk.appID
       #  fb: new social.FBApi preprocess.social.fb.appID

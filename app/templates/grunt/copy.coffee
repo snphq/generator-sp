@@ -66,5 +66,4 @@ module.exports =
     custom:
       files: "<%= yeoman.copy %>"
 
-    deps:
-      files: "<%= yeoman.copy_deps %>"
+    deps: "<%= yeoman.copy_deps %>"

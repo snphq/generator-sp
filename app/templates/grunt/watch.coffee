@@ -10,7 +10,7 @@ module.exports =
         "<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"
         "<%= yeoman.app %>/scripts/view/**/*.{html,jade}"
       ]
-      tasks: ["link_templatecompiler"]
+      tasks: ["link_templatecompiler","image_preload:server"]
 
     js:
       files: ["<%= yeoman.app %>/scripts/**/*.js"]
@@ -57,5 +57,5 @@ module.exports =
         "<%= yeoman.tmpPath %>/*.html"
         "<%= yeoman.tmpPath %>/styles/{,*/}*.css"
         "{<%= yeoman.tmpPath %>,<%= yeoman.app %>}/scripts/**/*.js"
-        "<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}"
+#        "<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}"
       ]

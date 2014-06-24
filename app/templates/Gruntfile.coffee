@@ -37,13 +37,13 @@ module.exports = (grunt) ->
         dest: "<%= yeoman.dist %>"
         root: "<%= yeoman.app %>"
 
-      html: "<%= yeoman.tmpPath %>/*.html"
+      html: "<%= yeoman.tmpPath %>/**/*.html"
 
     usemin:
       options:
         dirs: ["<%= yeoman.dist %>"]
         assetsDirs: "<%= yeoman.dist %>"
-      html: ["<%= yeoman.dist %>/{,*/}*.html"]
+      html: ["<%= yeoman.dist %>/**/*.html"]
       css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
       # This task is pre-configured if you do not wish to use Usemin
       # blocks for your CSS. By default, the Usemin block from your
@@ -105,7 +105,8 @@ module.exports = (grunt) ->
     "connect"
     "proxy"
     "image_preload"
-    "sprite"
+    "css_image"
+    "rename"
   ]
 
   TASKS_MAP.forEach (task)->
@@ -163,7 +164,8 @@ module.exports = (grunt) ->
         "link_lintscript"
         "clean:server"
         "copy:js"
-        "sprite"
+        "copy:custom"
+        "css_image:dist"
         "concurrent:server"
         "image_preload:server"
         preprocess
@@ -190,13 +192,15 @@ module.exports = (grunt) ->
     mode = get_preprocess_target targets
     preprocess = "preprocess:#{mode}"
     image_preload = "image_preload:#{mode}"
+    rename = "rename:#{mode}"
     require("load-grunt-tasks") grunt
     grunt.task.run [
       "link_lintscript"
       "clean:dist"
+      "copy:custom"
       "link_templatecompiler"
       "useminPrepare"
-      "sprite"
+      "css_image:dist"
       "concurrent:dist"
       "autoprefixer"
       preprocess
@@ -204,12 +208,12 @@ module.exports = (grunt) ->
       "concat"
       "cssmin"
       "uglify"
-      "modernizr:bust"
+      "modernizr:dist"
       "copy:dist"
       "rev"
       image_preload
       "usemin"
-      "copy:custom"
+      rename
       "compress:dist"
       "compress:archive"
     ]
