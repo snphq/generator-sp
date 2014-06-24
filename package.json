@@ -1,17 +1,15 @@
 {
   "name": "generator-sp",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A generator for Yeoman",
   "keywords": [
     "yeoman-generator"
   ],
   "homepage": "https://github.com/lexich/generator-sp",
-  "bugs": "https://github.com/lexich/generator-sp/issues",
-  "author": {
-    "name": "Efremov Alex",
-    "email": "",
-    "url": "https://github.com/lexich"
+  "bugs": {
+    "url": "https://github.com/lexich/generator-sp/issues"
   },
+  "author": "Efremov Alex (https://github.com/lexich)",
   "main": "app/index.js",
   "repository": {
     "type": "git",
@@ -37,5 +35,9 @@
     {
       "type": "MIT"
     }
-  ]
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "license": "MIT"
 }
