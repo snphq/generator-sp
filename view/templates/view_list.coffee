@@ -8,6 +8,7 @@ define (require, exports, module)->
     className:"<%= css_classname_list %>"
     bindings:
       ":el":"collection:$collection"
+    itemView: <%= normalize_name %>
     initialize:->
       @collection = new <%= collection_name %>
-      @collection.view = <%= normalize_name %>
+      @collection.view = @itemView #if use backbone.epoxy < 1.2
