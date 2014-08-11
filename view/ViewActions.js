@@ -83,12 +83,12 @@ var ViewActions = {
     ViewActions.validateJade.call(this, view_path, imports, viewType);
     ViewActions.validateScss.call(this, view_path, imports);
   },
-  createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base){
+  createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base, template_name){
+    template_name = template_name || 'view';
     var self = this;
     var rootPath = ViewActions.getRootPath.call(this, view_path);
     var packagePath = rootPath + normalize_name + "/";
     var packagePathList = rootPath + normalize_name_list + "/";
-
     var exts = ['coffee','scss','jade'];
 
     var imports = ViewActions.getImports.call(this, view_path, _base);
@@ -97,7 +97,7 @@ var ViewActions = {
 
     exts.forEach(function(ext){
       self.copy(
-        'view.' + ext,
+        template_name + '.' + ext,
         packagePath + normalize_name + '.' + ext
       );
       imports[ext].push(normalize_name);
@@ -106,7 +106,7 @@ var ViewActions = {
     if(self.viewTypeList){
       exts.forEach(function(ext){
         self.copy(
-          'view_list.' + ext,
+          template_name + '_list.' + ext,
           packagePathList + normalize_name_list + '.' + ext
         );
         imports[ext].push(normalize_name_list);

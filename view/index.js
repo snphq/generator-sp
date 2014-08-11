@@ -28,7 +28,7 @@ ViewGenerator.prototype.askFor = function askFor() {
       { 'name':'layout', value:'layout' },
       { 'name':'modal', value:'modal' },
       { 'name':'page', value:'page' },
-      { 'name':'collectionwidget', value:"list"}
+      { 'name':'list', value:"list"}
     ],
     default: 'widget'
   }];
@@ -49,7 +49,10 @@ ViewGenerator.prototype.askFor = function askFor() {
 
     this.view_path = this.viewType;
     this.coffee_base = "_" + capitalize(this.viewType);
-
+    this.template_name = "view";
+    if( this.viewType === 'modal') {
+      this.template_name = 'modal';
+    }
     cb();
   }.bind(this));
 }
@@ -63,7 +66,8 @@ ViewGenerator.prototype.files = function files() {
     this.normalize_name_list,
     this.viewType,
     this.viewTypeList,
-    this.dest._base
+    this.dest._base,
+    this.template_name
   );
   //createView(this);
 
