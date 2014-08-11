@@ -4,20 +4,20 @@
   "dependencies": {
     "requirejs": "~2.1.10",
     "modernizr": "~2.8.2",
-    "jquery": "~1.10.0",
+    "jquery": "~1.11.1",
     "backbone": "~1.1.1",
     "backbone.epoxy": "https://github.com/gmac/backbone.epoxy.git#v1.2",
     "backbone-mixin": "~0.3.2",
     "lodash": "~2.4.1",
-    "bootstrap-sass": "~3.2.0",
     "sp-utils-middleware": "~0.0.1",
     "sp-utils-serverclient": "~0.0.3",
     "sp-utils-gaconstructor": "~0.0.6",
-    "sp-utils-bootstrapmodal": "~0.0.5"
+    "sp-utils-bootstrapmodal": "~0.0.5",
+    "bootstrap-sass": "~3.0.2"
   },
   "devDependencies": {},
   "resolutions": {
     "jquery": "~1.11.1",
-    "backbone.epoxy":"v1.2"
+    "backbone.epoxy": "v1.2"
   }
 }

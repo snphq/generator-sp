@@ -6,7 +6,7 @@ VENDOR_PATH = "../bower_components"
 require.config
   paths:
     # VENDOR_PATH обязателен для использования
-    jquery: "#{VENDOR_PATH}/jquery/jquery"
+    jquery: "#{VENDOR_PATH}/jquery/dist/jquery"
     backbone: "#{VENDOR_PATH}/backbone/backbone"
     underscore: "#{VENDOR_PATH}/lodash/dist/lodash"
     epoxy: "#{VENDOR_PATH}/backbone.epoxy/backbone.epoxy"
