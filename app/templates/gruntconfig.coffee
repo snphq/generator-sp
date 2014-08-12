@@ -7,8 +7,8 @@ module.exports =
 
   open:
     server:
-      host: "localhost"
-      path: "/index.html"
+      host: "localhost:9001"
+      path: "/"
 
   swig:
     params:{}
