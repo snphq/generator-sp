@@ -7,7 +7,7 @@
     "jquery": "~1.11.1",
     "backbone": "~1.1.1",
     "backbone.epoxy": "https://github.com/gmac/backbone.epoxy.git#v1.2",
-    "backbone-mixin": "~0.3.2",
+    "backbone-mixin": "~0.3.3",
     "lodash": "~2.4.1",
     "sp-utils-middleware": "~0.0.1",
     "sp-utils-serverclient": "~0.0.3",
