@@ -31,7 +31,7 @@ SpGenerator.prototype.askFor = function askFor() {
       { 'name':'Coffeescript', value:'coffee' },
       { 'name':'Javascript', value:'js' },
     ],
-    default: 'js'
+    default: 'coffee'
   },{
     type: 'list',
     name: 'templateType',
@@ -40,7 +40,7 @@ SpGenerator.prototype.askFor = function askFor() {
       { 'name':'Jade', value:'jade' },
       { 'name':'Swig', value:'swig' },
     ],
-    default: 'swig'
+    default: 'jade'
   },{
     name:'capprojectname',
     message:'Input project name for Capistrano',
