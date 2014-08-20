@@ -160,33 +160,32 @@ FBApi = ($,_)->
       async = $.Deferred()
       @getFB()
         .done (FB)->
-          FB.api {
-            method: "fql.multiquery"
-            queries:
-              query1: "select object_id, owner, created, modified, aid,name,link,photo_count,cover_object_id from album where owner = me()"
-              query2: "SELECT pid,src,src_big FROM photo WHERE object_id  IN (SELECT cover_object_id FROM #query1)"
-          }, (response)->
+          FB.api "me/albums?fields=created_time,updated_time,id,photos.limit(1),count", (response)->
             parsed = new Array()
-            _.each response[0].fql_result_set, (value,index)->
-              thumb_src = response[1].fql_result_set[index].src_big or response[1].fql_result_set[index].src
+            _.each response.data, (value, index)->
+              thumb = _.chain value.photos.data[0].images
+              .filter (item)-> item.height < 500 and item.width < 500
+              .max (item)-> item.width
+              .value()
+              thumb_src = thumb.source
+              # debugger
               parsed.push
                 id: value.object_id
                 title: value.name
-                owner_id: value.owner
-                size: parseInt(value.photo_count)
-                thumb_id: response[0].fql_result_set[index].cover_object_id
+                # owner_id: value.owner
+                size: parseInt(value.count)
+                thumb_id: value.photos.data[0].id
                 thumb_src: thumb_src
-                created: new Date value.created
-                updated: new Date value.modified
+                created: new Date value.created_time
+                updated: new Date value.updated_time
                 #aid: value.aid
-                aid: value.object_id
-                album_id: value.object_id
+                aid: value.id
+                album_id: value.id
                 link: value.link
             async.resolve(parsed)
         .fail (err)->
           async.reject(err)
       async.promise()
-
     getPhotos:(album_id)->
       async = $.Deferred()
       @getFB()
