@@ -92,7 +92,7 @@ module.exports = (grunt) ->
     "jshint"
     "coffee"
     "preprocess"
-    "coffeelinter"
+    "coffeelint"
     "sass"
     "autoprefixer"
     "copy"

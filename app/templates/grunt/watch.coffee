@@ -18,7 +18,7 @@ module.exports =
 
     coffee:
       files: ["<%= yeoman.app %>/scripts/**/*.coffee"]
-      tasks: ["coffeelinter","coffee"]
+      tasks: ["coffeelint","coffee"]
 
     preprocess:
       files: ["<%= yeoman.tmpPath %>/scripts/preprocess_template.js"]
