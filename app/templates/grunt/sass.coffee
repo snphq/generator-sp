@@ -1,5 +1,5 @@
 module.exports =
-	sass:
+  sass:
     dist:
       files:[
         expand:true
@@ -10,4 +10,4 @@ module.exports =
       ]
       options:
         includePaths: ["<%= yeoman.app %>/bower_components"]
-        sourceComments: 'normal'
+        sourceMap: true
