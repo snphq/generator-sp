@@ -92,7 +92,7 @@ module.exports = (grunt) ->
     "jshint"
     "coffee"
     "preprocess"
-    "coffeelinter"
+    "coffeelint"
     "sass"
     "autoprefixer"
     "copy"
@@ -185,6 +185,16 @@ module.exports = (grunt) ->
     tasks[tasks.indexOf "proxy"] = proxy_target
 
     grunt.task.run tasks
+
+
+  do ->
+    n = 0
+    grunt.event.on 'coffeelint:any', (status, message) ->
+      grunt.config ['notify', "coffeelint#{n}"], options:
+        title: "Coffeelint #{status}"
+        message: message
+      grunt.task.run "notify:coffeelint#{n}"
+      n++
 
   grunt.registerTask "build", "",(targets...)->
     # load all grunt tasks
