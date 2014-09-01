@@ -136,7 +136,7 @@ module.exports = (grunt) ->
     grunt.registerTask "link_templatecompiler", tasks
 
   do ->
-    tasks = if yeomanConfig.scriptlang is "coffee" then ["coffeelinter"] else ["jshint"]
+    tasks = if yeomanConfig.scriptlang is "coffee" then ["coffeelint"] else ["jshint"]
     grunt.registerTask "link_lintscript", tasks
 
   grunt.registerTask "link_requirejs", [
