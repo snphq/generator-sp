@@ -56,7 +56,8 @@ var ViewActions = {
   },
   getImports:function(view_path, _base){
     var rootPath = ViewActions.getRootPath.call(this, view_path);
-    var mainPath = _base + "/" + rootPath;
+    var base = typeof(_base) === 'function' ? _base() : _base;
+    var mainPath = base + '/' + rootPath;
     var exts = ['coffee','scss','jade'];
     var imports = {'coffee':[],'scss':[],'jade':[]};
     if(!fs.existsSync(mainPath)){
