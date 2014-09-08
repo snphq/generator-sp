@@ -1,5 +1,5 @@
 define (require, exports, module)->
-  Backone = require "backbone"
+  Backbone = require "backbone"
   Router = require "Router"
   ServerApi = require "ServerApi"
   preprocess = require "preprocess"
@@ -9,13 +9,13 @@ define (require, exports, module)->
   Widget = require "view/widget"
 
   #GAConstructor = require "sp-utils-gaconstructor"
-  #UserModel = require "models/UserModel"
-  #require "packages/social"
+  #UserModel = require "model/UserModel"
+  #social = require "packages/social"
 
-  $ = Backone.$
+  $ = Backbone.$
 
   class Application
-    constructor:(common)->
+    constructor: (common)->
       common.router = new Router
       common.api = new ServerApi
 
@@ -23,7 +23,7 @@ define (require, exports, module)->
       #common.user = new UserModel
 
       # Init google analitics
-      # common.ga = new GAConstructor preprocess.GA, Backbone
+      #common.ga = new GAConstructor preprocess.GA, Backbone
 
 
       #common.sapi = new social.SocialApi
@@ -33,11 +33,11 @@ define (require, exports, module)->
 
     start:->
       layout = {}
-      layout.header   = new Layout.HeaderLayout   el:"#header-layout"
-      layout.content  = new Layout.ContentLayout  el:"#content-layout"
-      layout.footer   = new Layout.FooterLayout   el:"#footer-layout"
-      layout.modal    = new Layout.ModalLayout    el:"#modal-layout"
+      layout.header   = new Layout.HeaderLayout   el: "#header-layout"
+      layout.content  = new Layout.ContentLayout  el: "#content-layout"
+      layout.footer   = new Layout.FooterLayout   el: "#footer-layout"
+      layout.modal    = new Layout.ModalLayout    el: "#modal-layout"
       for key, item of layout
         item.showCurrent()
         this[key] = item
-      Backone.history.start()
+      Backbone.history.start()
