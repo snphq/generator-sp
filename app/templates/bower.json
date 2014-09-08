@@ -12,7 +12,7 @@
     "sp-utils-middleware": "~0.0.1",
     "sp-utils-serverclient": "~0.0.3",
     "sp-utils-gaconstructor": "~0.0.6",
-    "sp-utils-bootstrapmodal": "~0.0.6",
+    "sp-utils-bootstrapmodal": "~0.0.7",
     "bootstrap-sass-official": "~3.2.0+2"
   },
   "devDependencies": {},
