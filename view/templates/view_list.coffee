@@ -4,11 +4,11 @@ define (require, exports, module)->
   <%= collection_name %> = require "collection/<%= collection_name %>"
 
   <%= normalize_name_list %> = <%= coffee_base %>.extend
-    template:"#<%= normalize_name_list %>"
-    className:"<%= css_classname_list %>"
+    template: "#<%= normalize_name_list %>"
+    className: "<%= css_classname_list %>"
     bindings:
-      ":el":"collection:$collection"
+      ":el": "collection: $collection"
     itemView: <%= normalize_name %>
-    initialize:->
+    initialize: ->
       @collection = new <%= collection_name %>
       @collection.view = @itemView #if use backbone.epoxy < 1.2
