@@ -28,6 +28,7 @@ ViewGenerator.prototype.askFor = function askFor() {
       { 'name':'layout', value:'layout' },
       { 'name':'modal', value:'modal' },
       { 'name':'page', value:'page' },
+      { 'name':'item', value: 'item' },
       { 'name':'list', value:"list"}
     ],
     default: 'widget'
@@ -35,10 +36,12 @@ ViewGenerator.prototype.askFor = function askFor() {
   this.prompt(prompts, function (props) {
     this.viewType = props.viewType;
     this.viewTypeList = this.viewType == "list";
-    if(this.viewTypeList){
+    if(this.viewType == 'item' || this.viewTypeList){
       this.normalize_name = capitalize(this.name) + "Item";
-      this.normalize_name_list = capitalize(this.name) + "List";
       this.css_classname = (this.name + "_Item").toLowerCase();
+    }
+    if(this.viewTypeList){
+      this.normalize_name_list = capitalize(this.name) + "List";
       this.css_classname_list = (this.name + "_List").toLowerCase();
       this.collection_name = capitalize(this.name) + "Collection";
     }
@@ -46,8 +49,11 @@ ViewGenerator.prototype.askFor = function askFor() {
       this.normalize_name_list = this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
       this.css_classname_list = this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
     }
+    if(this.viewType !== "item")
+      this.view_path = this.viewType;
+    else
+      this.view_path = "list";
 
-    this.view_path = this.viewType;
     this.coffee_base = "_" + capitalize(this.viewType);
     this.template_name = "view";
     if( this.viewType === 'modal') {
