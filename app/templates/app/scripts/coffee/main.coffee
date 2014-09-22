@@ -15,6 +15,7 @@ require.config
     "sp-utils-serverclient":"#{VENDOR_PATH}/sp-utils-serverclient/build/ServerClient"
     "sp-utils-gaconstructor":"#{VENDOR_PATH}/sp-utils-gaconstructor/build/GAConstructor"
     "sp-utils-bootstrapmodal":"#{VENDOR_PATH}/sp-utils-bootstrapmodal/build/BootstrapModal"
+    "sp-utils-paginatecollection":"#{VENDOR_PATH}/sp-utils-paginatecollection/build/PaginateCollection"
     #bootstrap see bootstrap.coffee file to include all deps
     'bootstrap/affix':"#{VENDOR_PATH}/bootstrap-sass-official/assets/javascripts/bootstrap/affix"
     'bootstrap/alert':"#{VENDOR_PATH}/bootstrap-sass-official/assets/javascripts/bootstrap/alert"
