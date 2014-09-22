@@ -10,4 +10,4 @@ module.exports =
       ]
       options:
         includePaths: ["<%= yeoman.app %>/bower_components"]
-        sourceMap: true
+        sourceMap: "./main.css.map"
