@@ -80,7 +80,7 @@ module.exports = (grunt) ->
       else
         server.push "copy:js"
         dist.push "copy:js"
-      {server,dist}
+      {server,dist, options:{limit: 5}}
 
   TASKS_MAP = [
     "swig"
