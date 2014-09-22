@@ -1,9 +1,11 @@
 module.exports =
-	jade:
-    dist:
+  jade:
+    server:
       options:
         pretty:true
-        data:-> {}
+        data:-> {
+          jade_mode: "server"
+        }
         filters:{}
         basedir:"app"
       files:[
@@ -13,3 +15,23 @@ module.exports =
         dest: "<%= yeoman.tmpPath %>"
         ext: ".html"
       ]
+
+    dist:
+      options:
+        pretty:true
+        data:-> {
+          jade_mode: "dist"
+        }
+        filters:{}
+        basedir:"app"
+      files: "<%= jade.server.files %>"
+
+    production:
+      options:
+        pretty:true
+        data:-> {
+          jade_mode: "production"
+        }
+        filters:{}
+        basedir:"app"
+      files: "<%= jade.server.files %>"

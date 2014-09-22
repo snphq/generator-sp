@@ -64,7 +64,7 @@ module.exports = (grunt) ->
       server = [
         "copy:deps"
         "sass"
-        "link_templatecompiler"
+        "link_templatecompiler:server"
         "copy:styles"
       ]
       dist = [
@@ -132,8 +132,10 @@ module.exports = (grunt) ->
       "server"
 
   do ->
-    tasks = if yeomanConfig.templatelang is "jade" then ["jade:dist"] else ["swig:dist"]
-    grunt.registerTask "link_templatecompiler", tasks
+    task = if yeomanConfig.templatelang is "jade" then "jade" else "swig"
+    grunt.registerTask "link_templatecompiler", (targets...)->
+      mode = get_preprocess_target targets
+      grunt.task.run ["#{task}:#{mode}"]
 
   do ->
     tasks = if yeomanConfig.scriptlang is "coffee" then ["coffeelint"] else ["jshint"]
@@ -203,12 +205,13 @@ module.exports = (grunt) ->
     preprocess = "preprocess:#{mode}"
     image_preload = "image_preload:#{mode}"
     rename = "rename:#{mode}"
+    link_templatecompiler = "link_templatecompiler:#{mode}"
     require("load-grunt-tasks") grunt
     grunt.task.run [
       "link_lintscript"
       "clean:dist"
       "copy:custom"
-      "link_templatecompiler"
+      link_templatecompiler
       "useminPrepare"
       "css_image:dist"
       "concurrent:dist"
@@ -235,4 +238,3 @@ module.exports = (grunt) ->
   # uncomment for single task using
   #require("load-grunt-tasks") grunt
   grunt.loadTasks "tasks"
-
