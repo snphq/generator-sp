@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+
+  title success
+  meta(name="description", content="")
+  body
+    script(type="text/javascript", charset="utf-8")
+      :coffeescript
+        if !!window.opener and !!window.opener.callAuthSuccess
+          window.opener.callAuthSuccess()
+        window.close()
+        window.location.replace "/"
