@@ -13,8 +13,27 @@ module.exports =
   swig:
     params:{}
 
-  copy:[]
+  copy:[
+  #  expand: true
+  #  cwd: "<%= yeoman.app %>/bower_components/owl-carousel/owl-carousel/"
+  #  src: "owl.carousel.css"
+  #  dest: "<%= yeoman.app %>/styles/vendor/owlcarousel/"
+  #  rename: (dest, filename, orig)->
+  #    dest + filename.replace( /([^\/]+)\.css$/, "_$1.scss")
+  #,
+  #  expand: true
+  #  cwd: "<%= yeoman.app %>/bower_components/owl-carousel/owl-carousel/"
+  #  src: ["grabbing.png", "AjaxLoader.gif"]
+  #  dest: "<%= yeoman.app %>/images/vendor/owlcarousel/"
+  ]
   copy_deps:[]
+    #options:
+    #  process: (content, srcpath)->
+    #    #if /pen\.css$/.test srcpath
+    #    #  content.replace "font/fontello", "font/fontello"
+    #    #else
+    #    content
+    #files: []
 
   sprite:
     all:
