@@ -76,11 +76,12 @@ module.exports = (grunt) ->
       ]
       if yeomanConfig.scriptlang is "coffee"
         server.push "coffee:server"
+        server.push "coffee:preprocess"
         dist.push "coffee:dist"
       else
         server.push "copy:js"
         dist.push "copy:js"
-      {server,dist, options:{limit: 5}}
+      {server,dist}
 
   TASKS_MAP = [
     "swig"
@@ -238,3 +239,4 @@ module.exports = (grunt) ->
   # uncomment for single task using
   #require("load-grunt-tasks") grunt
   grunt.loadTasks "tasks"
+

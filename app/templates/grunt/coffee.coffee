@@ -11,4 +11,19 @@ module.exports =
     server:
       options:
         sourceMap: false
-      files: "<%= coffee.dist.files %>"
+      files: [
+        expand: true
+        cwd: "<%= yeoman.app %>/scripts"
+        src: ["**/*.coffee", "!preprocess_template.coffee"]
+        dest: "<%= yeoman.tmpPath %>/scripts"
+        ext: ".js"
+      ]
+
+    preprocess:
+      files: [
+        expand: true
+        cwd: "<%= yeoman.app %>/scripts"
+        src: "preprocess_template.coffee"
+        dest: "<%= yeoman.tmpPath %>/scripts"
+        ext: ".js"
+      ]

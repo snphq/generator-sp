@@ -10,19 +10,19 @@ module.exports =
         "<%= yeoman.app %>/{html,templates}/**/*.{html,jade}"
         "<%= yeoman.app %>/scripts/view/**/*.{html,jade}"
       ]
-      tasks: ["link_templatecompiler","image_preload:server"]
+      tasks: ["link_templatecompiler:server","image_preload:server"]
 
     js:
       files: ["<%= yeoman.app %>/scripts/**/*.js"]
       tasks: ["jshint", "copy:js"]
 
     coffee:
-      files: ["<%= yeoman.app %>/scripts/**/*.coffee"]
-      tasks: ["coffeelint","coffee"]
+      files: ["<%= yeoman.app %>/scripts/**/*.coffee", "!<%= yeoman.app %>/scripts/preprocess_template.coffee" ]
+      tasks: ["coffeelint","coffee:server"]
 
     preprocess:
-      files: ["<%= yeoman.tmpPath %>/scripts/preprocess_template.js"]
-      tasks: ["preprocess:server"]
+      files: ["<%= yeoman.app %>/scripts/preprocess_template.coffee"]
+      tasks: ["coffee:preprocess", "preprocess:server"]
 
     compass:
       options:
