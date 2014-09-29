@@ -23,7 +23,7 @@ define (require, exports, module)->
       #common.user = new UserModel
 
       # Init google analitics
-      #common.ga = new GAConstructor preprocess.GA, Backbone
+      #common.ga = new GAConstructor preprocess.GA, Backbone, true
 
 
       #common.sapi = new social.SocialApi
