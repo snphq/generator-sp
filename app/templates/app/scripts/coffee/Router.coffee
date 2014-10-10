@@ -13,7 +13,9 @@ define [
 )->
 
   showPage=(View,options={},callback)->
-    common.app.content.show View, options, callback
+    common.app.content.show View, options, ->
+      view = common.app.content.getViewDI View
+      callback? view
 
   class MiddlewareRouter extends Middleware
     auth:(async,args)->
