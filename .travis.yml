@@ -5,4 +5,9 @@ node_js:
 before_install:
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-sp' ]; then cd .. && eval "mv $currentfolder generator-sp" && cd generator-sp; fi
-
+deploy:
+  provider: npm
+  email: "lexich121@gmail.com"
+  api_key: "YOUR API KEY"
+  on:
+    tags: true
