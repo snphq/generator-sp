@@ -1,8 +1,8 @@
-# generator-sp [![Build Status](https://secure.travis-ci.org/lexich/generator-sp.png?branch=master)](https://travis-ci.org/lexich/generator-sp)
+# generator-sp [![Build Status](https://secure.travis-ci.org/snphq/generator-sp.png?branch=master)](https://travis-ci.org/snphq/generator-sp)
 
 
-[![Dependency Status](https://david-dm.org/lexich/generator-sp.png)](https://david-dm.org/lexich/generator-sp)
-[![devDependency Status](https://david-dm.org/lexich/generator-sp/dev-status.png)](https://david-dm.org/lexich/generator-sp#info=devDependencies)
+[![Dependency Status](https://david-dm.org/snphq/generator-sp.png)](https://david-dm.org/snphq/generator-sp)
+[![devDependency Status](https://david-dm.org/snphq/generator-sp/dev-status.png)](https://david-dm.org/snphq/generator-sp#info=devDependencies)
 
 A generator for [Yeoman](http://yeoman.io).
 
