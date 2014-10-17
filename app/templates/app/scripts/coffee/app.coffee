@@ -1,7 +1,7 @@
 define (require, exports, module)->
   Backbone = require "backbone"
   Router = require "Router"
-  ServerApi = require "ServerApi"
+  ServerApi = require "ServerAPI"
   preprocess = require "preprocess"
   Layout = require "view/layout"
   Modal = require "view/modal"
