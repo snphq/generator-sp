@@ -43,6 +43,6 @@ require.config
     bootstrap:
       deps:["jquery"]
 
-require ["App", "common"], (App, common) ->
+require ["app", "common"], (App, common) ->
   common.app = new App common
   common.app.start()
