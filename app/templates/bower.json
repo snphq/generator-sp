@@ -1,6 +1,6 @@
 {
   "name": "projects",
-  "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "requirejs": "~2.1.10",
     "modernizr": "~2.8.2",
@@ -16,7 +16,6 @@
     "sp-utils-paginatecollection": "~0.0.1",
     "bootstrap-sass-official": "~3.2.0"
   },
-  "devDependencies": {},
   "resolutions": {
     "jquery": "~1.11.1",
     "backbone.epoxy": "v1.2"
