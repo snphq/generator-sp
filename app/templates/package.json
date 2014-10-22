@@ -24,7 +24,7 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-uglify": "^0.5.0",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-css-image": "~0.3.0",
+    "grunt-css-image": "~0.3.1",
     "grunt-image-preload": "~0.3.0",
     "grunt-modernizr": "^0.5.2",
     "grunt-notify": "^0.3.1",
