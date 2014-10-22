@@ -7,5 +7,7 @@ module.exports =
         dest: "app/styles/vendor/_img.scss"
       ]
       options:
-        prefix:"img_",
-        images_path:"../images"
+        css: false
+        scss: true
+        prefix:"img_"
+        root:"../images"
