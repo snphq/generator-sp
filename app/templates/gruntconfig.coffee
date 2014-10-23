@@ -4,6 +4,7 @@ module.exports =
   tmpPath: ".tmp"
   scriptlang:"<%= scriptType %>" #js|coffee
   templatelang:"<%= templateType %>" #swig|jade
+  archive: false
 
   open:
     server:

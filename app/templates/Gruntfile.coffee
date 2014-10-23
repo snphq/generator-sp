@@ -208,7 +208,7 @@ module.exports = (grunt) ->
     rename = "rename:#{mode}"
     link_templatecompiler = "link_templatecompiler:#{mode}"
     require("load-grunt-tasks") grunt
-    grunt.task.run [
+    build = [
       "link_lintscript"
       "clean:dist"
       "copy:custom"
@@ -229,8 +229,10 @@ module.exports = (grunt) ->
       "usemin"
       rename
       "compress:dist"
-      "compress:archive"
     ]
+    if yeomanConfig.archive
+      build.push "compress:archive"
+    grunt.task.run build
 
   grunt.registerTask "default", [
     "build"
