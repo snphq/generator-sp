@@ -7,12 +7,17 @@ define (require, exports, module)->
   Modal = require "view/modal"
   Page = require "view/page"
   Widget = require "view/widget"
-
+  cookies = require "cookies"
   #GAConstructor = require "sp-utils-gaconstructor"
   #UserModel = require "model/UserModel"
   #social = require "packages/social"
 
   $ = Backbone.$
+
+  $(document).ajaxSend (event, jqxhr, settings)->
+   if settings.type != "GET"
+      jqxhr.setRequestHeader 'X-CSRF-Token', cookies.get('CSRF-Token')
+
 
   class Application
     constructor: (common)->
