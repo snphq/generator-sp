@@ -14,6 +14,11 @@ define (require, exports, module)->
 
   $ = Backbone.$
 
+  sblocks_components = [
+    #simple-blocks implementation
+    #https://github.com/lexich/simple-blocks
+  ]
+
   $(document).ajaxSend (event, jqxhr, settings)->
    if settings.type != "GET"
       jqxhr.setRequestHeader 'X-CSRF-Token', cookies.get('CSRF-Token')
@@ -45,4 +50,6 @@ define (require, exports, module)->
       for key, item of layout
         item.showCurrent()
         this[key] = item
+      for sblock in sblocks_components
+        common.sblocks.add sblock
       Backbone.history.start()

@@ -3,7 +3,8 @@ define [
   "underscore"
   "localization/ru"
   "preprocess"
-],($, _, Localization, preprocess)->
+  "simple-blocks"
+],($, _, Localization, preprocess, sblocks)->
   urlparams = _.reduce location.search.slice(1,location.search.length).split("&"),((memo,item)->
       pair = item.split("=")
       if pair.length is 2
@@ -22,6 +23,7 @@ define [
     user:null #UserModel
     ga:null #Google Analitics
     localization: new Localization
+    sblocks: sblocks() #simple-blocks
   }
   if window.PRELOADER?
     common.images = new window.PRELOADER
