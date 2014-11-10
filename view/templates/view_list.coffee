@@ -10,5 +10,5 @@ define (require, exports, module)->
       ":el": "collection: $collection"
     itemView: <%= normalize_name %>
     initialize: ->
-      @collection = new <%= collection_name %>
-      @collection.view = @itemView #if use backbone.epoxy < 1.2
+      @collection ?= new <%= collection_name %>
+      #@collection.view = @itemView #if use backbone.epoxy < 1.2
