@@ -42,6 +42,8 @@ define (require, exports, module)->
       #  ok: new social.OKApi preprocess.social.ok.appID, preprocess.social.ok.appKey
 
     start:->
+      for sblock in sblocks_components
+        common.sblocks.add sblock
       layout = {}
       layout.header   = new Layout.HeaderLayout   el: "#header-layout"
       layout.content  = new Layout.ContentLayout  el: "#content-layout"
@@ -50,6 +52,4 @@ define (require, exports, module)->
       for key, item of layout
         item.showCurrent()
         this[key] = item
-      for sblock in sblocks_components
-        common.sblocks.add sblock
       Backbone.history.start()
