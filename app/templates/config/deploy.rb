@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.2.1
 lock '3.2.1'
 
-set :application, "<%= capprojectname %>"
+set :application, '<%= capprojectname %>'
 set :repo_url, 'git@git.snpdev.ru:saltpepper/<%= capprojectname %>-frontend.git'
 
 set :commit_id, ENV['CI_COMMIT_ID'] || ENV['CI_BUILD_SHA']
