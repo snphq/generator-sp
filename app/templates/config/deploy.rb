@@ -14,6 +14,8 @@ end
 
 set :deploy_to, "/var/www/#{application}/cs"
 
+set :linked_dirs, fetch(:linked_dirs, []).push('node_modules')
+
 set :nvm_type, :user
 set :nvm_node, '0.10'
 set :nvm_map_bins, %w{node npm grunt bower}
