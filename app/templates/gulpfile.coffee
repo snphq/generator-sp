@@ -81,8 +81,7 @@ PROP = do ->
         else "server"
 
   open: ->
-    #url: "http://" + PROP.server.host + ":" + PROP.server.port
-    url: "http://" + PROP.server.host
+    url: "http://" + PROP.server.host + ":" + PROP.server.port
 
   path: {
     app: app

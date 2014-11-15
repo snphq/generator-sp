@@ -87,8 +87,15 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
   this.directory('tasks','tasks');
   this.bulkDirectory("grunt","grunt");
-  this.bulkCopy("Gruntfile.coffee","Gruntfile.coffee");
+  [
+    'Gruntfile.coffee',
+    'gulpfile.js',
+    'gulpfile.coffee'
+  ].forEach(function(_p){
+    self.bulkCopy(_p, _p);
+  });
 
+  //copy configs
   [
     'README.md',
     'haproxy-config.txt',
@@ -98,7 +105,7 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     self.copy(path,path)
   });
 
-
+  //copy to dot files
   [
     'gruntconfig.coffee',
     'gitattributes',
