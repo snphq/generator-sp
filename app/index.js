@@ -24,32 +24,12 @@ SpGenerator.prototype.askFor = function askFor() {
   console.log(this.yeoman);
 
   var prompts = [{
-    type: 'list',
-    name: 'scriptType',
-    message: 'Select using script language',
-    choices:[
-      { 'name':'Coffeescript', value:'coffee' },
-      { 'name':'Javascript', value:'js' },
-    ],
-    default: 'coffee'
-  },{
-    type: 'list',
-    name: 'templateType',
-    message: 'Select using template engine',
-    choices:[
-      { 'name':'Jade', value:'jade' },
-      { 'name':'Swig', value:'swig' },
-    ],
-    default: 'jade'
-  },{
     name:'capprojectname',
     message:'Input project name for Capistrano',
     default:"sp-project"
   }];
 
   this.prompt(prompts, function (props) {
-    this.scriptType = props.scriptType;
-    this.templateType = props.templateType;
     this.capprojectname = props.capprojectname;
     cb();
   }.bind(this));
@@ -66,8 +46,8 @@ SpGenerator.prototype.app = function app() {
 
   this.directory('app/images','app/images');
   this.directory('app/styles','app/styles');
-  this.directory('app/scripts/' + self.scriptType + '/','app/scripts');
-  this.directory('app/html/' + self.templateType, "app/html" );
+  this.directory('app/scripts/coffee', 'app/scripts');
+  this.directory('app/html/jade', 'app/html');
   this.copy("app/robots.txt","app/robots.txt");
   this.copy("app/favicon.ico","app/favicon.ico");
 };
