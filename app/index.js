@@ -85,10 +85,7 @@ SpGenerator.prototype.cap = function cap(){
 }
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
-  this.directory('tasks','tasks');
-  this.bulkDirectory("grunt","grunt");
   [
-    'Gruntfile.coffee',
     'gulpfile.js',
     'gulpfile.coffee'
   ].forEach(function(_p){
