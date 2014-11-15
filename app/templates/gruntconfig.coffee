@@ -2,8 +2,8 @@ module.exports =
   app: "app"
   dist: "dist"
   tmpPath: ".tmp"
-  scriptlang:"<%= scriptType %>" #js|coffee
-  templatelang:"<%= templateType %>" #swig|jade
+  scriptlang: "coffee"
+  templatelang: "jade"
   archive: false
 
   open:
