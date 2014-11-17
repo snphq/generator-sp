@@ -96,15 +96,25 @@ var ViewActions = {
 
     this.mkdir(rootPath);
 
+    if(viewType !== "item" && viewType !== "list"){
+      exts.forEach(function(ext){
+        self.copy(
+          template_name + '.' + ext,
+          packagePath + normalize_name + '.' + ext
+        );
+        imports[ext].push(normalize_name);
+      });
+      return;
+    }
+    // generate list or item task
     exts.forEach(function(ext){
       self.copy(
-        template_name + '.' + ext,
+        template_name + '_item.' + ext,
         packagePath + normalize_name + '.' + ext
       );
       imports[ext].push(normalize_name);
     });
-
-    if(self.viewTypeList){
+    if(viewType === "list"){
       exts.forEach(function(ext){
         self.copy(
           template_name + '_list.' + ext,
