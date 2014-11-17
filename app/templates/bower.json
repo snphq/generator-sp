@@ -10,7 +10,7 @@
     "backbone-mixin": "~0.3.3",
     "lodash": "~2.4.1",
     "sp-utils-middleware": "~0.0.2",
-    "sp-utils-serverclient": "~0.0.3",
+    "sp-utils-serverclient": "~0.0.5",
     "sp-utils-gaconstructor": "~0.0.7",
     "sp-utils-bootstrapmodal": "~0.1.0",
     "sp-utils-paginatecollection": "~0.0.1",
