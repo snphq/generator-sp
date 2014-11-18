@@ -1,5 +1,6 @@
 gutil = require "gulp-util"
 libpath = require "path"
+mainbowerfiles = require "main-bower-files"
 
 PROP = do ->
   app = "app"

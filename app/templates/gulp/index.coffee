@@ -6,9 +6,7 @@ through2 = require "through2"
 fs = require "fs"
 rimraf = require "rimraf"
 requirejs = require "requirejs"
-mainbowerfiles = require "main-bower-files"
 async = require "async"
-crypto = require "crypto"
 
 $ =
   coffee: require "gulp-coffee"
@@ -37,7 +35,7 @@ $ =
   cssimage: require "gulp-css-image"
   notify: require "gulp-notify"
   plumber: require "gulp-plumber"
-
+  rev: require "./plugins/rev"
 
 PROP = require "./config"
 
@@ -49,15 +47,6 @@ errorHandler = (err)->
     sound:    "Beep"
   )(err)
   @emit "end"
-
-
-$.rev = (cache={}, processKey)-> through2.obj (file, enc, callback)->
-  md5 = crypto.createHash("md5")
-  md5.update file.contents
-  key = if processKey? then processKey file else file.relative
-  cache[key] = md5.digest("hex")
-  @push file
-  callback()
 
 tools =
   mqpacker: require "css-mqpacker"
