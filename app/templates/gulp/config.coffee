@@ -73,6 +73,8 @@ PROP = do ->
     scripts: (prop)->
       name = "main.js"
       switch prop
+        when "main_base" then libpath.join PROP.path.app, "scripts"
+        when "main_path" then libpath.join PROP.path.scripts("main_base"), name
         when "dest"   then libpath.join PROP.path.build(), "scripts"
         when ".dest"  then libpath.join PROP.path.build(), ".scripts"
         when "out"    then libpath.join PROP.path.scripts(".dest"), name

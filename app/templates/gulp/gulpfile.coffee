@@ -132,18 +132,20 @@ gulp.task "rjs", ["scripts"], ->
         (cb)-> rimraf amd_options.baseUrl, cb
         (cb)-> fs.readFile amd_options.out, (err, data)->
           unless err
-            _this.push new gutil.File {
-              base: PROP.path.scripts("dest")
-              path: PROP.path.scripts("result")
+            file = new gutil.File {
+              cwd: libpath.resolve "."
+              base: libpath.resolve ".", PROP.path.scripts("main_base")
+              path: libpath.resolve ".", PROP.path.scripts("main_path")
               contents: data
             }
+            _this.push file
           cb err
         (cb)-> rimraf PROP.path.scripts(".dest"), cb
       ], finish
     )
+    .pipe $.rev.script()
     .pipe $.sourcemaps.init()
     .pipe $.if !PROP.isDev, $.uglify("main.js", {outSourceMap: true})
-    .pipe $.rev.script()
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.scripts("dest")
 
