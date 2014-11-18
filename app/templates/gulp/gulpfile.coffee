@@ -4,13 +4,13 @@ _ = require "lodash"
 libpath = require "path"
 through2 = require "through2"
 fs = require "fs"
-rimraf = require "rimraf"
+del = require "del"
+vinylPaths = require "vinyl-paths"
 requirejs = require "requirejs"
 async = require "async"
 
 $ =
   coffee: require "gulp-coffee"
-  rimraf: require "gulp-rimraf"
   jade: require "gulp-jade"
   ignore: require "gulp-ignore"
   sass: require "gulp-sass"
@@ -50,7 +50,7 @@ errorHandler = (err)->
 
 gulp.task "clean", ->
   gulp.src PROP.path.clean(), {read: false}
-    .pipe $.rimraf()
+    .pipe vinylPaths(del)
 
 gulp.task "templates", ->
   condition = "**/_*.jade"
@@ -125,7 +125,7 @@ gulp.task "rjs", ["scripts"], ->
       contents = null
       async.series [
         (cb)-> requirejs.optimize amd_options, -> cb()
-        (cb)-> rimraf amd_options.baseUrl, cb
+        (cb)-> del amd_options.baseUrl, cb
         (cb)-> fs.readFile amd_options.out, (err, data)->
           unless err
             file = new gutil.File {
@@ -136,7 +136,7 @@ gulp.task "rjs", ["scripts"], ->
             }
             _this.push file
           cb err
-        (cb)-> rimraf PROP.path.scripts(".dest"), cb
+        (cb)-> del PROP.path.scripts(".dest"), cb
       ], finish
     )
     .pipe $.rev.script()
