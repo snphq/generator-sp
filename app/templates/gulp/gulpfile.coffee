@@ -30,7 +30,6 @@ $ =
   concat: require "gulp-concat"
   flatten: require "gulp-flatten"
   uglify: require "gulp-uglify"
-  cheerio: require "gulp-cheerio"
   zopfli: require("gulp-zopfli")
   cssimage: require "gulp-css-image"
   notify: require "gulp-notify"
@@ -63,8 +62,11 @@ gulp.task "templates", ->
       pretty:true
       data: jade_mode: PROP.jade.mode()
       filters:{}
+      parser: $.rev.jade_parser(
+        PROP.path.app
+        PROP.path.build()
+      )
     )
-    .pipe $.cheerio (jQuery)-> $.rev.html jQuery
     .pipe gulp.dest PROP.path.templates("dest")
 
 
@@ -137,9 +139,22 @@ gulp.task "rjs", ["scripts"], ->
     )
     .pipe $.sourcemaps.init()
     .pipe $.if !PROP.isDev, $.uglify("main.js", {outSourceMap: true})
-    .pipe $.rev $.rev.cache.js, (file)-> libpath.join "scripts", file.relative
+    .pipe $.rev.script()
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.scripts("dest")
+
+
+gulp.task "fonts", ->
+  gulp.src PROP.path.fonts()
+    .pipe $.filter PROP.path.fonts("pattern")
+    .pipe $.rev.font()
+    .pipe $.flatten()
+    .pipe gulp.dest PROP.path.fonts("dest")
+
+gulp.task "images", ->
+  gulp.src PROP.path.images()
+    .pipe $.rev.image()
+    .pipe gulp.dest PROP.path.images("dest")
 
 
 gulp.task "cssimage", ->
@@ -162,8 +177,8 @@ gulp.task "styles", ["cssimage"], ->
     .pipe $.plumber {errorHandler}
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
+    .pipe $.rev.css PROP.path.styles("dest")
     .pipe $.postcss [
-      $.rev
       autoprefixer browsers:[
         "last 222 version"
         "ie >= 8"
@@ -173,7 +188,6 @@ gulp.task "styles", ["cssimage"], ->
       mqpacker
       csswring
     ]
-    .pipe $.rev $.rev.cache.css
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.styles("dest")
 
@@ -181,17 +195,6 @@ gulp.task "extras", ->
   gulp.src PROP.path.extras(), {dot: true}
     .pipe gulp.dest PROP.path.extras("dest")
 
-gulp.task "fonts", ->
-  gulp.src PROP.path.fonts()
-    .pipe $.filter PROP.path.fonts("pattern")
-    .pipe $.rev $.rev.cache.font
-    .pipe $.flatten()
-    .pipe gulp.dest PROP.path.fonts("dest")
-
-gulp.task "images", ->
-  gulp.src PROP.path.images()
-    .pipe $.rev $.rev.cache.image
-    .pipe gulp.dest PROP.path.images("dest")
 
 gulp.task "extras:js", ->
   gulp.src PROP.path.scripts("extras_src")
@@ -199,8 +202,7 @@ gulp.task "extras:js", ->
       file.base = libpath.resolve file.base, "../"
       @push file
       callback()
-    .pipe $.rev $.rev.cache.js, (file)->
-      libpath.join "bower_components", file.relative
+    .pipe $.rev.script()
     .pipe $.sourcemaps.init {loadMaps: true}
     .pipe $.if !PROP.isDev, $.uglify()
     .pipe $.sourcemaps.write(".")

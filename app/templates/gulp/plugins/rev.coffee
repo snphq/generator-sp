@@ -2,12 +2,39 @@ through2 = require "through2"
 crypto = require "crypto"
 gutil = require "gulp-util"
 libpath = require "path"
+postcss = require "postcss"
+urldata = require "urldata"
+_ = require "lodash"
 
-CACHE =
-  image:{}
-  font:{}
-  js:{}
-  css:{}
+CACHE = {}
+
+toHash = (contents)->
+  crypto.createHash("md5").update(contents).digest("hex")[..8]
+
+toRevPath = (path, hash)->
+  ext = libpath.extname path
+  name = libpath.basename path, ext
+  dir = libpath.dirname path
+  revname = name + "-" + hash + ext
+  libpath.join dir, revname
+
+toRevFile = (file)->
+  hash = toHash(file.contents)
+  CACHE[file.path] = file
+  file.hash = hash
+  file.orig_path = file.path
+  file.path = toRevPath file.orig_path, hash
+  file
+
+toReplace = (orig, _new, source=orig)->
+  quest = orig.indexOf("?")
+  hash = orig.indexOf("#")
+  split = if quest > hash then hash else quest
+
+  if split > -1 then repl = orig.split(split)[0]
+  else repl = orig
+  res = source.replace repl, _new
+  res
 
 gulprev = (cache={}, processKey)-> through2.obj (file, enc, callback)->
   md5 = crypto.createHash("md5")
@@ -19,107 +46,97 @@ gulprev = (cache={}, processKey)-> through2.obj (file, enc, callback)->
 
 gulprev.cache = CACHE
 
-gulprev.rev =
-  src: (_url, hash)->
-    urls = _url.split("#")
-    url = urls[0]
-    if url.indexOf("?") > -1
-      url += "&"  unless url[url.length-1] in ["&","?"]
-    else url += "?"
-    url += "rev=" + hash
-    url = [url].concat(urls[1..]).join("#")
+gulprev.image = -> through2.obj (file, enc, callback)->
+  @push toRevFile file
+  callback()
 
-  url: (_url, hash)->
-    "url(" + @src(_url, hash) + ")"
+gulprev.font = -> through2.obj (file, enc, callback)->
+  @push toRevFile file
+  callback()
 
-  key: (url, callback)->
-    res = url.split("?")[0].split("#")[0]
-    if callback? then callback res else res
+gulprev.script = -> through2.obj (file, enc, callback)->
+  @push toRevFile file
+  callback()
 
-  rxImage: /^\.{0,2}\/?images\//
-  rxCss: /\/?styles\//
+gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
+  filedir = libpath.dirname file.path
+  postcss_processor = (css)-> css.eachDecl (decl, data)->
+    is_prop = decl.prop.indexOf("background") is 0 or
+        decl.prop.indexOf("border-image") is 0 or
+        decl.prop.indexOf("src") is 0
+    return unless is_prop and decl.value.indexOf("url") >= 0
+    urls = urldata decl.value
+    rev_urls = _.map urls, (_url)->
+      return if /^http/.test _url
+      url = switch _url[0]
+        when "." then _url
+        when "/" then "..#{_url}"
+        else "../#{_url}"
+      #abs path
+      absurl = libpath.resolve filedir, url
+      ext = libpath.extname(absurl).toLowerCase()
+      #relative path
+      relurl = libpath.relative root, absurl
 
-gulprev.postcss = (css)->
-  _this = gulprev.rev
-  css.eachDecl (decl, data)->
-    rxUrlsplit = /url\(([^\)]+)\)/g
-    clean = (val)->
-      val = val.replace /["']/g, ""
+      _file = CACHE[absurl]
 
-    if (decl.prop.indexOf("background") is 0 or decl.prop.indexOf("border-image") is 0) and decl.value.indexOf("url") >= 0
-      value = decl.value.replace rxUrlsplit, (orig, $1)->
-        $1 = clean $1
-        url = $1.replace _this.rxImage, ""
-        if(hash = CACHE.image[url]) then _this.url $1, hash
-        else orig
-      decl.value = value
-
-    if decl.prop.indexOf("src") == 0 and decl.value.indexOf("url") >= 0
-      value = decl.value.replace rxUrlsplit, (orig, $1)->
-        $1 = clean $1
-        basename = libpath.basename($1).split("?")[0].split("#")[0]
-        if(hash = CACHE.font[basename])
-          [_this.url($1, hash)].join("/")
-        else orig
-      decl.value = value
-
-gulprev.html = ($)->
-  _this = gulprev.rev
-  $("img").each ->
-    $el = $(this)
-    src = $el.attr("src")
-    key = src.replace _this.rxImage, ""
-    if(hash = CACHE.image[key])
-      src = _this.src(src, hash)
-      $el.attr {src}
-    else
-      gutil.log(
-        gutil.colors.red("html processing fail <img>")
-        key, src
-      )
-
-  $("link").each ->
-    $el = $(this)
-    href = $el.attr("href")
-    key = _this.key href
-    switch libpath.extname(key)
-      when ".css"
-        key = key.replace _this.rxCss, ""
-        cache = CACHE.css
-      when ".ico"
+      unless _file
+        gutil.log("gulprev.css can't find #{absurl}")
         return
-      else
-        key = key.replace _this.rxImage, ""
-        cache = CACHE.image
-    if(hash = cache[key])
-      href = _this.src href, hash
-      $el.attr {href}
-    else
-      gutil.log(
-        gutil.colors.red("html processing fail <link>")
-        key, src
-      )
-  process_script = ($el, name, process)->
-    _src = $el.attr name
-    return unless _src
-    _src = process _src if process?
-    key = _this.key _src, (src)->
-      if src[0] is "/" then src[1..]
-      else src
+      return if absurl is _file.path
+      libpath.relative root, _file.path
 
-    if(hash = CACHE.js[key])
-      src = _this.src _src, hash
-      $el.attr name, src
-    else
-      gutil.log(
-        gutil.colors.red("html processing fail <script>")
-        _src
-      )
+    value = decl.value
+    for i in [0..rev_urls.length-1]
+      if r_url = rev_urls[i]
+        value = toReplace urls[i], rev_urls[i], value
+    decl.value = value
 
-  $("script").each ->
-    $el = $(this)
-    process_script $el, "src"
-    process_script $el, "data-main", (src)->
-      src + ".js"
+  css_result = postcss(postcss_processor)
+    .process(file.contents.toString()).css
+
+  file.contents = new Buffer(css_result)
+  file = toRevFile file
+  @push file
+  callback()
+
+gulprev.jade_parser = (resource=".", output=".")->
+  P = require("jade").Parser
+  parseExpr = P::parseExpr
+  _.chain(CACHE).keys().each (key)-> console.log key
+  processAttr = (attr)->
+    val = attr.val.replace /[\'\"]/g, ""
+    if val[0] is "/" then val = val[1..]
+
+    absurl = libpath.resolve resource, val
+    _file = CACHE[absurl]
+    unless _file
+      gutil.log("gulprev.jade_parser can't find #{absurl}")
+      return attr
+    relurl = libpath.relative output, _file.path
+    attr.val = toReplace val, relurl, attr.val
+    console.log attr.val
+    attr
+
+  P::parseExpr = ->
+    res = parseExpr.apply this, arguments
+    switch res.name
+      when "img" then res.attrs.forEach (attr)->
+        return unless attr.name is "src"
+        processAttr attr
+
+      when "link" then res.attrs.forEach (attr)->
+        return unless attr.name is "href"
+        processAttr attr
+
+      when "script" then res.attrs.forEach (attr)->
+        if attr.name is "src"
+          processAttr attr
+        else if attr.name is "data-main"
+          attr.val += ".js"
+          attr = processAttr attr
+          attr.val = attr.val.replace /\.js$/, ""
+    res
+  P
 
 module.exports = gulprev
