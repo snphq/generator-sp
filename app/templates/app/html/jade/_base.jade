@@ -14,12 +14,9 @@ html.no-js
     meta(name="viewport", content="width=device-width")
     //Place favicon.ico and apple-touch-icon.png in the root directory
     link(rel="shortcut icon", href="/favicon.ico?")
-    // build:css(.tmp) styles/main.css
+
     link(rel="stylesheet", href="/styles/main.css")
-    // endbuild
-    // build:js(app) scripts/vendor/modernizr.js
     script(src="bower_components/modernizr/modernizr.js")
-    // endbuild
     block head
 
   body
@@ -30,11 +27,5 @@ html.no-js
       include _ribbon
       +ribbon("Local")
     block content
-
-    // build:js scripts/vendor.js
-    // bower:js
-    //- script(src="bower_components/jquery/jquery.js")
-    // endbower
-    // endbuild
 
     script(data-main="scripts/main", src="bower_components/requirejs/require.js")

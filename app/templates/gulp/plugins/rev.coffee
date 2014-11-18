@@ -103,7 +103,6 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
 gulprev.jade_parser = (resource=".", output=".")->
   P = require("jade").Parser
   parseExpr = P::parseExpr
-  _.chain(CACHE).keys().each (key)-> console.log key
   processAttr = (attr)->
     val = attr.val.replace /[\'\"]/g, ""
     if val[0] is "/" then val = val[1..]
@@ -115,7 +114,6 @@ gulprev.jade_parser = (resource=".", output=".")->
       return attr
     relurl = libpath.relative output, _file.path
     attr.val = toReplace val, relurl, attr.val
-    console.log attr.val
     attr
 
   P::parseExpr = ->
@@ -133,7 +131,7 @@ gulprev.jade_parser = (resource=".", output=".")->
         if attr.name is "src"
           processAttr attr
         else if attr.name is "data-main"
-          attr.val += ".js"
+          attr.val = attr.val.replace /^(\'|\")(.+)(\'|\")/, "$1$2.js$3"
           attr = processAttr attr
           attr.val = attr.val.replace /\.js$/, ""
     res
