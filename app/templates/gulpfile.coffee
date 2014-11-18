@@ -35,6 +35,19 @@ $ =
   cheerio: require "gulp-cheerio"
   zopfli: require("gulp-zopfli")
   cssimage: require "gulp-css-image"
+  notify: require "gulp-notify"
+  plumber: require "gulp-plumber"
+
+
+errorHandler = (err)->
+  $.notify.onError(
+    title:    "Gulp"
+    subtitle: "Failure!"
+    message:  "Error: <%= error.message %>"
+    sound:    "Beep"
+  )(err)
+  @emit "end"
+
 
 $.rev = (cache={}, processKey)-> through2.obj (file, enc, callback)->
   md5 = crypto.createHash("md5")
@@ -266,13 +279,14 @@ gulp.task "clean", ->
 gulp.task "templates", ->
   condition = "**/_*.jade"
   gulp.src PROP.path.templates()
+    .pipe $.plumber {errorHandler}
     .pipe $.ignore.exclude(condition)
     .pipe $.jade(
       basedir: PROP.path.app
       pretty:true
       data: jade_mode: PROP.jade.mode()
       filters:{}
-    ).on("error", gutil.log)
+    )
     .pipe $.cheerio ($)-> tools.rev.html $
     .pipe gulp.dest PROP.path.templates("dest")
 
@@ -307,8 +321,9 @@ gulp.task "scripts", ->
     callback()
 
   gulp.src PROP.path.scripts()
+    .pipe $.plumber {errorHandler}
     .pipe $.cached("scripts")
-    .pipe $.coffee(bare: true).on("error", gutil.log)
+    .pipe $.coffee(bare: true)
     .pipe filter_preprocess
     .pipe $.preprocess PROP.preprocess()
     .pipe $.rename basename: "preprocess"
@@ -364,9 +379,8 @@ gulp.task "cssimage", ->
 
 gulp.task "styles", ["cssimage"], ->
   gulp.src PROP.path.styles()
-    .pipe $.sass(
-      includePaths: [PROP.path.styles("path")]
-    ).on("error", gutil.log)
+    .pipe $.plumber {errorHandler}
+    .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
     .pipe $.postcss [
       tools.rev
