@@ -25,7 +25,6 @@ $ =
   cached: require "gulp-cached"
   livereload: require "gulp-livereload"
   filter: require "gulp-filter"
-  amdOptimize: require "amd-optimize"
   if: require "gulp-if"
   concat: require "gulp-concat"
   flatten: require "gulp-flatten"
