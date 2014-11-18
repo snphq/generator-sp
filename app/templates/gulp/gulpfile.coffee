@@ -48,112 +48,6 @@ errorHandler = (err)->
   )(err)
   @emit "end"
 
-tools =
-  rev: {
-    src: (_url, hash)->
-      urls = _url.split("#")
-      url = urls[0]
-      if url.indexOf("?") > -1
-        url += "&"  unless url[url.length-1] in ["&","?"]
-      else url += "?"
-      url += "rev=" + hash
-      url = [url].concat(urls[1..]).join("#")
-
-    url: (_url, hash)->
-      "url(" + @src(_url, hash) + ")"
-
-    key: (url, callback)->
-      res = url.split("?")[0].split("#")[0]
-      if callback? then callback res else res
-
-    rxImage: /^\.{0,2}\/?images\//
-    rxCss: /\/?styles\//
-
-  postcss: (css)->
-    _this = tools.rev
-    css.eachDecl (decl, data)->
-      rxUrlsplit = /url\(([^\)]+)\)/g
-      clean = (val)->
-        val = val.replace /["']/g, ""
-
-      if (decl.prop.indexOf("background") is 0 or decl.prop.indexOf("border-image") is 0) and decl.value.indexOf("url") >= 0
-        value = decl.value.replace rxUrlsplit, (orig, $1)->
-          $1 = clean $1
-          url = $1.replace _this.rxImage, ""
-          if(hash = PROP.rev.image[url]) then _this.url $1, hash
-          else orig
-        decl.value = value
-
-      if decl.prop.indexOf("src") == 0 and decl.value.indexOf("url") >= 0
-        value = decl.value.replace rxUrlsplit, (orig, $1)->
-          $1 = clean $1
-          basename = libpath.basename($1).split("?")[0].split("#")[0]
-          if(hash = PROP.rev.font[basename])
-            [_this.url($1, hash)].join("/")
-          else orig
-        decl.value = value
-
-  html: ($)->
-    _this = tools.rev
-    $("img").each ->
-      $el = $(this)
-      src = $el.attr("src")
-      key = src.replace _this.rxImage, ""
-      if(hash = PROP.rev.image[key])
-        src = _this.src(src, hash)
-        $el.attr {src}
-      else
-        gutil.log(
-          gutil.colors.red("html processing fail <img>")
-          key, src
-        )
-
-    $("link").each ->
-      $el = $(this)
-      href = $el.attr("href")
-      key = _this.key href
-      switch libpath.extname(key)
-        when ".css"
-          key = key.replace _this.rxCss, ""
-          cache = PROP.rev.css
-        when ".ico"
-          return
-        else
-          key = key.replace _this.rxImage, ""
-          cache = PROP.rev.image
-      if(hash = cache[key])
-        href = _this.src href, hash
-        $el.attr {href}
-      else
-        gutil.log(
-          gutil.colors.red("html processing fail <link>")
-          key, src
-        )
-    process_script = ($el, name, process)->
-      _src = $el.attr name
-      return unless _src
-      _src = process _src if process?
-      key = _this.key _src, (src)->
-        if src[0] is "/" then src[1..]
-        else src
-
-      if(hash = PROP.rev.js[key])
-        src = _this.src _src, hash
-        $el.attr name, src
-      else
-        gutil.log(
-          gutil.colors.red("html processing fail <script>")
-          _src
-        )
-
-    $("script").each ->
-      $el = $(this)
-      process_script $el, "src"
-      process_script $el, "data-main", (src)->
-        src + ".js"
-}
-
-
 
 gulp.task "clean", ->
   gulp.src PROP.path.clean(), {read: false}
@@ -170,7 +64,7 @@ gulp.task "templates", ->
       data: jade_mode: PROP.jade.mode()
       filters:{}
     )
-    .pipe $.cheerio ($)-> tools.rev.html $
+    .pipe $.cheerio (jQuery)-> $.rev.html jQuery
     .pipe gulp.dest PROP.path.templates("dest")
 
 
@@ -243,7 +137,7 @@ gulp.task "rjs", ["scripts"], ->
     )
     .pipe $.sourcemaps.init()
     .pipe $.if !PROP.isDev, $.uglify("main.js", {outSourceMap: true})
-    .pipe $.rev PROP.rev.js, (file)-> libpath.join "scripts", file.relative
+    .pipe $.rev $.rev.cache.js, (file)-> libpath.join "scripts", file.relative
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.scripts("dest")
 
@@ -269,7 +163,7 @@ gulp.task "styles", ["cssimage"], ->
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
     .pipe $.postcss [
-      tools.rev
+      $.rev
       autoprefixer browsers:[
         "last 222 version"
         "ie >= 8"
@@ -279,7 +173,7 @@ gulp.task "styles", ["cssimage"], ->
       mqpacker
       csswring
     ]
-    .pipe $.rev PROP.rev.css
+    .pipe $.rev $.rev.cache.css
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.styles("dest")
 
@@ -290,13 +184,13 @@ gulp.task "extras", ->
 gulp.task "fonts", ->
   gulp.src PROP.path.fonts()
     .pipe $.filter PROP.path.fonts("pattern")
-    .pipe $.rev PROP.rev.font
+    .pipe $.rev $.rev.cache.font
     .pipe $.flatten()
     .pipe gulp.dest PROP.path.fonts("dest")
 
 gulp.task "images", ->
   gulp.src PROP.path.images()
-    .pipe $.rev PROP.rev.image
+    .pipe $.rev $.rev.cache.image
     .pipe gulp.dest PROP.path.images("dest")
 
 gulp.task "extras:js", ->
@@ -305,7 +199,7 @@ gulp.task "extras:js", ->
       file.base = libpath.resolve file.base, "../"
       @push file
       callback()
-    .pipe $.rev PROP.rev.js, (file)->
+    .pipe $.rev $.rev.cache.js, (file)->
       libpath.join "bower_components", file.relative
     .pipe $.sourcemaps.init {loadMaps: true}
     .pipe $.if !PROP.isDev, $.uglify()

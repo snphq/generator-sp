@@ -7,12 +7,6 @@ PROP = do ->
 
   isDev: not (gutil.env.mode in ["dist", "prod"])
   isSrv: not gutil.env.build
-  rev: {
-    image:{}
-    font:{}
-    js:{}
-    css:{}
-  }
 
   preprocess: (prop=gutil.env.mode)->
     context = switch prop
