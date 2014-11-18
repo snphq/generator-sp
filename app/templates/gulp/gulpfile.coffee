@@ -34,6 +34,7 @@ $ =
   notify: require "gulp-notify"
   plumber: require "gulp-plumber"
   rev: require "./plugins/rev"
+  coffeelint: require "gulp-coffeelint"
 
 PROP = require "./config"
 
@@ -101,6 +102,9 @@ gulp.task "scripts", ->
   gulp.src PROP.path.scripts()
     .pipe $.plumber {errorHandler}
     .pipe $.cached("scripts")
+    .pipe $.coffeelint('.coffeelintrc')
+    .pipe $.coffeelint.reporter()
+    .pipe $.coffeelint.reporter('fail')
     .pipe $.coffee(bare: true)
     .pipe filter_preprocess
     .pipe $.preprocess PROP.preprocess()
