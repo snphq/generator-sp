@@ -65,13 +65,13 @@ SpGenerator.prototype.cap = function cap(){
 }
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
+  this.mkdir('gulp');
+  this.directory('gulp','gulp');
   [
     'gulpfile.js',
-    'gulpfile.coffee'
   ].forEach(function(_p){
     self.bulkCopy(_p, _p);
   });
-
   //copy configs
   [
     'README.md',

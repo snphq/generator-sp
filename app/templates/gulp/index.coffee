@@ -109,8 +109,8 @@ PROP = do ->
     scripts: (prop)->
       name = "main.js"
       switch prop
-        when "dest"   then libpath.join __dirname, PROP.path.build(), "scripts"
-        when ".dest"  then libpath.join __dirname, PROP.path.build(), ".scripts"
+        when "dest"   then libpath.join __dirname, "..", PROP.path.build(), "scripts"
+        when ".dest"  then libpath.join __dirname, "..", PROP.path.build(), ".scripts"
         when "out"    then libpath.join PROP.path.scripts(".dest"), name
         when "result" then libpath.join PROP.path.scripts("dest"), name
         when "name"   then name
@@ -118,7 +118,7 @@ PROP = do ->
           libpath.join app, "bower_components", "modernizr", "modernizr.js"
           libpath.join app, "bower_components", "requirejs", "require.js"
         ]
-        when "extras_dest" then libpath.join __dirname, PROP.path.build(), "bower_components"
+        when "extras_dest" then libpath.join __dirname, "..", PROP.path.build(), "bower_components"
         else libpath.join app, "scripts", "**", "*.coffee"
     templates: (prop)->
       switch prop
