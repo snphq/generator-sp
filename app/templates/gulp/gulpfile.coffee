@@ -49,29 +49,25 @@ errorHandler = (err)->
   @emit "end"
 
 tools =
-  mqpacker: require "css-mqpacker"
-  csswring: require "csswring"
-  autoprefixer: require "autoprefixer-core"
+  rev: {
+    src: (_url, hash)->
+      urls = _url.split("#")
+      url = urls[0]
+      if url.indexOf("?") > -1
+        url += "&"  unless url[url.length-1] in ["&","?"]
+      else url += "?"
+      url += "rev=" + hash
+      url = [url].concat(urls[1..]).join("#")
 
-tools.rev = {
-  src: (_url, hash)->
-    urls = _url.split("#")
-    url = urls[0]
-    if url.indexOf("?") > -1
-      url += "&"  unless url[url.length-1] in ["&","?"]
-    else url += "?"
-    url += "rev=" + hash
-    url = [url].concat(urls[1..]).join("#")
+    url: (_url, hash)->
+      "url(" + @src(_url, hash) + ")"
 
-  url: (_url, hash)->
-    "url(" + @src(_url, hash) + ")"
+    key: (url, callback)->
+      res = url.split("?")[0].split("#")[0]
+      if callback? then callback res else res
 
-  key: (url, callback)->
-    res = url.split("?")[0].split("#")[0]
-    if callback? then callback res else res
-
-  rxImage: /^\.{0,2}\/?images\//
-  rxCss: /\/?styles\//
+    rxImage: /^\.{0,2}\/?images\//
+    rxCss: /\/?styles\//
 
   postcss: (css)->
     _this = tools.rev
@@ -265,20 +261,23 @@ gulp.task "cssimage", ->
     .pipe gulp.dest libpath.join folder, "vendor"
 
 gulp.task "styles", ["cssimage"], ->
+  mqpacker = require "css-mqpacker"
+  csswring = require "csswring"
+  autoprefixer = require "autoprefixer-core"
   gulp.src PROP.path.styles()
     .pipe $.plumber {errorHandler}
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
     .pipe $.postcss [
       tools.rev
-      tools.autoprefixer browsers:[
+      autoprefixer browsers:[
         "last 222 version"
         "ie >= 8"
         "ff >= 17"
         "opera >=10"
       ]
-      tools.mqpacker
-      tools.csswring
+      mqpacker
+      csswring
     ]
     .pipe $.rev PROP.rev.css
     .pipe $.sourcemaps.write(".")
