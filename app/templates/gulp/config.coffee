@@ -2,6 +2,9 @@ gutil = require "gulp-util"
 libpath = require "path"
 mainbowerfiles = require "main-bower-files"
 
+g_mode = ->
+  gutil.env.mode || "dist"
+
 PROP = do ->
   app = "app"
 
@@ -16,7 +19,7 @@ PROP = do ->
     {context}
 
   server:
-    host: "0.0.0.0"
+    host: "localhost"
     port: 9000
     fallback: "index.html"
 
@@ -29,6 +32,33 @@ PROP = do ->
 
   open: ->
     url: "http://" + PROP.server.host + ":" + PROP.server.port
+
+  proxy:
+    port: 9001
+    remotes: (prop=g_mode()) -> (
+      dist:
+        active: true
+        host: "projectname.t.snpdev.ru"
+        port: 80
+        https: false
+      prod:
+        active: true
+        host: "google.ru"
+        port: 80
+        https: false
+      )[prop]
+    routers: (prop=g_mode()) -> (
+      dist:
+        "wiki/Main_Page$":
+          host:"en.wikipedia.org"
+          port:80
+          https:false
+      prod:
+        "wiki/Main_Page$":
+          host:"en.wikipedia.org"
+          port:80
+          https:false
+      )[prop]
 
   path: {
     app: app

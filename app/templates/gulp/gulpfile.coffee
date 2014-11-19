@@ -251,6 +251,67 @@ gulp.task "server", ->
     .on "listening", ->
       gutil.log gutil.colors.green "Started connect web server on http://localhost:#{PROP.server.port}"
 
+gulp.task "proxy", ->
+  http = require 'http'
+  httpProxy = require 'http-proxy'
+  proxy = new httpProxy.RoutingProxy()
+  options = PROP.proxy || {} # @options()
+  if "function" == typeof options.remotes
+    options.remotes = options.remotes()
+  if "function" == typeof options.routers
+    options.routers = options.routers()
+  _.each options.routers, (param, route)->
+    options.routers[route].matcher = new RegExp(route)
+  options.local =
+    host: "localhost"
+    port: PROP.server.port
+  PROP.server.port = options.port
+  server = http.createServer (req, res)=>
+    routers = options.routers || {}
+    destination = null
+    for matcher, dest of routers
+      if dest.matcher.test(req.url)
+        destination = dest
+        break
+
+    if destination != null
+        opts =
+          changeOrigin: true
+          host: destination.host,
+          port: destination.port
+        if destination.https is true
+          opts.target = https:true
+        proxy.proxyRequest req, res, opts
+    else
+      reqOptions = {
+        hostname: options.local.host
+        port: options.local.port
+        path: req.url
+        method: 'HEAD'
+      }
+      checkRequest = http.request reqOptions, (checkResponce) =>
+        proxyOptions = {changeOrigin: true}
+        if checkResponce.statusCode == 404 and options.remotes.active
+          settingsSource = options.remotes
+        else
+          settingsSource = options.local
+
+        proxyOptions.host = settingsSource.host
+        proxyOptions.port = settingsSource.port
+        if settingsSource?.https
+          proxyOptions.target = {https: true}
+        proxy.proxyRequest req, res, proxyOptions
+
+      checkRequest.on 'socket', (socket)->
+        socket.setTimeout 100
+        socket.on 'timeout', ->
+          checkRequest.abort()
+      checkRequest.end()
+
+      checkRequest.on 'error', (error, code)->
+        console.log arguments[0]['code']
+        console.log "#{error.code} #{error}"
+  server.listen(options.port);
 
 gulp.task "open", ->
   gulp.src PROP.path.index()
@@ -267,6 +328,7 @@ DEFAULT_TASK = do ->
   build.push "imagepreload"
   build.push "server" if PROP.isSrv
   build.push "watch" if PROP.isSrv and PROP.isDev
+  build.push "proxy" if PROP.isSrv
   build.push "open" if PROP.isSrv
   build.push "compress" unless PROP.isDev
   build
