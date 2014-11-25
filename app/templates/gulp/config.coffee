@@ -89,6 +89,10 @@ PROP = do ->
     templates: (prop)->
       switch prop
         when "dest" then PROP.path.build()
+        when "watch" then [
+          PROP.path.templates(),
+          libpath.join app, "scripts", "**", "*.jade"
+        ]
         else libpath.join app, "html", "**", "*.jade"
     styles: (prop)->
       switch prop
