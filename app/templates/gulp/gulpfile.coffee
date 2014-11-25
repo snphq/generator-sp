@@ -104,19 +104,22 @@ gulp.task "scripts", ->
     callback()
 
   gulp.src PROP.path.scripts()
-    .pipe $.plumber {errorHandler}
-    .pipe $.cached("scripts")
     .pipe $.coffeelint('.coffeelintrc')
     .pipe $.coffeelint.reporter()
     .pipe $.coffeelint.reporter('fail')
+    .pipe $.plumber {errorHandler}
     .pipe $.coffee(bare: true)
+    .pipe $.cached("scripts")
+
     .pipe filter_preprocess
     .pipe $.preprocess PROP.preprocess()
     .pipe $.rename basename: "preprocess"
     .pipe filter_preprocess.restore()
-    .pipe filter_main_js
-    .pipe extractAmdOptions
-    .pipe filter_main_js.restore()
+
+    .pipe $.if !PROP.isDev, filter_main_js
+    .pipe $.if !PROP.isDev, extractAmdOptions
+    .pipe $.if !PROP.isDev, filter_main_js.restore()
+
     .pipe through2.obj (file, enc, callback)->
       #ugly hack for filter
       @push file
