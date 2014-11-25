@@ -54,19 +54,23 @@ gulp.task "clean", ->
 
 gulp.task "templates", ->
   condition = "**/_*.jade"
+
+  jade_options =
+    basedir: PROP.path.app
+    pretty:true
+    data: jade_mode: PROP.jade.mode()
+    filters:{}
+
+  unless PROP.isDev
+    jade_options.parser = $.rev.jade_parser(
+      PROP.path.app
+      PROP.path.build()
+    )
+
   gulp.src PROP.path.templates()
     .pipe $.plumber {errorHandler}
     .pipe $.ignore.exclude(condition)
-    .pipe $.jade(
-      basedir: PROP.path.app
-      pretty:true
-      data: jade_mode: PROP.jade.mode()
-      filters:{}
-      parser: $.rev.jade_parser(
-        PROP.path.app
-        PROP.path.build()
-      )
-    )
+    .pipe $.jade jade_options
     .pipe gulp.dest PROP.path.templates("dest")
 
 
@@ -142,7 +146,7 @@ gulp.task "rjs", ["scripts"], ->
         (cb)-> del PROP.path.scripts(".dest"), cb
       ], finish
     )
-    .pipe $.rev.script()
+    .pipe $.if !PROP.isDev, $.rev.script()
     .pipe $.sourcemaps.init()
     .pipe $.if !PROP.isDev, $.uglify("main.js", {outSourceMap: true})
     .pipe $.sourcemaps.write(".")
@@ -152,13 +156,13 @@ gulp.task "rjs", ["scripts"], ->
 gulp.task "fonts", ->
   gulp.src PROP.path.fonts()
     .pipe $.filter PROP.path.fonts("pattern")
-    .pipe $.rev.font()
+    .pipe $.if !PROP.isDev, $.rev.font()
     .pipe $.flatten()
     .pipe gulp.dest PROP.path.fonts("dest")
 
 gulp.task "images", ->
   gulp.src PROP.path.images()
-    .pipe $.rev.image()
+    .pipe $.if !PROP.isDev, $.rev.image()
     .pipe gulp.dest PROP.path.images("dest")
 
 
@@ -182,7 +186,7 @@ gulp.task "styles", ["cssimage"], ->
     .pipe $.plumber {errorHandler}
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
-    .pipe $.rev.css PROP.path.styles("dest")
+    .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest")
     .pipe $.postcss [
       autoprefixer browsers:[
         "last 222 version"
@@ -207,7 +211,7 @@ gulp.task "extras:js", ->
       file.base = libpath.resolve file.base, "../"
       @push file
       callback()
-    .pipe $.rev.script()
+    .pipe $.if !PROP.isDev, $.rev.script()
     .pipe $.sourcemaps.init {loadMaps: true}
     .pipe $.if !PROP.isDev, $.uglify()
     .pipe $.sourcemaps.write(".")
