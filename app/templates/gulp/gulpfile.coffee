@@ -69,7 +69,7 @@ gulp.task "templates", ->
     )
 
   gulp.src PROP.path.templates()
-    .pipe $.plumber {errorHandler}
+    .pipe $.if PROP.isSrv, $.plumber {errorHandler}
     .pipe $.ignore.exclude(condition)
     .pipe $.jade jade_options
     .pipe gulp.dest PROP.path.templates("dest")
@@ -106,9 +106,9 @@ gulp.task "scripts", ->
 
   linter = []
   gulp.src PROP.path.scripts()
-    .pipe $.plumber {errorHandler}
+    .pipe $.if PROP.isSrv, $.plumber {errorHandler}
     .pipe $.coffeelint('.coffeelintrc')
-    .pipe through2.obj ((file, enc, cb)->
+    .pipe $.if PROP.isSrv, through2.obj ((file, enc, cb)->
       c = file.coffeelint
       if c.errorCount or c.warningCount
         linter.push [c, file.relative]
@@ -209,7 +209,7 @@ gulp.task "styles", ["cssimage"], ->
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
   gulp.src PROP.path.styles()
-    .pipe $.plumber {errorHandler}
+    .pipe $.if PROP.isSrv, $.plumber {errorHandler}
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe $.sourcemaps.init()
     .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest")
