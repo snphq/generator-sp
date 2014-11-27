@@ -8,6 +8,7 @@ del = require "del"
 vinylPaths = require "vinyl-paths"
 requirejs = require "requirejs"
 async = require "async"
+notifier = require "node-notifier"
 
 $ =
   coffee: require "gulp-coffee"
@@ -103,11 +104,33 @@ gulp.task "scripts", ->
     @push file
     callback()
 
+  linter = []
   gulp.src PROP.path.scripts()
-    .pipe $.coffeelint('.coffeelintrc')
-    .pipe $.coffeelint.reporter()
-    .pipe $.coffeelint.reporter('fail')
     .pipe $.plumber {errorHandler}
+    .pipe $.coffeelint('.coffeelintrc')
+    .pipe through2.obj ((file, enc, cb)->
+      c = file.coffeelint
+      if c.errorCount or c.warningCount
+        linter.push [c, file.relative]
+      @push file
+      cb()
+    ),(cb)->
+      notifyString = ""
+      linter.forEach ([c, name])->
+        notifyString += _.map(c.results, (r)->
+          "#{r.level} #{name}: #{r.lineNumber} - #{r.message}"
+        ).join("\n")
+      if notifyString
+        notifier.notify
+          title:    "Coffeelint message"
+          subtitle: "See console to full information"
+          message:  notifyString
+          sound:    "Tink"
+          icon: libpath.join(__dirname, "img", "coffee-error.jpg")
+      linter = []
+      cb()
+    .pipe $.coffeelint.reporter()
+
     .pipe $.coffee(bare: true)
     .pipe $.cached("scripts")
 
