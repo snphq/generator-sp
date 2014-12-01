@@ -105,6 +105,10 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
     .process(file.contents.toString()).css
 
   file.contents = new Buffer(css_result)
+  @push file
+  callback()
+
+gulprev.cssrev = -> through2.obj (file, enc, callback)->
   file = toRevFile file
   @push file
   callback()

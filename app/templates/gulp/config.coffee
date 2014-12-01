@@ -83,7 +83,10 @@ PROP = do ->
           libpath.join PROP.path.app, "styles", "**", "*.scss"
           libpath.join PROP.path.app, "scripts", "**", "*.scss"
         ]
-        else libpath.join PROP.path.app, "styles", "main.scss"
+        else [
+          libpath.join PROP.path.app, "styles", "main.scss"
+          libpath.join PROP.path.app, "styles", "vendor.scss"
+        ]
 
     extras: (prop)->
       switch prop
