@@ -83,7 +83,7 @@ amd_options =
   useStrict: true
   wrap: true
 
-gulp.task "scripts", ->
+gulp.task "scripts", ["imagepreload"], ->
   filter_preprocess = $.filter "preprocess_template.js"
   filter_main_js = $.filter PROP.path.scripts("name")
 
@@ -246,9 +246,10 @@ gulp.task "extras:js", ->
 gulp.task "imagepreload", ->
   gulp.src PROP.path.images()
     .pipe $.imagepreload
-      inline: PROP.path.index()
-    .pipe $.ignore.include(/\.(html|js)$/) #filter js and html only
-    .pipe gulp.dest PROP.path.build()
+      script: "_imagepreload.js"
+      scriptPath: "_imagepreload.js"
+      md5: false
+    .pipe gulp.dest PROP.path.scripts("dest")
 
 gulp.task "compress", ->
   gulp.src libpath.join PROP.path.build(), "**", "*.{html,js,css}"
@@ -257,7 +258,7 @@ gulp.task "compress", ->
 
 gulp.task "watch", ->
   $.livereload.listen()
-  gulp.watch PROP.path.templates("watch"), ["templates", "imagepreload"]
+  gulp.watch PROP.path.templates("watch"), ["templates"]
   gulp.watch PROP.path.styles("watch"), ["styles"]
   gulp.watch PROP.path.scripts("watch"), ["scripts"]
   gulp.watch PROP.path.livereload()
@@ -358,7 +359,6 @@ DEFAULT_TASK = do ->
   build.push if PROP.isDev then "scripts" else "rjs"
   build.push "extras:js" unless PROP.isDev
   build.push "templates"
-  build.push "imagepreload"
   build.push "server" if PROP.isSrv
   build.push "watch" if PROP.isSrv and PROP.isDev
   build.push "proxy" if PROP.isSrv
