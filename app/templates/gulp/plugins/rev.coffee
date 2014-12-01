@@ -68,12 +68,17 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
     urls = urldata decl.value
     rev_urls = _.map urls, (_url)->
       return if /^http/.test _url
-      url = switch _url[0]
-        when "." then _url
-        when "/" then "..#{_url}"
-        else "../#{_url}"
+      return if _url.indexOf("base64,iVBORw0KG") > -1
+      if _url.indexOf("./") is 0
+        url = _url
+      else if _url.indexOf("/") is 0
+        url = "..#{_url}"
+      else
+        url = "./#{_url}"
+      url = url.split("#")[0].split("?")[0]
       #abs path
       absurl = libpath.resolve filedir, url
+
       ext = libpath.extname(absurl).toLowerCase()
       #relative path
       relurl = libpath.relative root, absurl
