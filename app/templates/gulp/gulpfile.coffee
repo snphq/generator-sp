@@ -96,13 +96,16 @@ gulp.task "scripts", ->
       #{file.contents.toString(enc)}
       return output;
     """
-    amd_options = _.merge amd_options, Function(rjs_content)()
-    amd_options.paths = _.reduce amd_options.paths, ((memo, v, k)->
-      memo[k] = v.replace /^\.\.\/bower_components\//, "../../app/bower_components/"
-      memo
-    ), {}
-    @push file
-    callback()
+    try
+      amd_options = _.merge amd_options, Function(rjs_content)()
+      amd_options.paths = _.reduce amd_options.paths, ((memo, v, k)->
+        memo[k] = v.replace /^\.\.\/bower_components\//, "../../app/bower_components/"
+        memo
+      ), {}
+      @push file
+      callback()
+    catch e
+      callback e
 
   linter = []
   gulp.src PROP.path.scripts()
@@ -137,16 +140,12 @@ gulp.task "scripts", ->
     .pipe filter_preprocess
     .pipe $.preprocess PROP.preprocess()
     .pipe $.rename basename: "preprocess"
-    .pipe filter_preprocess.restore()
+    .pipe filter_preprocess.restore(end:true)
 
     .pipe $.if !PROP.isDev, filter_main_js
     .pipe $.if !PROP.isDev, extractAmdOptions
-    .pipe $.if !PROP.isDev, filter_main_js.restore()
+    .pipe $.if !PROP.isDev, filter_main_js.restore(end:true)
 
-    .pipe through2.obj (file, enc, callback)->
-      #ugly hack for filter
-      @push file
-      callback()
     .pipe gulp.dest PROP.path.scripts("dest")
 
 gulp.task "rjs", ["scripts"], ->
