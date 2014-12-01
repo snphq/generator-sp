@@ -227,6 +227,7 @@ gulp.task "styles", ["cssimage"], ->
 
 gulp.task "extras", ->
   gulp.src PROP.path.extras(), {dot: true}
+    .pipe $.rev.extra()
     .pipe gulp.dest PROP.path.extras("dest")
 
 

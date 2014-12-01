@@ -58,6 +58,10 @@ gulprev.script = -> through2.obj (file, enc, callback)->
   @push toRevFile file
   callback()
 
+gulprev.extra = -> through2.obj (file, enc, callback)->
+  @push toRevFile file
+  callback()
+
 gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
   filedir = libpath.dirname file.path
   postcss_processor = (css)-> css.eachDecl (decl, data)->
@@ -111,8 +115,8 @@ gulprev.jade_parser = (resource=".", output=".")->
   processAttr = (attr)->
     val = attr.val.replace /[\'\"]/g, ""
     if val[0] is "/" then val = val[1..]
-
     absurl = libpath.resolve resource, val
+    absurl = absurl.split("#")[0].split("?")[0]
     _file = CACHE[absurl]
     unless _file
       gutil.log("gulprev.jade_parser can't find #{absurl}")
@@ -123,6 +127,8 @@ gulprev.jade_parser = (resource=".", output=".")->
 
   P::parseExpr = ->
     res = parseExpr.apply this, arguments
+
+    rxResource = /\.(jpg|jpeg|png|gif|webp|svg|ico|js|css|woff|oef|ttf|bmp)/
     switch res.name
       when "img" then res.attrs.forEach (attr)->
         return unless attr.name is "src"
@@ -139,6 +145,11 @@ gulprev.jade_parser = (resource=".", output=".")->
           attr.val = attr.val.replace /^(\'|\")(.+)(\'|\")/, "$1$2.js$3"
           attr = processAttr attr
           attr.val = attr.val.replace /\.js$/, ""
+      when "meta" then res.attrs.forEach (attr)->
+        if attr.name is "content"
+          if rxResource.test attr.val.toLowerCase()
+            processAttr attr
+
     res
   P
 
