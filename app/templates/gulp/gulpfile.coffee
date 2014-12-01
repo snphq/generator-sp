@@ -35,6 +35,7 @@ $ =
   notify: require "gulp-notify"
   plumber: require "gulp-plumber"
   rev: require "./plugins/rev"
+  resource: require "./plugins/resource"
   coffeelint: require "gulp-coffeelint"
 
 PROP = require "./config"
@@ -204,14 +205,20 @@ gulp.task "cssimage", ->
     .pipe gulp.dest libpath.join folder, "vendor"
 
 gulp.task "styles", ["cssimage"], ->
+  filter_vendor = $.filter "vendor.css"
+  filter_main = $.filter "main.css"
+
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
+  ORDER = []
   gulp.src PROP.path.styles()
     .pipe $.if PROP.isNotify, $.plumber {errorHandler}
     .pipe $.sass includePaths: [PROP.path.styles("path")]
+    .pipe filter_vendor
+    .pipe $.resource("resources")
+    .pipe filter_vendor.restore(end:true)
     .pipe $.sourcemaps.init()
-    .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest")
     .pipe $.postcss [
       autoprefixer browsers:[
         "last 222 version"
@@ -222,8 +229,28 @@ gulp.task "styles", ["cssimage"], ->
       mqpacker
       csswring
     ]
+
+    .pipe through2.obj ((file, enc, cb)->
+      ORDER.push file
+      cb()
+    ), (cb)->
+      mainFile = null
+      ORDER.forEach (file)=>
+        if /main\.css$/.test file.path then mainFile = file
+        else @push file
+      @push mainFile if mainFile?
+      cb()
+
+    .pipe filter_main
+    .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest")
+    .pipe filter_main.restore(end:true)
+    .pipe $.concat("main.css")
+    .pipe $.if !PROP.isDev, $.rev.cssrev()
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.styles("dest")
+    .pipe $.resource.download()
+    .pipe gulp.dest PROP.path.build()
+
 
 gulp.task "extras", ->
   gulp.src PROP.path.extras(), {dot: true}
