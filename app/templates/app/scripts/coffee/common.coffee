@@ -4,7 +4,8 @@ define [
   "localization/ru"
   "preprocess"
   "simple-blocks"
-],($, _, Localization, preprocess, sblocks)->
+  "_imagepreload"
+],($, _, Localization, preprocess, sblocks, PRELOADER)->
   urlparams = _.reduce location.search.slice(1,location.search.length).split("&"),((memo,item)->
       pair = item.split("=")
       if pair.length is 2
@@ -25,7 +26,6 @@ define [
     localization: new Localization
     sblocks: sblocks() #simple-blocks
   }
-  if window.PRELOADER?
-    common.images = new window.PRELOADER
+  common.images = new window.PRELOADER
 
   common
