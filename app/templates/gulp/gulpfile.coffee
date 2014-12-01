@@ -58,7 +58,7 @@ gulp.task "templates", ->
 
   jade_options =
     basedir: PROP.path.app
-    pretty:true
+    pretty: PROP.isDev
     data: jade_mode: PROP.jade.mode()
     filters:{}
 
