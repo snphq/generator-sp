@@ -84,7 +84,7 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
 
   //copy to dot files
   [
-    'gruntconfig.coffee',
+    'gulpconfig.coffee',
     'gitattributes',
     'gitignore',
     'bowerrc',

@@ -1,12 +1,25 @@
 gutil = require "gulp-util"
 libpath = require "path"
 mainbowerfiles = require "main-bower-files"
+_ = require "lodash"
+cfg = require "./../.gulpconfig"
+
+server = _.defaults cfg.server, {
+  host: "0.0.0.0"
+  port: 9000
+  fallback: "index.html"
+}
+
+open = _.defaults cfg.open, {
+  host: server.host
+  port: server.port
+  path: "/"
+}
 
 g_mode = ->
   gutil.env.mode || "dist"
 
 PROP = do ->
-  app = "app"
 
   isDev: not (gutil.env.mode in ["dist", "prod"])
   isSrv: not gutil.env.build
@@ -19,10 +32,7 @@ PROP = do ->
       else {DEBUG:true}
     {context}
 
-  server:
-    host: "localhost"
-    port: 9000
-    fallback: "index.html"
+  server: server
 
   jade:
     mode: (prop=gutil.env.mode)->
@@ -32,7 +42,7 @@ PROP = do ->
         else "server"
 
   open: ->
-    url: "http://" + PROP.server.host + ":" + PROP.server.port
+    url: "http://" + open.host + ":" + open.port + open.path
 
   proxy:
     port: 9001
@@ -62,7 +72,7 @@ PROP = do ->
       )[prop]
 
   path: {
-    app: app
+    app: cfg.app or "app"
     clean: ->
       [".tmp", "dist", "prod"]
     build: (prop=gutil.env.mode)->
@@ -82,33 +92,35 @@ PROP = do ->
         when "result" then libpath.join PROP.path.scripts("dest"), name
         when "name"   then name
         when "extras_src" then [
-          libpath.join app, "bower_components", "modernizr", "modernizr.js"
-          libpath.join app, "bower_components", "requirejs", "require.js"
-        ]
+          libpath.join PROP.path.app, "bower_components", "modernizr", "modernizr.js"
+          libpath.join PROP.path.app, "bower_components", "requirejs", "require.js"
+        ].concat(cfg.scripts)
         when "extras_dest" then libpath.join PROP.path.build(), "bower_components"
-        else libpath.join app, "scripts", "**", "*.coffee"
+        else libpath.join PROP.path.app, "scripts", "**", "*.coffee"
     templates: (prop)->
       switch prop
         when "dest" then PROP.path.build()
         when "watch" then [
           PROP.path.templates(),
-          libpath.join app, "scripts", "**", "*.jade"
+          libpath.join PROP.path.app, "scripts", "**", "*.jade"
         ]
-        else libpath.join app, "html", "**", "*.jade"
+        else libpath.join PROP.path.app, "html", "**", "*.jade"
     styles: (prop)->
       switch prop
         when "dest" then libpath.join PROP.path.build(), "styles"
-        when "path" then libpath.join app, "bower_components"
+        when "path" then libpath.join PROP.path.app, "bower_components"
         when "watch" then [
-          libpath.join app, "styles", "**", "*.scss"
-          libpath.join app, "scripts", "**", "*.scss"
+          libpath.join PROP.path.app, "styles", "**", "*.scss"
+          libpath.join PROP.path.app, "scripts", "**", "*.scss"
         ]
-        else libpath.join app, "styles", "main.scss"
+        else libpath.join PROP.path.app, "styles", "main.scss"
 
     extras: (prop)->
       switch prop
         when "dest" then PROP.path.build()
-        else libpath.join app, "*.*"
+        else [
+          libpath.join PROP.path.app, "*.*"
+        ].concat( cfg.extras)
 
     fonts: (prop)->
       switch prop
@@ -116,13 +128,13 @@ PROP = do ->
         when "pattern" then libpath.join "**", "*.{eot,svg,ttf,woff,woff2}"
         else
           mainbowerfiles().concat [
-            libpath.join app, "styles", "fonts", PROP.path.fonts("pattern")
+            libpath.join PROP.path.app, "styles", "fonts", PROP.path.fonts("pattern")
           ]
 
     images: (prop)->
       switch prop
         when "dest" then libpath.join PROP.path.build(), "images"
-        else libpath.join app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
+        else libpath.join PROP.path.app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
 
     index: ->
       libpath.join PROP.path.build(), "index.html"
