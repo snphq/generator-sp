@@ -24,6 +24,7 @@ PROP = do ->
   isDev: not (gutil.env.mode in ["dist", "prod"])
   isSrv: not gutil.env.build
   isNotify: not gutil.env.build
+  isImageMin: gutil.env.imagemin
 
   preprocess: (prop=gutil.env.mode)->
     context = switch prop
@@ -137,6 +138,8 @@ PROP = do ->
     images: (prop)->
       switch prop
         when "dest" then libpath.join PROP.path.build(), "images"
+        when "jpg" then libpath.join PROP.path.build(), "images", "**", "*.{jpg,jpeg}"
+        when "png" then libpath.join PROP.path.build(), "images", "**", "*.png"
         else libpath.join PROP.path.app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
 
     index: ->

@@ -278,6 +278,25 @@ gulp.task "imagepreload", ->
       md5: false
     .pipe gulp.dest PROP.path.scripts("dest")
 
+
+gulp.task "png", ->
+  pngquant = require "imagemin-pngquant"
+  optipng = require "imagemin-optipng"
+  gulp.src PROP.path.images "png"
+    .pipe optipng optimizationLevel: 3
+    .pipe pngquant quality: "65-80", speed: 4
+    .pipe gulp.dest PROP.path.images "dest"
+
+
+gulp.task "jpg", ->
+  jpegoptim = require "imagemin-jpegoptim"
+  gulp.src PROP.path.images "jpg"
+    .pipe jpegoptim max: 70
+    .pipe gulp.dest PROP.path.images "dest"
+
+
+gulp.task "imagemin", ["png","jpg"]
+
 gulp.task "compress", ->
   gulp.src libpath.join PROP.path.build(), "**", "*.{html,js,css}"
     .pipe $.zopfli()
@@ -391,6 +410,7 @@ DEFAULT_TASK = do ->
   build.push "proxy" if PROP.isSrv
   build.push "open" if PROP.isSrv
   build.push "compress" unless PROP.isDev
+  build.push "imagemin" if PROP.isImageMin
   build
 
 
