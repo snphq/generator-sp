@@ -6,8 +6,10 @@ define (require, exports, module)->
     template:"#IndexPage"
     className:"index_page"
 
+    ui:
+      auth: "[data-js='auth']"
     events:
-      "click":"onClick"
+      "click @ui.auth":"onClick"
 
     onClick:->
      (new AuthModal).showModal()
