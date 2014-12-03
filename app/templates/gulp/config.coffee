@@ -83,10 +83,11 @@ PROP = do ->
         when "watch" then [
           libpath.join PROP.path.app, "styles", "**", "*.scss"
           libpath.join PROP.path.app, "scripts", "**", "*.scss"
+          libpath.join PROP.path.app, "styles", "vendor.css"
         ]
         else [
           libpath.join PROP.path.app, "styles", "main.scss"
-          libpath.join PROP.path.app, "styles", "vendor.scss"
+          libpath.join PROP.path.app, "styles", "vendor.css"
         ]
 
     extras: (prop)->

@@ -207,17 +207,19 @@ gulp.task "cssimage", ->
 gulp.task "styles", ["cssimage"], ->
   filter_vendor = $.filter "vendor.css"
   filter_main = $.filter "main.css"
-
+  filter_scss = $.filter "*.scss"
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
   ORDER = []
   gulp.src PROP.path.styles()
     .pipe $.if PROP.isNotify, $.plumber {errorHandler}
+    .pipe filter_scss
     .pipe $.sass includePaths: [PROP.path.styles("path")]
+    .pipe filter_scss.restore()
     .pipe filter_vendor
     .pipe $.resource("resources")
-    .pipe filter_vendor.restore(end:true)
+    .pipe filter_vendor.restore end:true
     .pipe $.sourcemaps.init()
     .pipe $.postcss [
       autoprefixer browsers:[
@@ -229,7 +231,6 @@ gulp.task "styles", ["cssimage"], ->
       mqpacker
       csswring
     ]
-
     .pipe through2.obj ((file, enc, cb)->
       ORDER.push file
       cb()
