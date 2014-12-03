@@ -9,6 +9,6 @@ module.exports =
     fallback: "index.html"
 
   open:
-    host: "0.0.0.0"
+    host: "localhost"
     port: 9000
     path: "/"
