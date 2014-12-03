@@ -1,8 +1,9 @@
 define (require, exports, module)->
   Backbone = require "backbone"
   BackboneMixin = require "backbone-mixin"
-  require "epoxy"
   ViewMixin = require "utils/ViewMixin"
+  require "epoxy"
 
-  Layout = BackboneMixin(Backbone.View).extend {}
-  ViewMixin Layout
+  SuperClass = BackboneMixin(Backbone.Epoxy.View)
+  Item = SuperClass.extend {}
+  ViewMixin Item
