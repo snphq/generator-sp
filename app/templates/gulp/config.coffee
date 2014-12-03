@@ -12,7 +12,7 @@ server = _.defaults cfg.server, {
 
 open = _.defaults cfg.open, {
   host: server.host
-  port: server.port
+  port: 9001 # server.port
   path: "/"
 }
 

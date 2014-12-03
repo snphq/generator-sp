@@ -334,7 +334,8 @@ gulp.task "server", ->
 gulp.task "proxy", ->
   http = require 'http'
   httpProxy = require 'http-proxy'
-  proxy = new httpProxy.RoutingProxy()
+
+  proxy = new httpProxy.createProxyServer()
   options = PROP.proxy || {} # @options()
   if "function" == typeof options.remotes
     options.remotes = options.remotes()
@@ -345,7 +346,7 @@ gulp.task "proxy", ->
   options.local =
     host: "localhost"
     port: PROP.server.port
-  PROP.server.port = options.port
+#  PROP.server.port = options.port
   server = http.createServer (req, res)=>
     routers = options.routers || {}
     destination = null
@@ -357,11 +358,9 @@ gulp.task "proxy", ->
     if destination != null
         opts =
           changeOrigin: true
-          host: destination.host,
-          port: destination.port
-        if destination.https is true
-          opts.target = https:true
-        proxy.proxyRequest req, res, opts
+        opts.target = "http" + (if destination.https then "s" else "") +
+          "://" + destination.host + ":" + destination.port
+        proxy.web req, res, opts
     else
       reqOptions = {
         hostname: options.local.host
@@ -376,11 +375,9 @@ gulp.task "proxy", ->
         else
           settingsSource = options.local
 
-        proxyOptions.host = settingsSource.host
-        proxyOptions.port = settingsSource.port
-        if settingsSource?.https
-          proxyOptions.target = {https: true}
-        proxy.proxyRequest req, res, proxyOptions
+        proxyOptions.target = "http" + (if settingsSource.https then "s" else "") +
+          "://" + settingsSource.host + ":" + settingsSource.port
+        proxy.web req, res, proxyOptions
 
       checkRequest.on 'socket', (socket)->
         socket.setTimeout 100
@@ -391,7 +388,7 @@ gulp.task "proxy", ->
       checkRequest.on 'error', (error, code)->
         console.log arguments[0]['code']
         console.log "#{error.code} #{error}"
-  server.listen(options.port);
+  server.listen(PROP.proxy.port);
 
 gulp.task "open", ->
   gulp.src PROP.path.index()
