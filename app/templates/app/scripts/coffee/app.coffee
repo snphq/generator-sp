@@ -44,6 +44,7 @@ define (require, exports, module)->
     start:->
       for sblock in sblocks_components
         common.sblocks.add sblock
+      common.sblocks.init $("body")
       layout = {}
       layout.header   = new Layout.HeaderLayout   el: "#header-layout"
       layout.content  = new Layout.ContentLayout  el: "#content-layout"
@@ -52,4 +53,7 @@ define (require, exports, module)->
       for key, item of layout
         item.showCurrent()
         this[key] = item
-      Backbone.history.start()
+      Backbone.history.start {
+      #  pushState: Modernizr.history
+      }
+
