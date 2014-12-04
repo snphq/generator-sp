@@ -12,9 +12,12 @@ server = _.defaults cfg.server, {
 
 open = _.defaults cfg.open, {
   host: server.host
-  port: server.port
+  port: 9001 # server.port
   path: "/"
 }
+
+g_mode = ->
+  gutil.env.mode || "dist"
 
 PROP = do ->
 
@@ -41,6 +44,33 @@ PROP = do ->
 
   open: ->
     url: "http://" + open.host + ":" + open.port + open.path
+
+  proxy:
+    port: 9001
+    remotes: (prop=g_mode()) -> (
+      dist:
+        active: true
+        host: "projectname.t.snpdev.ru"
+        port: 80
+        https: false
+      prod:
+        active: true
+        host: "google.ru"
+        port: 80
+        https: false
+      )[prop]
+    routers: (prop=g_mode()) -> (
+      dist:
+        "wiki/Main_Page$":
+          host:"en.wikipedia.org"
+          port:80
+          https:false
+      prod:
+        "wiki/Main_Page$":
+          host:"en.wikipedia.org"
+          port:80
+          https:false
+      )[prop]
 
   path: {
     app: cfg.app or "app"

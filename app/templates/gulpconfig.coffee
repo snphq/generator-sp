@@ -10,5 +10,5 @@ module.exports =
 
   open:
     host: "localhost"
-    port: 9000
+    port: 9001
     path: "/"
