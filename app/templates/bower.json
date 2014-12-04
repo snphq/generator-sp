@@ -17,7 +17,8 @@
     "bootstrap-sass-official": "~3.2.0",
     "cookies-js": "~1.0.0",
     "simple-blocks": "~0.0.3",
-    "fontawesome": "~4.2.0"
+    "fontawesome": "~4.2.0",
+    "reset-css": "*"
   },
   "resolutions": {
     "jquery": "~1.11.1",
