@@ -1,5 +1,6 @@
 gutil = require "gulp-util"
 libpath = require "path"
+through2 = require "through2"
 mainbowerfiles = require "main-bower-files"
 _ = require "lodash"
 cfg = require "./../.gulpconfig"
@@ -41,6 +42,50 @@ PROP = do ->
         when "dist" then "dist"
         when "prod" then "production"
         else "server"
+    options: ->
+      result =
+        basedir: PROP.path.app
+        pretty: PROP.isDev
+        data: jade_mode: PROP.jade.mode()
+        filters:{}
+      unless PROP.isDev
+        rev = require './plugins/rev'
+        result.parser = rev.jade_parser(
+          PROP.path.app
+          PROP.path.build()
+        )
+      result
+
+  amd:
+    _options:
+      preserveLicenseComments: false
+      useStrict: true
+      wrap: true
+      name: "main"
+    options: ->
+      opts = _.merge PROP.amd._options, {
+        baseUrl: PROP.path.scripts("dest")
+        out: PROP.path.scripts("out")
+      }
+    optionsExtract: through2.obj (file, enc, callback)->
+      rjs_content = """
+        var output;
+        var requirejs = require = function(){}
+        require.config = function (options) { output = options; }
+        var define = function () {};
+        #{file.contents.toString(enc)}
+        return output;
+      """
+      try
+        amd_options = _.merge PROP.amd.options(), Function(rjs_content)()
+        PROP.amd._options.paths = _.reduce amd_options.paths, ((memo, v, k)->
+          memo[k] = v.replace /^\.\.\/bower_components\//, "../../app/bower_components/"
+          memo
+        ), {}
+        @push file
+        callback()
+      catch e
+        callback e
 
   open: ->
     url: "http://" + open.host + ":" + open.port + open.path
