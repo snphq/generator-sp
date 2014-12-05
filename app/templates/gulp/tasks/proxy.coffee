@@ -4,6 +4,9 @@ PROP = require '../config'
 _ = require "lodash"
 module.exports = ->
   proxy = new httpProxy.createProxyServer()
+  proxy.on 'error', (err, req, res) ->
+    gutil.log gutil.colors.red err
+    res.end()
   options = PROP.proxy || {} # @options()
   if "function" == typeof options.remotes
     options.remotes = options.remotes()
