@@ -196,7 +196,7 @@ gulp.task "cssimage", ->
   folder = libpath.join PROP.path.app, "styles"
   gulp.src PROP.path.images()
     .pipe $.cssimage {
-      css: true
+      css: false
       scss: true
       prefix:"img_"
       root:"../images"
