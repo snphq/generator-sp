@@ -2,6 +2,9 @@ _ = require 'lodash'
 gulp = require "gulp"
 through2 = require "through2"
 helpers = require "../helpers"
+notifier = require "node-notifier"
+libpath = require "path"
+
 $ = helpers.gulpLoad [
   'if'
   'coffee'
