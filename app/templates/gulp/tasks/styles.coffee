@@ -19,7 +19,7 @@ PROP = require "../config"
 module.exports = ->
   filter_vendor = $.filter "vendor.css"
   filter_main = $.filter "main.css"
-  filter_scss = $.filter "*.scss"
+  filter_scss = $.filter "*.<%= csspreprocessor %>"
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"

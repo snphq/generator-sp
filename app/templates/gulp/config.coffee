@@ -156,12 +156,12 @@ PROP = do ->
         when "dest" then libpath.join PROP.path.build(), "styles"
         when "path" then libpath.join PROP.path.app, "bower_components"
         when "watch" then [
-          libpath.join PROP.path.app, "styles", "**", "*.scss"
-          libpath.join PROP.path.app, "scripts", "**", "*.scss"
+          libpath.join PROP.path.app, "styles", "**", "*.<%= csspreprocessor %>"
+          libpath.join PROP.path.app, "scripts", "**", "*.<%= csspreprocessor %>"
           libpath.join PROP.path.app, "styles", "vendor.css"
         ]
         else [
-          libpath.join PROP.path.app, "styles", "main.scss"
+          libpath.join PROP.path.app, "styles", "main.<%= csspreprocessor %>"
           libpath.join PROP.path.app, "styles", "vendor.css"
         ]
 
