@@ -59,7 +59,9 @@ gulprev.script = -> through2.obj (file, enc, callback)->
   callback()
 
 gulprev.extra = -> through2.obj (file, enc, callback)->
-  @push toRevFile file
+  CACHE[file.path] = file
+  file.orig_path = file.path
+  @push file
   callback()
 
 gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
@@ -72,7 +74,7 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
     urls = urldata decl.value
     rev_urls = _.map urls, (_url)->
       return if /^http/.test _url
-      return if _url.indexOf("base64,iVBORw0KG") > -1
+      return if _url.indexOf(";base64,") > -1
       if _url.indexOf("./") is 0
         url = _url
       else if _url.indexOf("/") is 0
