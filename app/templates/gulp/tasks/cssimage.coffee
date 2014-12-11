@@ -1,6 +1,7 @@
 gulp = require 'gulp'
 libpath = require 'path'
 cssimage = require 'gulp-css-image'
+PROP = require '../config'
 
 module.exports = ->
   folder = libpath.join PROP.path.app, "styles"
