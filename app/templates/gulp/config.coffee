@@ -87,6 +87,30 @@ PROP = do ->
       catch e
         callback e
 
+  sprites:
+    __mixinsAdded: false
+    __defaultOptions:
+      algorithm: 'binary-tree'
+      imgOpts:
+        format: 'png'
+      cssFormat: 'scss'
+    get: (name)->
+      settings = cfg.sprites[name] || {}
+      settings = _.extend {}, PROP.sprites.__defaultOptions, settings
+      settings.imgName ?= "#{name}.#{settings.imgOpts.format}"
+      settings.cssName ?= "_#{name}.#{settings.cssFormat}"
+      settings.imgPath ?= "/images/sprites/#{settings.imgName}"
+      settings.cssVarMap ?= (sprite)->
+        sprite.name = "#{name}-#{sprite.name}"
+        sprite
+      settings.cssOpts ?= {}
+      if settings.cssFormat in ['scss','sass'] and not PROP.sprites.__mixinsAdded
+        console.log 'sprites'
+        settings.cssOpts.functions = true
+        PROP.sprites.__mixinsAdded = true
+      settings
+
+
   open: ->
     url: "http://" + open.host + ":" + open.port + open.path
 
@@ -187,6 +211,12 @@ PROP = do ->
         when "jpg" then libpath.join PROP.path.build(), "images", "**", "*.{jpg,jpeg}"
         when "png" then libpath.join PROP.path.build(), "images", "**", "*.png"
         else libpath.join PROP.path.app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
+
+    sprites: (prop)->
+        switch prop
+          when "dest_images" then libpath.join PROP.path.build(), "images", "sprites"
+          when "dest_styles" then libpath.join PROP.path.app, "styles"
+          when "path" then libpath.join PROP.path.app, "images", "sprites"
 
     index: ->
       libpath.join PROP.path.build(), "index.html"

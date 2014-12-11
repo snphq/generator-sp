@@ -1,4 +1,6 @@
 notify = require "gulp-notify"
+gutil = require 'gulp-util'
+Stream = require 'stream'
 module.exports =
   gulpLoad: (libs)->
     wrap = {}
@@ -16,3 +18,12 @@ module.exports =
       sound:    "Beep"
     )(err)
     @emit "end"
+  emptyStream: (fileName)->
+    stream = Stream.Readable({ objectMode: true })
+    stream._read = ->
+      emptyBuffer = new gutil.File
+        contents: new Buffer("")
+        path: "/null/#{fileName}"
+      @push emptyBuffer
+      @push null
+    stream
