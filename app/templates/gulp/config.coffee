@@ -200,10 +200,7 @@ PROP = do ->
       switch prop
         when "dest" then libpath.join PROP.path.build(), "styles", "fonts"
         when "pattern" then libpath.join "**", "*.{eot,svg,ttf,woff,woff2}"
-        else
-          mainbowerfiles().concat [
-            libpath.join PROP.path.app, "styles", "fonts", PROP.path.fonts("pattern")
-          ]
+        else libpath.join PROP.path.app, "styles", "fonts", PROP.path.fonts("pattern")
 
     images: (prop)->
       switch prop
