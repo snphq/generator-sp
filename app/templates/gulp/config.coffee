@@ -143,8 +143,11 @@ PROP = do ->
 
   path: {
     app: cfg.app or "app"
-    clean: ->
-      [".tmp", "dist", "prod"]
+    clean: (prop=gutil.env.mode)->
+      switch prop
+        when "dist" then "dist"
+        when "prod" then "prod"
+        else ".tmp"
     build: (prop=gutil.env.mode)->
       switch prop
         when "dist" then "dist"
