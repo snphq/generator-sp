@@ -18,7 +18,8 @@ module.exports = ->
     app.use '/images', serveStatic "images"
   app.use serveIndex PROP.path.build()
 
-  http.createServer(app)
-    .listen PROP.server.port
-    .on "listening", ->
+  server = http.createServer(app)
+  server.listen(PROP.server.port)
+  server.on "listening", ->
       gutil.log gutil.colors.green "Started connect web server on http://localhost:#{PROP.server.port}"
+  null
