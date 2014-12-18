@@ -130,7 +130,7 @@ var ViewActions = {
       exts.forEach(function(ext){
         self.copy(
           template_name + '_list.' + ext,
-          packagePathList + normalize_name_list + '.' + ext
+          path.join(packagePathList, normalize_name_list + '.' + ext)
         );
         imports[ext].push(normalize_name_list);
       });
