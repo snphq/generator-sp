@@ -84,47 +84,30 @@ var ViewActions = {
     ViewActions.validateJade.call(this, view_path, imports, viewType);
     ViewActions.validateScss.call(this, view_path, imports);
   },
-  createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base, template_name){
-    template_name = template_name || 'view';
-    var self = this;
-    var rootPath = ViewActions.getRootPath.call(this, view_path);
-    var packagePath = rootPath + normalize_name + "/";
-    var packagePathList = rootPath + normalize_name_list + "/";
+
+  _createViewFiles: function(rootPath, template_name, normalize_name){
     var exts = ['coffee','scss','jade'];
-
-    var imports = ViewActions.getImports.call(this, view_path, _base);
-
-    this.mkdir(rootPath);
-
-    if(viewType !== "item" && viewType !== "list"){
-      exts.forEach(function(ext){
-        self.copy(
-          template_name + '.' + ext,
-          packagePath + normalize_name + '.' + ext
-        );
-        imports[ext].push(normalize_name);
-      });
-      return;
-    }
-    // generate list or item task
+    var self = this;
     exts.forEach(function(ext){
       self.copy(
-        template_name + '_item.' + ext,
+        template_name + '.' + ext,
         packagePath + normalize_name + '.' + ext
       );
-      imports[ext].push(normalize_name);
     });
+  },
+
+  createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base, template_name){
+    template_name = template_name || 'view';
+    var rootPath = ViewActions.getRootPath.call(this, view_path);
+    this.mkdir(rootPath);
+
+    ViewActions._createViewFiles.call(this, rootPath , template_name, normalize_name)
     if(viewType === "list"){
-      exts.forEach(function(ext){
-        self.copy(
-          template_name + '_list.' + ext,
-          packagePathList + normalize_name_list + '.' + ext
-        );
-        imports[ext].push(normalize_name_list);
-      });
+      ViewActions._createViewFiles.call(this, rootPath , template_name + '_list', normalize_name_list)
     }
 
-    ViewActions.validate.call(this, view_path, viewType, imports);
+    var imports = ViewActions.getImports.call(this, rootPath, _base);
+    ViewActions.validate.call(this, rootPath, viewType, imports);
   }
 };
 
