@@ -19,11 +19,25 @@ PROP = require "../config"
 module.exports = ->
   filter_vendor = $.filter "vendor.css"
   filter_main = $.filter "main.css"
-  filter_scss = $.filter "*.<%= csspreprocessor %>"
+  filter_scss = $.filter "*.sass"
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
   ORDER = []
+  postprocessors = [
+    autoprefixer browsers:[
+      "last 222 version"
+      "ie >= 8"
+      "ff >= 17"
+      "opera >=10"
+    ]
+  ]
+  if PROP.isDev
+    postprocessors = postprocessors.concat [
+      mqpacker
+      csswring
+    ]
+
   gulp.src PROP.path.styles()
     .pipe $.if PROP.isNotify, $.plumber {errorHandler: helpers.errorHandler}
     .pipe filter_scss
@@ -33,16 +47,7 @@ module.exports = ->
     .pipe $.resource("resources")
     .pipe filter_vendor.restore end:true
     .pipe $.sourcemaps.init()
-    .pipe $.postcss [
-      autoprefixer browsers:[
-        "last 222 version"
-        "ie >= 8"
-        "ff >= 17"
-        "opera >=10"
-      ]
-      mqpacker
-      csswring
-    ]
+    .pipe $.postcss postprocessors
     .pipe through2.obj ((file, enc, cb)->
       ORDER.push file
       cb()
