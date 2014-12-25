@@ -115,31 +115,9 @@ PROP = do ->
     url: "http://" + open.host + ":" + open.port + open.path
 
   proxy:
-    port: 9001
-    remotes: (prop=g_mode()) -> (
-      dist:
-        active: true
-        host: "projectname.t.snpdev.ru"
-        port: 80
-        https: false
-      prod:
-        active: true
-        host: "google.ru"
-        port: 80
-        https: false
-      )[prop]
-    routers: (prop=g_mode()) -> (
-      dist:
-        "wiki/Main_Page$":
-          host:"en.wikipedia.org"
-          port:80
-          https:false
-      prod:
-        "wiki/Main_Page$":
-          host:"en.wikipedia.org"
-          port:80
-          https:false
-      )[prop]
+    port: cfg.proxy.port or 9001
+    remotes: cfg.proxy.remotes[g_mode()]
+    routers: cfg.proxy.routers[g_mode()]
 
   path: {
     app: cfg.app or "app"
