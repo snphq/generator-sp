@@ -6,7 +6,7 @@
     "modernizr": "~2.8.2",
     "jquery": "~1.11.1",
     "backbone": "~1.1.1",
-    "backbone.epoxy": "https://github.com/gmac/backbone.epoxy.git#v1.2",
+    "backbone.epoxy": "~1.3.1",
     "backbone-mixin": "~0.3.5",
     "lodash": "~2.4.1",
     "sp-utils-middleware": "~0.0.4",
@@ -21,7 +21,6 @@
     "reset-css": "*"
   },
   "resolutions": {
-    "jquery": "~1.11.1",
-    "backbone.epoxy": "v1.2"
+    "jquery": "~1.11.1"
   }
 }
