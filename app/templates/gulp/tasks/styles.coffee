@@ -32,7 +32,7 @@ module.exports = ->
       "opera >=10"
     ]
   ]
-  if PROP.isDev
+  unless PROP.isDev
     postprocessors = postprocessors.concat [
       mqpacker
       csswring
