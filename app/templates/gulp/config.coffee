@@ -175,6 +175,7 @@ PROP = do ->
         when "dest" then PROP.path.build()
         else [
           libpath.join PROP.path.app, "*.*"
+          libpath.join PROP.path.app, "files", "**"
         ].concat( cfg.extras)
 
     fonts: (prop)->
