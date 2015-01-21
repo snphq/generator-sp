@@ -51,6 +51,7 @@
     "node-sass": "^1.2.3",
     "postcss": "^3.0.7",
     "postcss-import": "^4.1.0",
+    "postcss-url": "^1.2.3",
     "requirejs": "^2.1.15",
     "serve-index": "^1.5.3",
     "serve-static": "^1.7.1",

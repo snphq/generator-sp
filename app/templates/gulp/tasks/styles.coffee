@@ -23,6 +23,7 @@ module.exports = ->
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
+  postcssUrl = require "postcss-url"
   ORDER = []
   postprocessors = [
     autoprefixer browsers:[
@@ -36,6 +37,11 @@ module.exports = ->
     postprocessors = postprocessors.concat [
       mqpacker
       csswring
+      postcssUrl {
+        url: "inline"
+        maxSize: 12
+        basePath: "app/styles"
+      }
     ]
 
   gulp.src PROP.path.styles()
