@@ -12,5 +12,6 @@ app/bower_components
 /app/styles/vendor/*
 !/app/styles/vendor/_bootstrap.scss
 !/app/styles/vendor/__vendor.scss
+/app/styles/_sprites.scss
 app/scripts/view/**/*.css
 app/scripts/view/**/*.css.map

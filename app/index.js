@@ -3,7 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
-
+var _ = require('yeoman-generator/node_modules/lodash');
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -21,16 +21,29 @@ SpGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // have Yeoman greet the user.
-  console.log(this.yeoman);
 
   var prompts = [{
-    name:'capprojectname',
-    message:'Input project name for Capistrano',
+    name:"capprojectname",
+    message:"Input project name for Capistrano",
     default:"sp-project"
+  },{
+    name: "csspreprocessor",
+    type: "list",
+    message: "Choose preprocessor style:",
+    choices:[{
+      name: "sass",
+      value: "sass"
+    },{
+      name: "scss",
+      value: "scss"
+    }],
+    default: "sass"
   }];
 
   this.prompt(prompts, function (props) {
     this.capprojectname = props.capprojectname;
+    this.csspreprocessor = props.csspreprocessor;
+    this.config.set(props);
     cb();
   }.bind(this));
 };
@@ -45,8 +58,19 @@ SpGenerator.prototype.app = function app() {
   this.mkdir('config');
 
   this.directory('app/images','app/images');
+  //write styles
   this.directory('app/styles','app/styles');
+  ["_common", "_fonts", "_mixins"].forEach(function(styleitem){
+    self.fs.write(
+      path.join('app','styles', styleitem + "." + self.csspreprocessor), ""
+    );
+  });
+  this.copy(
+    path.join("app","_styles","main." + this.csspreprocessor),
+    path.join("app","styles","main." + this.csspreprocessor)
+  );
   this.directory('app/scripts/coffee', 'app/scripts');
+  this.directory("app/scripts/" + this.csspreprocessor, "app/scripts");
   this.directory('app/html/jade', 'app/html');
   this.copy("app/robots.txt","app/robots.txt");
   this.copy("app/favicon.ico","app/favicon.ico");
@@ -65,10 +89,14 @@ SpGenerator.prototype.cap = function cap(){
 }
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
-  this.directory('tasks','tasks');
-  this.bulkDirectory("grunt","grunt");
-  this.bulkCopy("Gruntfile.coffee","Gruntfile.coffee");
-
+  this.mkdir('gulp');
+  this.directory('gulp','gulp');
+  [
+    'gulpfile.js',
+  ].forEach(function(_p){
+    self.bulkCopy(_p, _p);
+  });
+  //copy configs
   [
     'README.md',
     'haproxy-config.txt',
@@ -78,9 +106,9 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     self.copy(path,path)
   });
 
-
+  //copy to dot files
   [
-    'gruntconfig.coffee',
+    'gulpconfig.coffee',
     'gitattributes',
     'gitignore',
     'bowerrc',

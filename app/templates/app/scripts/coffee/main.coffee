@@ -44,6 +44,8 @@ require.config
       exports:"PREPROCESS"
     bootstrap:
       deps:["jquery"]
+    _imagepreload:
+      exports: "PRELOADER"
 
 require ["app", "common"], (App, common) ->
   common.app = new App common
