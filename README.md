@@ -3,6 +3,7 @@
 
 [![Dependency Status](https://david-dm.org/snphq/generator-sp.png)](https://david-dm.org/snphq/generator-sp)
 [![devDependency Status](https://david-dm.org/snphq/generator-sp/dev-status.png)](https://david-dm.org/snphq/generator-sp#info=devDependencies)
+[![npm version](https://badge.fury.io/js/generator-sp.svg)](http://badge.fury.io/js/generator-sp)
 
 A generator for [Yeoman](http://yeoman.io).
 
