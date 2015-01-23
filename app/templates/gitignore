@@ -5,7 +5,6 @@ dist
 app/bower_components
 .idea
 /app/*.html
-/.gruntconfig.local.coffee
 /arhive
 /app/images/vendor/
 
