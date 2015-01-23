@@ -21,7 +21,6 @@ SpGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // have Yeoman greet the user.
-  console.log(this.yeoman);
 
   var prompts = [{
     name:"capprojectname",
