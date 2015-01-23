@@ -105,7 +105,6 @@ var ViewActions = {
       ViewActions.validateScss.call(this, view_path, imports);
     }
   },
-
   createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base, template_name){
     template_name = template_name || 'view';
     var self = this;
@@ -119,21 +118,13 @@ var ViewActions = {
 
     this.mkdir(rootPath);
 
-  _createViewFiles: function(rootPath, template_name, normalize_name){
-    var exts = ['coffee','scss','jade'];
-    var self = this;
     exts.forEach(function(ext){
       self.copy(
         template_name + '.' + ext,
         path.join(packagePath, normalize_name + '.' + ext)
       );
+      imports[ext].push(normalize_name);
     });
-  },
-
-  createView:function(view_path, normalize_name, normalize_name_list, viewType, viewTypeList, _base, template_name){
-    template_name = template_name || 'view';
-    var rootPath = ViewActions.getRootPath.call(this, view_path);
-    this.mkdir(rootPath);
 
     if(self.viewTypeList){
       exts.forEach(function(ext){
@@ -145,8 +136,7 @@ var ViewActions = {
       });
     }
 
-    var imports = ViewActions.getImports.call(this, rootPath, _base);
-    ViewActions.validate.call(this, rootPath, viewType, imports);
+    ViewActions.validate.call(this, view_path, viewType, imports);
   }
 };
 
