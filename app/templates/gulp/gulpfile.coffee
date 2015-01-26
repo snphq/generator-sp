@@ -20,7 +20,6 @@ gulp.task "imagemin.png", (require './tasks/imagemin').png
 gulp.task "imagemin.jpg", (require './tasks/imagemin').jpg
 gulp.task "imagemin", ['imagemin.png', 'imagemin.jpg']
 gulp.task "sprites", require './tasks/sprites'
-gulp.task "svg", require './tasks/svg'
 gulp.task "compress", require './tasks/compress'
 gulp.task "watch",  require './tasks/watch'
 gulp.task "server", require './tasks/server'
@@ -34,7 +33,6 @@ DEFAULT_TASK = do ->
   build.push "styles"
   build.push if PROP.isDev then "scripts" else "rjs"
   build.push "extras:js" unless PROP.isDev
-  build.push "svg"
   build.push "templates"
   build.push "server" if PROP.isSrv
   build.push "watch" if PROP.isSrv and PROP.isDev
@@ -43,7 +41,6 @@ DEFAULT_TASK = do ->
   build.push "compress" unless PROP.isDev
   build.push "imagemin" if PROP.isImageMin
   build
-
 
 gulp.task "debug", ->
   gutil.log gutil.colors.cyan JSON.stringify(DEFAULT_TASK, null, 4)

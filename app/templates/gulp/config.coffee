@@ -197,11 +197,6 @@ PROP = do ->
         when "dest_styles" then libpath.join PROP.path.app, "styles"
         when "path" then libpath.join PROP.path.app, "images", "sprites"
 
-    svg: (prop)->
-      switch prop
-        when "dest" then libpath.join PROP.path.app, "images", "_sprites"
-        else [libpath.join PROP.path.app, "images","svg","*.svg"]
-
     index: ->
       libpath.join PROP.path.build(), "index.html"
 
