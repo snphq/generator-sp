@@ -41,7 +41,7 @@ module.exports = ->
       postcssUrl({
         url: "inline"
         maxSize: 12
-        basePath: "app/styles"
+        #basePath: "app/styles"
       })
     ]
 
