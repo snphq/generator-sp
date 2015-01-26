@@ -12,7 +12,6 @@ $ = helpers.gulpLoad [
   'sourcemaps'
   'postcss'
   'concat'
-  'cached'
 ]
 
 PROP = require "../config"
@@ -52,7 +51,6 @@ module.exports = ->
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe filter_scss.restore()
     .pipe filter_vendor
-    .pipe $.cached("resources")
     .pipe $.resource("resources")
     .pipe filter_vendor.restore end:true
     .pipe $.sourcemaps.init()

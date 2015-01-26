@@ -12,7 +12,16 @@ sass = require "node-sass"
 toHash = (contents)->
   crypto.createHash("md5").update(contents).digest("hex")[..8]
 
+#cache log operation of import files
+localCache = {}
+
 resource = (vendor_folder="vendor", external_folter="app/bower_components")-> through2.obj (file, enc, cb)->
+  file_hash = toHash(file.contents)
+  if(data = localCache[file.path])
+    if file_hash is data.hash
+      @push data.file
+      return cb()
+
   resource.DATA.vendor_folder = vendor_folder
   resource.DATA.external_folter = external_folter
   try
@@ -39,6 +48,7 @@ resource = (vendor_folder="vendor", external_folter="app/bower_components")-> th
     gutil.log e
     result = ""
   file.contents = new Buffer(result)
+  localCache[file.path] = { hash: file_hash, file }
   @push file
   cb()
 
