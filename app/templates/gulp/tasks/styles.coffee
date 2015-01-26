@@ -12,6 +12,7 @@ $ = helpers.gulpLoad [
   'sourcemaps'
   'postcss'
   'concat'
+  'cached'
 ]
 
 PROP = require "../config"
@@ -37,11 +38,11 @@ module.exports = ->
     postprocessors = postprocessors.concat [
       mqpacker
       csswring
-      postcssUrl {
+      postcssUrl({
         url: "inline"
         maxSize: 12
         basePath: "app/styles"
-      }
+      })
     ]
 
   gulp.src PROP.path.styles()
@@ -50,6 +51,7 @@ module.exports = ->
     .pipe $.sass includePaths: [PROP.path.styles("path")]
     .pipe filter_scss.restore()
     .pipe filter_vendor
+    .pipe $.cached("resources")
     .pipe $.resource("resources")
     .pipe filter_vendor.restore end:true
     .pipe $.sourcemaps.init()
