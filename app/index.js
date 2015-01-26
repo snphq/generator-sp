@@ -108,7 +108,6 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     'gitignore',
     'bowerrc',
     'editorconfig',
-    'jshintrc',
     'coffeelintrc'
   ].forEach(function(path){
     self.copy(path,'.' + path)

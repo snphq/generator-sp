@@ -109,7 +109,6 @@ bowerrc
 .gitattributes
 .gitignore
 +.gulpconfig.json - важные настройки gulp
-.jshintrc
 +bower.json - конфигурационный файл bower, содержит список frontend библиотек и расширений подключенных к проекту
 +gulpfile.js - конфигурация gulp.
 +gulp - в данной директории хранятся файлы для конфигурации gulp
