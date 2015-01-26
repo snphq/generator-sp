@@ -18,9 +18,10 @@ $ = helpers.gulpLoad [
 PROP = require "../config"
 
 module.exports = ->
+  ext = PROP.path.styles("ext")
   filter_vendor = $.filter "vendor.css"
   filter_main = $.filter "main.css"
-  filter_scss = $.filter "*.sass"
+  filter_scss = $.filter "*.#{ext}"
   mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"

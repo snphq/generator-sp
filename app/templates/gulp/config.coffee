@@ -158,6 +158,7 @@ PROP = do ->
         else libpath.join PROP.path.app, "html", "**", "*.jade"
     styles: (prop)->
       switch prop
+        when "ext" then "<%= csspreprocessor %>"
         when "dest" then libpath.join PROP.path.build(), "styles"
         when "path" then libpath.join PROP.path.app, "bower_components"
         when "watch" then [
