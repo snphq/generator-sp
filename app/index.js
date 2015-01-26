@@ -7,11 +7,6 @@ var _ = require('yeoman-generator/node_modules/lodash');
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-
-  this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
-  });
-
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
@@ -118,7 +113,9 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
   ].forEach(function(path){
     self.copy(path,'.' + path)
   });
+};
 
-
-
+SpGenerator.prototype.install = function install(){
+  this.installDependencies({ skipInstall: this.options['skip-install'] });
+  //this.on('end', function () {});
 };
