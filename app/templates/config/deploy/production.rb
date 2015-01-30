@@ -9,3 +9,4 @@ set :user, "<%= capprojectname %>"
 set :group, "<%= capprojectname %>"
 set :password, '<--password-->'
 set :keep_releases, 5
+set :repository, 'prod'

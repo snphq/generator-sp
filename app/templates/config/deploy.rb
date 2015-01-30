@@ -4,7 +4,6 @@ set :stages, %w(testing production)
 set :default_stage, 'testing'
 
 set :application, "<%= capprojectname %>"
-set :repository, 'dist'
 
 set :deploy_to, "/var/www/#{application}/cs"
 set :use_sudo, false
