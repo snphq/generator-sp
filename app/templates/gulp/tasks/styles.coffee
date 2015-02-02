@@ -21,7 +21,6 @@ module.exports = ->
   filter_vendor = $.filter "vendor.css"
   filter_main = $.filter "main.css"
   filter_scss = $.filter "*.#{ext}"
-  mqpacker = require "css-mqpacker"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
   postcssUrl = require "postcss-url"
@@ -36,12 +35,10 @@ module.exports = ->
   ]
   unless PROP.isDev
     postprocessors = postprocessors.concat [
-      mqpacker
       csswring
       postcssUrl({
         url: "inline"
         maxSize: 12
-        #basePath: "app/styles"
       })
     ]
 
