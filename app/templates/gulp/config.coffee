@@ -17,6 +17,10 @@ open = _.defaults cfg.open, {
   path: "/"
 }
 
+cdn = _.defaults cfg.cdn, {
+  host: ""
+}
+
 g_mode = ->
   gutil.env.mode || "dist"
 
@@ -35,6 +39,7 @@ PROP = do ->
     {context}
 
   server: server
+  cdn: cdn
 
   jade:
     mode: (prop=gutil.env.mode)->

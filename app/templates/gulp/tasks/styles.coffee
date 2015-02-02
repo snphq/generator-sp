@@ -1,6 +1,6 @@
 gulp = require 'gulp'
 through2 = require 'through2'
-
+libpath = require "path"
 helpers = require "../helpers"
 $ = helpers.gulpLoad [
   'if'
@@ -19,7 +19,6 @@ PROP = require "../config"
 module.exports = ->
   ext = PROP.path.styles("ext")
   filter_vendor = $.filter "vendor.css"
-  filter_main = $.filter "main.css"
   filter_scss = $.filter "*.#{ext}"
   csswring = require "csswring"
   autoprefixer = require "autoprefixer-core"
@@ -63,9 +62,7 @@ module.exports = ->
       @push mainFile if mainFile?
       cb()
 
-    .pipe filter_main
-    .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest")
-    .pipe filter_main.restore(end:true)
+    .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest"), PROP.cdn.host
     .pipe $.concat("main.css")
     .pipe $.if !PROP.isDev, $.rev.cssrev()
     .pipe $.sourcemaps.write(".")

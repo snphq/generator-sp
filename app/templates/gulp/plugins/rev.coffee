@@ -26,6 +26,9 @@ toRevFile = (file)->
   file.path = toRevPath file.orig_path, hash
   file
 
+toCdn = (url, path="", host)->
+  host + libpath.join "/" + path, url
+
 toReplace = (orig, _new, source=orig)->
   quest = orig.indexOf("?")
   hash = orig.indexOf("#")
@@ -64,7 +67,7 @@ gulprev.extra = -> through2.obj (file, enc, callback)->
   @push file
   callback()
 
-gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
+gulprev.css = (root=".", host="")-> through2.obj (file, enc, callback)->
   filedir = libpath.dirname file.path
   postcss_processor = (css)-> css.eachDecl (decl, data)->
     is_prop = decl.prop.indexOf("background") is 0 or
@@ -72,6 +75,7 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
         decl.prop.indexOf("src") is 0
     return unless is_prop and decl.value.indexOf("url") >= 0
     urls = urldata decl.value
+    notfound = []
     rev_urls = _.map urls, (_url)->
       return if /^http/.test _url
       return if _url.indexOf(";base64,") > -1
@@ -88,19 +92,28 @@ gulprev.css = (root=".")-> through2.obj (file, enc, callback)->
       ext = libpath.extname(absurl).toLowerCase()
       #relative path
       relurl = libpath.relative root, absurl
-
       _file = CACHE[absurl]
 
       unless _file
         gutil.log("gulprev.css can't find #{absurl}")
+        notfound.push _url
         return
-      return if absurl is _file.path
+      if absurl is _file.path
+        notfound.push _url
+        return
       libpath.relative root, _file.path
+
+    notfound.forEach (url)->
+      return if url.indexOf(";base64,") > -1
+      cdn = toCdn url, "styles", host
+      value = toReplace url, cdn, decl.value
+      decl.value = value
 
     value = decl.value
     for i in [0..rev_urls.length-1]
       if r_url = rev_urls[i]
-        value = toReplace urls[i], rev_urls[i], value
+        cdn = toCdn rev_urls[i], "styles", host
+        value = toReplace urls[i], cdn, value
     decl.value = value
 
   css_result = postcss(postcss_processor)
@@ -115,20 +128,27 @@ gulprev.cssrev = -> through2.obj (file, enc, callback)->
   @push file
   callback()
 
-gulprev.jade_parser = (resource=".", output=".")->
+gulprev.jade_parser = (resource=".", output=".", host="")->
   P = require("jade").Parser
   parseExpr = P::parseExpr
   processAttr = (attr)->
     val = attr.val.replace /[\'\"]/g, ""
-    if val[0] is "/" then val = val[1..]
+    if val[0] is "/"
+      rootSlash = true
+      val = val[1..]
     absurl = libpath.resolve resource, val
     absurl = absurl.split("#")[0].split("?")[0]
     _file = CACHE[absurl]
     unless _file
       gutil.log("gulprev.jade_parser can't find #{absurl}")
+      unless val.indexOf(";base64,") > -1
+        cdn = toCdn val, "", host
+        attr.val = toReplace val, cdn, attr.val
       return attr
     relurl = libpath.relative output, _file.path
-    attr.val = toReplace val, relurl, attr.val
+    cdn = toCdn relurl, "", host
+    _val = if rootSlash then "/#{val}" else val
+    attr.val = toReplace _val, cdn, attr.val
     attr
 
   P::parseExpr = ->
@@ -136,15 +156,15 @@ gulprev.jade_parser = (resource=".", output=".")->
 
     rxResource = /\.(jpg|jpeg|png|gif|webp|svg|ico|js|css|woff|oef|ttf|bmp)/
     switch res.name
-      when "img" then res.attrs.forEach (attr)->
+      when "img" then res.attrs?.forEach (attr)->
         return unless attr.name is "src"
         processAttr attr
 
-      when "link" then res.attrs.forEach (attr)->
+      when "link" then res.attrs?.forEach (attr)->
         return unless attr.name is "href"
         processAttr attr
 
-      when "script" then res.attrs.forEach (attr)->
+      when "script" then res.attrs?.forEach (attr)->
         if attr.name is "src"
           processAttr attr
         else if attr.name is "data-main"

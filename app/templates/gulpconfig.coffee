@@ -13,6 +13,9 @@ module.exports =
     port: 9001
     path: "/"
 
+  cdn:
+    host: ""
+
   # Use spritesmith options to configure for each sprite   https://github.com/twolfson/gulp.spritesmith#documentation
   sprites: {
     # icons:
