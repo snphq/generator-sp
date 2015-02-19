@@ -190,12 +190,20 @@ PROP = do ->
         when "pattern" then libpath.join "**", "*.{eot,svg,ttf,woff,woff2}"
         else libpath.join PROP.path.app, "styles", "fonts", PROP.path.fonts("pattern")
 
+
     images: (prop)->
       switch prop
         when "dest" then libpath.join PROP.path.build(), "images"
         when "jpg" then libpath.join PROP.path.build(), "images", "**", "*.{jpg,jpeg}"
         when "png" then libpath.join PROP.path.build(), "images", "**", "*.png"
+        when "dest_src" then libpath.join PROP.path.build(), "images", "**", "*.{gif,png,jpg,jpeg,webp}"
         else libpath.join PROP.path.app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
+
+    images_preload:->
+      if PROP.isDEV
+        PROP.path.images()
+      else
+        PROP.path.images("dest_src")
 
     sprites: (prop)->
       switch prop
