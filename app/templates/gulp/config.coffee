@@ -200,7 +200,7 @@ PROP = do ->
         else libpath.join PROP.path.app, "images", "**", "*.{gif,png,jpg,jpeg,webp}"
 
     images_preload:->
-      if PROP.isDEV
+      if PROP.isDev
         PROP.path.images()
       else
         PROP.path.images("dest_src")
