@@ -11,11 +11,6 @@ server = _.defaults cfg.server, {
   fallback: "index.html"
 }
 
-open = _.defaults cfg.open, {
-  host: server.host
-  port: 9001 # server.port
-  path: "/"
-}
 
 cdn = _.defaults cfg.cdn, {
   host: ""
@@ -163,16 +158,16 @@ PROP = do ->
         else libpath.join PROP.path.app, "html", "**", "*.jade"
     styles: (prop)->
       switch prop
-        when "ext" then "<%= csspreprocessor %>"
+        when "ext" then "sass"
         when "dest" then libpath.join PROP.path.build(), "styles"
         when "path" then libpath.join PROP.path.app, "bower_components"
         when "watch" then [
-          libpath.join PROP.path.app, "styles", "**", "*.<%= csspreprocessor %>"
-          libpath.join PROP.path.app, "scripts", "**", "*.<%= csspreprocessor %>"
+          libpath.join PROP.path.app, "styles", "**", "*.sass"
+          libpath.join PROP.path.app, "scripts", "**", "*.sass"
           libpath.join PROP.path.app, "styles", "vendor.css"
         ]
         else [
-          libpath.join PROP.path.app, "styles", "main.<%= csspreprocessor %>"
+          libpath.join PROP.path.app, "styles", "main.sass"
           libpath.join PROP.path.app, "styles", "vendor.css"
         ]
 
@@ -218,7 +213,6 @@ PROP = do ->
       build = PROP.path.build()
       [
         libpath.join build, "**/*.html"
-        libpath.join build, "styles", "**/*.css"
         libpath.join build, "scripts", "**/*.js"
         libpath.join PROP.path.app, "images", "**/*"
       ]

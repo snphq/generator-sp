@@ -2,6 +2,7 @@ gulp = require 'gulp'
 through2 = require 'through2'
 libpath = require "path"
 helpers = require "../helpers"
+browserSync = require('browser-sync')
 $ = helpers.gulpLoad [
   'if'
   'filter'
@@ -64,6 +65,7 @@ module.exports = ->
 
     .pipe $.if !PROP.isDev, $.rev.css PROP.path.styles("dest"), PROP.cdn.host
     .pipe $.concat("main.css")
+    .pipe browserSync.reload {stream: true}
     .pipe $.if !PROP.isDev, $.rev.cssrev()
     .pipe $.sourcemaps.write(".")
     .pipe gulp.dest PROP.path.styles("dest")

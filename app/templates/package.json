@@ -5,9 +5,8 @@
   "devDependencies": {
     "async": "^0.9.0",
     "autoprefixer-core": "^5.1.0",
+    "browser-sync": "^2.2.1",
     "coffee-script": "^1.9.0",
-    "connect": "^3.3.3",
-    "connect-livereload": "^0.5.1",
     "csswring": "^3.0.0",
     "del": "^1.1.1",
     "gulp": "^3.8.10",
@@ -24,7 +23,6 @@
     "gulp-jade": "^0.11.0",
     "gulp-livereload": "^3.6.0",
     "gulp-notify": "^2.2.0",
-    "gulp-open": "^0.3.1",
     "gulp-plumber": "^0.6.6",
     "gulp-postcss": "^4.0.3",
     "gulp-preprocess": "^1.2.0",
@@ -51,8 +49,6 @@
     "postcss-import": "^5.0.0",
     "postcss-url": "^2.0.0",
     "requirejs": "^2.1.15",
-    "serve-index": "^1.5.3",
-    "serve-static": "^1.7.1",
     "through2": "^0.6.3",
     "urldata": "0.0.1",
     "vinyl-paths": "^1.0.0"
