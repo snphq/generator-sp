@@ -12,7 +12,7 @@ gulp.task "rjs", ["scripts"],  require './tasks/rjs'
 gulp.task "fonts", require './tasks/fonts'
 gulp.task "images", require './tasks/images'
 gulp.task "cssimage", require './tasks/cssimage'
-gulp.task "styles", ["cssimage"], require './tasks/styles'
+gulp.task "styles", require './tasks/styles'
 gulp.task "extras", require './tasks/extras'
 gulp.task "extras:js", require './tasks/extras-js'
 gulp.task "imagepreload", require './tasks/imagepreload'
@@ -29,6 +29,7 @@ DEFAULT_TASK = do ->
   build = ["clean"]
   build.push ["images", "fonts", "extras"] unless PROP.isDev
   build.push "sprites"
+  build.push "cssimage"
   build.push "styles"
   build.push if PROP.isDev then "scripts" else "rjs"
   build.push "extras:js" unless PROP.isDev
