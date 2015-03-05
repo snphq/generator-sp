@@ -78,7 +78,7 @@ gulprev.css = (root=".", host="")-> through2.obj (file, enc, callback)->
     notfound = []
     rev_urls = _.map urls, (_url)->
       return if /^http/.test _url
-      return if _url.indexOf(";base64,") > -1
+      return if /^data\:image\//.test _url
       if _url.indexOf("./") is 0
         url = _url
       else if _url.indexOf("/") is 0
