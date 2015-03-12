@@ -34,7 +34,7 @@
     "gulp-util": "^3.0.1",
     "gulp-watch": "^4.1.0",
     "gulp-zopfli": "^0.1.1",
-    "gulp.spritesmith": "^1.4.0",
+    "gulp.spritesmith": "^3.2.0",
     "http-proxy": "^1.8.1",
     "imagemin-jpegoptim": "^3.1.0",
     "imagemin-optipng": "^3.1.0",
