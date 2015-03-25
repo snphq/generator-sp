@@ -160,21 +160,22 @@ FBApi = ($,_)->
       async = $.Deferred()
       @getFB()
         .done (FB)->
-          FB.api "me/albums?fields=created_time,updated_time,id,photos.limit(1),count", (response)->
+          FB.api "me/albums?fields=created_time,name,updated_time,id,photos.limit(1),count", (response)->
             parsed = new Array()
-            _.each response.data, (value, index)->
-              thumb = _.chain value.photos.data[0].images
+            _ response.data
+            .filter (i)-> i.photos?
+            .each (value, index)->
+              thumb = _.chain value.photos.data?[0].images
               .filter (item)-> item.height < 500 and item.width < 500
               .max (item)-> item.width
               .value()
               thumb_src = thumb.source
-              # debugger
               parsed.push
                 id: value.object_id
                 title: value.name
                 # owner_id: value.owner
                 size: parseInt(value.count)
-                thumb_id: value.photos.data[0].id
+                thumb_id: value.photos.data?[0].id
                 thumb_src: thumb_src
                 created: new Date value.created_time
                 updated: new Date value.updated_time
