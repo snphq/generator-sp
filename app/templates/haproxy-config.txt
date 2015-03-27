@@ -22,7 +22,7 @@ frontend incoming
   bind *:80
 
   acl is_backend path_reg ^\/(api|auth|admin|assets|system|rich).*$
-  acl is_frontend path_reg ^\/(bower_components|resources|images|files|scripts|styles|favicon\.ico|robots\.txt|livereload\.js).*$
+  acl is_frontend path_reg ^\/(bower_components|resources|browser\-sync|images|files|scripts|styles|favicon\.ico|robots\.txt|livereload\.js).*$
 
   use_backend www_api_backend  if is_backend
   use_backend www_frontend     if is_frontend
