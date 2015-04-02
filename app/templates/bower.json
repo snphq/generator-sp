@@ -9,7 +9,7 @@
     "backbone.epoxy": "~1.3.1",
     "backbone-mixin": "~0.3.5",
     "lodash": "~2.4.1",
-    "snp-component-sass-mixins": "~0.0.1",
+    "snp-component-sass-mixin": "~0.0.1",
     "sp-utils-middleware": "~0.0.4",
     "sp-utils-serverclient": "~0.0.5",
     "sp-utils-gaconstructor": "~0.0.7",
