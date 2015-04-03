@@ -8,6 +8,7 @@ define (require, exports, module)->
   Page = require "view/page"
   Widget = require "view/widget"
   cookies = require "cookies"
+  # require "utils/jqueryPatch"  # uncoment if You need touch-click support
   #GAConstructor = require "sp-utils-gaconstructor"
   #UserModel = require "model/UserModel"
   #social = require "packages/social"
