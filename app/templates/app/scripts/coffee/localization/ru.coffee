@@ -1,4 +1,4 @@
-define ["localization/Localization"],(Localization)->
+define ['localization/Localization'], (Localization)->
   class RuLocalization extends Localization
     LANG:
-      translate:"перевод"
+      translate: 'перевод'

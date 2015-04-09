@@ -1,5 +1,5 @@
 define (require, exports, module)->
-  common = require "common"
+  common = require 'common'
 
   constructor = (SuperClass)->
     SuperClass.extend
@@ -9,7 +9,7 @@ define (require, exports, module)->
         @render = ->
           result = render.apply this, arguments
           common.sblocks.init @$el
-          @$el.addClass "view-mixin"
+          @$el.addClass 'view-mixin'
           result
 
         remove = @remove

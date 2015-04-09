@@ -1,15 +1,15 @@
-define ["underscore"],(_)->
+define ['underscore'], (_)->
   class Localization
 
-    LANG:{}
+    LANG: {}
 
-    get:(path, args...)->
-      path = path.split(".")
+    get: (path, args...)->
+      path = path.split '.'
       iter = @LANG
       for step in path
         unless(iter=iter[step])
           console.error path
-          return ""
+          return ''
       if _.isFunction(iter)
         iter.apply null, args
       else
