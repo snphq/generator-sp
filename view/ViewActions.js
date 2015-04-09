@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
+var mkdirp = require('mkdirp');
 var _ = require('yeoman-generator/node_modules/lodash');
 
 var ViewActions = {
@@ -116,7 +117,7 @@ var ViewActions = {
 
     var imports = ViewActions.getImports.call(this, view_path, _base);
 
-    this.mkdir(rootPath);
+    mkdirp(rootPath);
 
     exts.forEach(function(ext){
       self.copy(

@@ -2,12 +2,14 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
+var mkdirp = require('mkdirp');
 var fs = require('fs');
+var readFileAsString = require("html-wiring").readFileAsString;
 var _ = require('yeoman-generator/node_modules/lodash');
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+  this.pkg = JSON.parse(readFileAsString(path.join(__dirname, '../package.json')));
 };
 
 util.inherits(SpGenerator, yeoman.generators.Base);
@@ -45,12 +47,12 @@ SpGenerator.prototype.askFor = function askFor() {
 
 SpGenerator.prototype.app = function app() {
   var self = this;
-  this.mkdir('app');
-  this.mkdir('app/html');
-  this.mkdir('app/scripts');
-  this.mkdir('app/files');
+  mkdirp('app');
+  mkdirp('app/html');
+  mkdirp('app/scripts');
+  mkdirp('app/files');
 
-  this.mkdir('config');
+  mkdirp('config');
 
   this.directory('app/images','app/images');
   //write styles
@@ -84,7 +86,7 @@ SpGenerator.prototype.cap = function cap(){
 }
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
-  this.mkdir('gulp');
+  mkdirp('gulp');
   this.directory('gulp','gulp');
   [
     'gulpfile.js',

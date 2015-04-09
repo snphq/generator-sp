@@ -35,7 +35,7 @@ CollectionGenerator.prototype.files = function files() {
     this.normalize_name = capitalize(this.name) + "Collection"
     this.copy('collection.coffee',  'app/scripts/collection/' + this.normalize_name + '.coffee');
     if(this.model_generate){
-      this.invoke("sp:model",{
+      this.composeWith("sp:model",{
         args:[this.name]
       });
     }
