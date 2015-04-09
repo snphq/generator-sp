@@ -7,24 +7,24 @@ OKApi = ($, _, md5)->
       sortedParams += "#{_.first(value)}=#{_.last(value)}" + symbol
     sortedParams
 
-  okSignature = (postData,sessionSecret,application_key) ->
+  okSignature = (postData, sessionSecret, application_key) ->
     data = _.extend {application_key}, postData
     sortedParams = parametrize(data)
     md5(sortedParams + sessionSecret)
 
   class OKApi
-    constructor:(@appId, @appKey)->
+    constructor: (@appId, @appKey)->
       @OK_COOKIE = "okas_#{@appId}"
       @OKSR_COOKIE = "oksr_#{@appId}"
       @reset()
 
-    reset:->
+    reset: ->
       @isAuth = false
       @user = null
 
-    _getRoles:->
+    _getRoles: ->
 
-    getOK:->
+    getOK: ->
       async=$.Deferred()
       authData = $.cookie @OK_COOKIE
       @isAuth = !!authData
@@ -34,16 +34,16 @@ OKApi = ($, _, md5)->
           data = authData.split '%3B'
         if data.length is 2
           async.resolve
-            secret:data[0]
-            token:data[1]
+            secret: data[0]
+            token: data[1]
         else
           async.reject "not valid authData:#{authData}"
       else
-        async.reject "no ok auth"
+        async.reject 'no ok auth'
       async.promise()
 
     makeRequest: (session, method, postData)->
-      unless session? then throw new Error("no session")
+      unless session? then throw new Error('no session')
       sig = okSignature postData, session.secret, @appKey
       requestedData = _.extend {
         access_token: session.token
@@ -52,18 +52,18 @@ OKApi = ($, _, md5)->
       }, postData
 
       $.ajax
-        url: "/odnoklassniki/fb.do"
+        url: '/odnoklassniki/fb.do'
         type: method
         data: requestedData
         dataType: 'json'
 
-    login:->
+    login: ->
       async = $.Deferred()
       @getOK()
         .done ->
           async.resolve true
         .fail (err)->
-          window.open "/users/auth/odnoklassniki", "ok_auth"
+          window.open '/users/auth/odnoklassniki', 'ok_auth'
           window.callAuthSuccess = ->
             window.callAuthSuccess = null
             window.callAuthFail = null
@@ -76,14 +76,14 @@ OKApi = ($, _, md5)->
 
       async.promise()
 
-    checkAuth:-> @getOK()
+    checkAuth: -> @getOK()
 
-    getUser:->
+    getUser: ->
       async = $.Deferred()
       unless @user?
         @getOK()
           .done (session)=>
-            requestAsync = @makeRequest session, 'GET',{
+            requestAsync = @makeRequest session, 'GET', {
               method: 'users.getCurrentUser'
             }
             requestAsync
@@ -92,15 +92,15 @@ OKApi = ($, _, md5)->
                 try
                   birthday = new Date r.birthday
                 @user =
-                  id:data.uid
+                  id: data.uid
                   first_name: data.first_name
                   last_name: data.last_name
-                  username:data.name
+                  username: data.name
                   gender: data.gender
-                  avatar:data.pic_1
+                  avatar: data.pic_1
                   avatar_url: data.pic_2
                   birthday: birthday
-                  soc_type: "ok"
+                  soc_type: 'ok'
                 async.resolve @user
               .fail (err)->
                 async.reject err
@@ -110,7 +110,7 @@ OKApi = ($, _, md5)->
         async.resolve @user
       async.promise()
 
-    logout:->
+    logout: ->
       async = $.Deferred()
       $.removeCookie @OK_COOKIE
       $.removeCookie @OKSR_COOKIE
@@ -118,7 +118,7 @@ OKApi = ($, _, md5)->
       async.resolve()
       async.promise()
 
-    getAlbums:->
+    getAlbums: ->
       async = $.Deferred()
       @getOK()
         .done (session)=>
@@ -134,7 +134,7 @@ OKApi = ($, _, md5)->
                   thumb_src = item.pic640x480 or item.pic128x128
                 item.album_id = item.aid
                 item.thumb_src = thumb_src
-                item.title = ""
+                item.title = ''
                 item
               async.resolve data
             .fail (err)->
@@ -143,7 +143,7 @@ OKApi = ($, _, md5)->
           async.reject err
       async.promise()
 
-    getPhotos:(album_id)->
+    getPhotos: (album_id)->
       async = $.Deferred()
       @getOK()
         .done (session)=>
@@ -164,6 +164,6 @@ OKApi = ($, _, md5)->
       async.promise()
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
-  define ["jquery","underscore","md5","jquery.cookie"],($, _, md5)-> OKApi($, _, md5)
+  define ['jquery', 'underscore', 'md5', 'jquery.cookie'], ($, _, md5)-> OKApi($, _, md5)
 else
   window.OKApi = OKApi($, _, md5)

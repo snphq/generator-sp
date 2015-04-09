@@ -1,42 +1,41 @@
-FBApi = ($,_)->
+FBApi = ($, _)->
   class FBApi
-    constructor:(@appId)->
+    constructor: (@appId)->
       @reset()
       @appId = appId
       @timeout = null
       @TIMEOUT_WAIT = 10000
 
-    reset:->
+    reset: ->
       @isAuth = false
       @user = null
 
-    _getRoles:(FB)->
-      ""
+    _getRoles: (FB)-> ''
 
-    _startWaitResponse:(callback)->
+    _startWaitResponse: (callback)->
       @_stopWaitResponse()
       @timeout = setTimeout (=>
         callback()
         @timeout = null
-      ),@TIMEOUT_WAIT
+      ), @TIMEOUT_WAIT
 
-    _stopWaitResponse:->
+    _stopWaitResponse: ->
       clearTimeout @timeout if @timeout?
 
-    _getStatus:(async,FB)->
+    _getStatus: (async, FB)->
       @_startWaitResponse ->
-        async.reject "not FB connect",FB
+        async.reject 'not FB connect', FB
 
       FB.getLoginStatus (r)=>
         @_stopWaitResponse()
-        if r.status is "connected"
+        if r.status is 'connected'
           @isAuth = true
           async.resolve FB
         else
           @reset()
-          async.reject "not auth FB", FB
+          async.reject 'not auth FB', FB
 
-    checkAuth:->
+    checkAuth: ->
       async = $.Deferred()
       @getFB().always (data)=>
         if @isAuth
@@ -45,23 +44,23 @@ FBApi = ($,_)->
           async.reject data
       async.promise()
 
-    login:->
+    login: ->
       async = $.Deferred()
-      @getFB().always (authFB,notAuthFB)=>
+      @getFB().always (authFB, notAuthFB)=>
         if(FB=notAuthFB)
           FB.login ((r)=>
-            if r.status is "connected"
+            if r.status is 'connected'
               @isAuth = true
               async.resolve FB
             else
               @reset()
-              async.reject "not auth FB"
-          ),scope:@_getRoles(FB)
+              async.reject 'not auth FB'
+          ), scope: @_getRoles(FB)
         else
           async.resolve FB
       async.promise()
 
-    logout:->
+    logout: ->
       async = $.Deferred()
       @getFB()
         .done (FB)=>
@@ -76,25 +75,25 @@ FBApi = ($,_)->
           async.reject err
       async.promise()
 
-    getFB:->
+    getFB: ->
       async = $.Deferred()
       unless @_$_FB?
         setTimeout (->
-          el = document.createElement "script"
-          el.type = "text/javascript"
-          el.src = "//connect.facebook.net/ru_RU/all.js"
+          el = document.createElement 'script'
+          el.type = 'text/javascript'
+          el.src = '//connect.facebook.net/ru_RU/all.js'
           el.async = true
-          document.getElementsByTagName("body")[0].appendChild el
+          document.getElementsByTagName('body')[0].appendChild el
         ), 0
         window.fbAsyncInit = =>
           window.fbAsyncInit = null
           @_$_FB = FB = window.FB
           FB.init
-            appId:@appId
+            appId: @appId
             status: true
             cookie: true
-            xfbml : true
-            oauth : true
+            xfbml: true
+            oauth: true
           @_getStatus async, FB
       else if @isAuth
         async.resolve @_$_FB
@@ -102,7 +101,7 @@ FBApi = ($,_)->
         @_getStatus async, @_$_FB
       async.promise()
 
-    getUser:->
+    getUser: ->
       async = $.Deferred()
       if @user?
         async.resolve @user, FB
@@ -115,7 +114,7 @@ FBApi = ($,_)->
                 try
                   rx = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
                   rpl = '$3-$1-$2'
-                  birthday = new Date r.birthday.replace(rx,rpl)
+                  birthday = new Date r.birthday.replace(rx, rpl)
                 @user =
                   id: r.id
                   first_name: r.first_name
@@ -125,42 +124,42 @@ FBApi = ($,_)->
                   avatar: "https://graph.facebook.com/#{r.id}/picture?type=square"
                   gender: r.gender
                   birthday: birthday
-                  soc_type:"fb"
-                async.resolve @user,FB
+                  soc_type: 'fb'
+                async.resolve @user, FB
           .fail (err)->
             async.reject err
       async.promise()
 
-    postWall:(options)->
+    postWall: (options)->
       { title, description, link, image } = _.defaults options, {
-        title:""
-        description:""
-        link:""
-        image:""
+        title: ''
+        description: ''
+        link: ''
+        image: ''
       }
       async = $.Deferred()
       @getFB()
         .done (FB)->
           FB.ui {
-           method: 'feed'
-           name: title
-           caption: ''
-           description: description
-           link: link
-           picture: image
-          },(r)->
-            return async.reject("null responce") if !r
+            method: 'feed'
+            name: title
+            caption: ''
+            description: description
+            link: link
+            picture: image
+          }, (r)->
+            return async.reject('null responce') if !r
             return async.reject(r.error) if !!r.error
             async.resolve r.post_id
         .fail (err)->
           async.reject err
       async.promise()
 
-    getAlbums:->
+    getAlbums: ->
       async = $.Deferred()
       @getFB()
         .done (FB)->
-          FB.api "me/albums?fields=created_time,name,updated_time,id,photos.limit(1),count", (response)->
+          FB.api 'me/albums?fields=created_time,name,updated_time,id,photos.limit(1),count', (response)->
             parsed = new Array()
             _ response.data
             .filter (i)-> i.photos?
@@ -187,7 +186,7 @@ FBApi = ($,_)->
         .fail (err)->
           async.reject(err)
       async.promise()
-    getPhotos:(album_id)->
+    getPhotos: (album_id)->
       async = $.Deferred()
       @getFB()
         .done (FB)->
@@ -198,6 +197,6 @@ FBApi = ($,_)->
       async.promise()
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
-  define ["jquery","underscore"],($, _)-> FBApi($,_)
+  define ['jquery', 'underscore'], ($, _)-> FBApi($, _)
 else
-  window.FBApi = FBApi($,_)
+  window.FBApi = FBApi($, _)
