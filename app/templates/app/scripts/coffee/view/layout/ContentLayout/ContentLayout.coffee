@@ -1,5 +1,5 @@
 define (require, exports, module)->
-  Layout = require "../_Layout"
+  Layout = require '../_Layout'
 
   ContentLayout = Layout.extend
-    initialize:->
+    initialize: ->
