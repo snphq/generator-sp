@@ -4,7 +4,7 @@ define [
   'common'
   'view/page'
   'view/modal'
-],(
+], (
   Backbone
   Middleware
   common
@@ -12,13 +12,13 @@ define [
   Modal
 )->
 
-  showPage=(View,options={},callback)->
+  showPage=(View, options={}, callback)->
     common.app.content.show View, options, ->
       view = common.app.content.getViewDI View
       callback? view
 
   class MiddlewareRouter extends Middleware
-    auth:(async,args)->
+    auth:(async, args)->
       async.resolve 'auth'
 
   middleware = new MiddlewareRouter
@@ -26,9 +26,9 @@ define [
   Router = Backbone.Router.extend
 
     routes:
-      '':'index'
+      '': 'index'
       '!/404': 'error404'
-      '*default':'default_router'
+      '*default': 'default_router'
 
     index: middleware.wrap ->
       view = showPage Page.IndexPage
@@ -37,4 +37,4 @@ define [
       showPage Page.Error404Page
 
     default_router:->
-      @navigate '!/404', {trigger:true,replace:true}
+      @navigate '!/404', {trigger: true, replace: true}
