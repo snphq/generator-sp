@@ -1,9 +1,9 @@
 define [
-  "backbone"
-  "sp-utils-middleware"
-  "common"
-  "view/page"
-  "view/modal"
+  'backbone'
+  'sp-utils-middleware'
+  'common'
+  'view/page'
+  'view/modal'
 ],(
   Backbone
   Middleware
@@ -19,16 +19,16 @@ define [
 
   class MiddlewareRouter extends Middleware
     auth:(async,args)->
-      async.resolve "auth"
+      async.resolve 'auth'
 
   middleware = new MiddlewareRouter
 
   Router = Backbone.Router.extend
 
     routes:
-      "":"index"
-      "!/404": "error404"
-      "*default":"default_router"
+      '':'index'
+      '!/404': 'error404'
+      '*default':'default_router'
 
     index: middleware.wrap ->
       view = showPage Page.IndexPage
@@ -37,4 +37,4 @@ define [
       showPage Page.Error404Page
 
     default_router:->
-      @navigate "!/404", {trigger:true,replace:true}
+      @navigate '!/404', {trigger:true,replace:true}

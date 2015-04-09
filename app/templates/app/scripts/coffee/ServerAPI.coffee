@@ -1,12 +1,12 @@
-define ["sp-utils-serverclient"],(ServerClient)->
+define ['sp-utils-serverclient'], (ServerClient)->
   class ServerAPI extends ServerClient
-    initialize:->
+    initialize: ->
 
-    _isServer:-> false #can using stubs
+    _isServer: -> false #can using stubs
 
-    get_data:->
+    get_data: ->
       @get {
-        url:"/api"
-        stub:(async)->
-          async.resolve "stub data"
+        url: '/api'
+        stub: (async)->
+          async.resolve 'stub data'
       }
