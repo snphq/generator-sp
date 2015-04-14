@@ -33,7 +33,8 @@ ValidateGenerator.prototype.askFor = function askFor() {
 }
 
 ValidateGenerator.prototype.validate = function validate() {
-  var _base = typeof(this.dest._base) === "function" ? this.dest._base() : this.dest._base;
+
+  var _base = this.destinationRoot()
   var self = this;
   var views = null;
   if(this.view_path == "_all"){
