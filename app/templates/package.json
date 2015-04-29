@@ -4,7 +4,7 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.8.10",
-    "snp-gulp-tasks": "0.0.11"
+    "snp-gulp-tasks": "0.0.14"
   },
   "engines": {
     "node": ">=0.10.0"
