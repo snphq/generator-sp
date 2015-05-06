@@ -3,13 +3,10 @@ module.exports =
   extras:[]
   scripts:[]
 
-  server:
+  # browserSync settings (http://www.browsersync.io/docs/options/)
+  browserSync:
     port: 9000
-
-  open:
-    host: "localhost"
-    port: 9001
-    path: "/"
+    open: false
 
   cdn:
     host: ""
@@ -34,14 +31,4 @@ module.exports =
         port: 80
         https: false
 
-    routers:
-      dist:
-        "wiki/Main_Page$":
-          host:"en.wikipedia.org"
-          port:80
-          https:false
-      prod:
-        "wiki/Main_Page$":
-          host:"en.wikipedia.org"
-          port:80
-          https:false
+
