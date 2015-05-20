@@ -30,5 +30,8 @@ module.exports =
         host: "google.ru"
         port: 80
         https: false
+    routers:
+      dist: []
+      prod: []
 
 
