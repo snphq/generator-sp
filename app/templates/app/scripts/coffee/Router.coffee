@@ -18,7 +18,7 @@ define [
       callback? view
 
   class MiddlewareRouter extends Middleware
-    auth:(async, args)->
+    auth: (async, args)->
       async.resolve 'auth'
 
   middleware = new MiddlewareRouter
@@ -36,5 +36,5 @@ define [
     error404: middleware.wrap ->
       showPage Page.Error404Page
 
-    default_router:->
+    default_router: ->
       @navigate '!/404', {trigger: true, replace: true}
