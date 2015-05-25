@@ -27,7 +27,7 @@ define [
 
     routes:
       '': 'index'
-      '!/404': 'error404'
+      '404': 'error404'
       '*default': 'default_router'
 
     index: middleware.wrap ->
@@ -37,4 +37,4 @@ define [
       showPage Page.Error404Page
 
     default_router: ->
-      @navigate '!/404', {trigger: true, replace: true}
+      @navigate '404', {trigger: true, replace: true}

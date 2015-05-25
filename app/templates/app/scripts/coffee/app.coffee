@@ -29,6 +29,7 @@ define (require, exports, module)->
     constructor: (common)->
       common.router = new Router
       common.api = new ServerApi
+      @$document = $ document
 
       # Init UserModel
       #common.user = new UserModel
@@ -36,11 +37,12 @@ define (require, exports, module)->
       # Init google analitics
       #common.ga = new GAConstructor preprocess.GA, Backbone, true
 
-
       #common.sapi = new social.SocialApi
       #  vk: new social.VKApi preprocess.social.vk.appID
       #  fb: new social.FBApi preprocess.social.fb.appID
       #  ok: new social.OKApi preprocess.social.ok.appID, preprocess.social.ok.appKey
+
+      @initPushstateLinks()
 
     start: ->
       for sblock in sblocks_components
@@ -55,6 +57,17 @@ define (require, exports, module)->
         item.showCurrent()
         this[key] = item
       Backbone.history.start {
-      #  pushState: Modernizr.history
+       pushState: Modernizr.history
       }
+
+    initPushstateLinks: ->
+      selector = "a:not([data-link]):not([href^='javascript:'])"
+      @$document.on "click", selector, (evt)->
+        $(".dropdown.open").removeClass("open")
+        return if !!$(this).parents(".pluso-box").length
+        href = $(this).attr("href") or ""
+        protocol = @protocol + "//"
+        if href.slice(0, protocol.length) isnt protocol
+          evt.preventDefault()
+          common.router.navigate href, true
 

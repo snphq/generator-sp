@@ -21,17 +21,19 @@ module.exports =
     port: 9001
     remotes:
       dist:
-        active: true
-        host: "project.t.snpdev.ru"
+        host: "project.snpdev.ru"
         port: 80
         https: false
       prod:
-        active: true
-        host: "google.ru"
+        host: "project.ru"
         port: 80
         https: false
-    routers:
-      dist: []
-      prod: []
-
+    activeRemote: 'dist'
+    pushState: true
+    remoteRoutes: [
+      /^\/(api|auth|admin|assets|system|rich).*$/
+    ]
+    localRoutes: [
+      /^\/(bower_components|resources|browser\-sync|images|files|scripts|styles|favicon\.ico|robots\.txt|livereload\.js).*$/
+    ]
 
