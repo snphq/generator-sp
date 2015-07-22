@@ -112,11 +112,11 @@
         "level": "ignore"
     },
     "no_unnecessary_double_quotes": {
-      "name": "no_unnecessary_double_quotes",
-      "level": "warn"
+        "name": "no_unnecessary_double_quotes",
+        "level": "warn"
     },
     "spacing_after_comma": {
-      "name": "spacing_after_comma",
-      "level": "warn"
+        "name": "spacing_after_comma",
+        "level": "warn"
     }
 }
