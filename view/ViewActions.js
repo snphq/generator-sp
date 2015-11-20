@@ -136,8 +136,9 @@ var ViewActions = {
         imports[ext].push(normalize_name_list);
       });
     }
-
-    ViewActions.validate.call(this, view_path, viewType, imports);
+    if (this.config.get("webpack") !== true ) {
+      ViewActions.validate.call(this, view_path, viewType, imports);
+    }
   }
 };
 
