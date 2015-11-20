@@ -23,16 +23,29 @@ ViewGenerator.prototype.askFor = function askFor() {
     type: 'list',
     name: 'viewType',
     message: 'Select viewType',
-    choices:[
-      { 'name':'widget', value:'widget' },
-      { 'name':'layout', value:'layout' },
-      { 'name':'modal', value:'modal' },
-      { 'name':'page', value:'page' },
-      { 'name':'item', value: 'item' },
-      { 'name':'list', value:"list"}
-    ],
-    default: 'widget'
+    choices: (this.config.get("webpack")) ? [
+        { 'name':'component', value:'component' },
+        { 'name':'page', value:'page' },
+      ] :
+      [
+        { 'name':'widget', value:'widget' },
+        { 'name':'page', value:'page' },
+        { 'name':'layout', value:'layout' },
+        { 'name':'modal', value:'modal' },
+        { 'name':'item', value: 'item' },
+        { 'name':'list', value:"list"}
+    ] ,
+    default: (this.config.get("webpack")) ? 'component' : 'widget',
   }];
+  if (this.config.get('webpack')) {
+    prompts.push({
+      type    : 'input',
+      name    : 'componentPath',
+      message : 'Your component path',
+      default : ''
+    });
+  }
+
   this.prompt(prompts, function (props) {
     this.viewType = props.viewType;
     this.viewTypeList = this.viewType == "list";
@@ -49,12 +62,18 @@ ViewGenerator.prototype.askFor = function askFor() {
       this.normalize_name_list = this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
       this.css_classname_list = this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
     }
-    if(this.viewType !== "item")
-      this.view_path = this.viewType;
-    else
+    if(this.viewType === "item") {
       this.view_path = "list";
+    } else if (this.config.get('webpack')) {
+      console.log("componentPath ", props.componentPath);
+      this.view_path = path.join('../', this.viewType, props.componentPath);
+    } else {
+      this.view_path = this.viewType;
+    }
 
     this.coffee_base = "_" + capitalize(this.viewType);
+    this.is_webpack = this.config.get('webpack');
+    this.cssPreprocessor = this.config.get("csspreprocessor")
     this.template_name = "view";
     if( this.viewType === 'modal') {
       this.template_name = 'modal';
