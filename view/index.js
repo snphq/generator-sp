@@ -66,7 +66,7 @@ ViewGenerator.prototype.askFor = function askFor() {
       this.view_path = "list";
     } else if (this.config.get('webpack')) {
       console.log("componentPath ", props.componentPath);
-      this.view_path = path.join('../', this.viewType, props.componentPath);
+      this.view_path = path.join('../view', this.viewType, props.componentPath);
     } else {
       this.view_path = this.viewType;
     }
