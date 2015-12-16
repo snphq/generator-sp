@@ -1,4 +1,4 @@
-<%= coffee_base %> = require 'view/<%= viewType %>/<%= coffee_base %>'
+<%= coffee_base %> = require '<%= viewType %>/<%= coffee_base %>'
 <% if(is_webpack) { %>require './<%= normalize_name %>.<%= cssPreprocessor%>'<% } %>
 <%= normalize_name %> = <%= coffee_base %>.extend
   <% if(!is_webpack) { %>template: '#<%= normalize_name %>'<% } %>

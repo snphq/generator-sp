@@ -60,13 +60,14 @@ ViewGenerator.prototype.askFor = function askFor() {
     }
     else {
       this.normalize_name_list = this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
-      this.css_classname_list = this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
+      this.css_classname_list = this.css_classname = this.name.toLowerCase();
+      if (this.viewType === 'page') this.css_classname = 'p-' + this.css_classname;
     }
     if(this.viewType === "item") {
       this.view_path = "list";
     } else if (this.config.get('webpack')) {
       console.log("componentPath ", props.componentPath);
-      this.view_path = path.join('../view', this.viewType, props.componentPath);
+      this.view_path = path.join('../', this.viewType, props.componentPath);
     } else {
       this.view_path = this.viewType;
     }
