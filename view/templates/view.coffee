@@ -5,4 +5,6 @@
   <% if(is_webpack) { %>templateFunc: require './<%= normalize_name %>.jade'<% } %>
   className: '<%= css_classname %>'
 
+
+
 module.exports = <%= normalize_name %>
