@@ -59,8 +59,9 @@ ViewGenerator.prototype.askFor = function askFor() {
       this.collection_name = capitalize(this.name) + "Collection";
     }
     else {
-      this.normalize_name_list = this.normalize_name = capitalize(this.name) + capitalize(this.viewType);
-      this.css_classname_list = this.css_classname = (this.name + "_" + this.viewType).toLowerCase();
+      this.normalize_name_list = this.normalize_name = capitalize(this.name);
+      this.css_classname_list = this.css_classname = this.name.toLowerCase();
+      if (this.viewType === 'page') this.css_classname = 'p-' + this.css_classname;
     }
     if(this.viewType === "item") {
       this.view_path = "list";
