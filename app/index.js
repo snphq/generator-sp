@@ -5,7 +5,7 @@ var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
 var readFileAsString = require("html-wiring").readFileAsString;
-var _ = require('yeoman-generator/node_modules/lodash');
+var _ = require('lodash');
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
