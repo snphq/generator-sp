@@ -8,7 +8,7 @@ var _ = require('underscore');
 
 describe('sp generator', function () {
   it('the generator can be required without throwing', function () {
-    this.app = require('../app');
+    this.app = require('../generators/app');
   });
 
   describe('run test', function () {
@@ -60,7 +60,7 @@ describe('sp generator', function () {
 
     beforeEach(function () {
       runGen = helpers
-        .run(path.join(__dirname, '../app'))
+        .run(path.join(__dirname, '../generators/app'))
         .inDir(path.join(__dirname, '.tmp'))
         .withGenerators([[helpers.createDummyGenerator(), 'mocha:app']]);
     });

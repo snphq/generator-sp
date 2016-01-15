@@ -9,7 +9,6 @@ var _ = require('lodash');
 
 var SpGenerator = module.exports = function SpGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-  this.pkg = JSON.parse(readFileAsString(path.join(__dirname, '../package.json')));
 };
 
 util.inherits(SpGenerator, yeoman.generators.Base);
