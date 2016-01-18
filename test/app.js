@@ -141,7 +141,7 @@ describe('sp generator', function () {
       runGen = helpers
         .run(path.join(__dirname, '../generators/app'))
         .inDir(path.join(__dirname, '.tmp'))
-        .withGenerators([[helpers.createDummyGenerator(), 'mocha:app']]);
+        .withGenerators([[helpers.createDummyGenerator(), 'git-init']]);
     });
 
     it('creates expected files', function (done) {

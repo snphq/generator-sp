@@ -4,6 +4,7 @@ var mkdirp = require('mkdirp');
 
 var SpGenerator = module.exports = function SpGenerator() {
   yeoman.generators.Base.apply(this, arguments);
+  this.composeWith('git-init');
 };
 
 util.inherits(SpGenerator, yeoman.generators.Base);
@@ -68,7 +69,4 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
 
 SpGenerator.prototype.install = function install() {
   this.installDependencies({skipInstall: this.options['skip-install']});
-  this.on('end', function () {
-    this.spawnCommand('gulp', ['git-init']);
-  });
 };
