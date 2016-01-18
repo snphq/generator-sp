@@ -23,7 +23,7 @@ CollectionGenerator.prototype.askFor = function askFor() {
     default: true,
   }];
   this.prompt(prompts, function (props) {
-    this.model_name = this.name + 'Model';
+    this.model_name = capitalize(this.name) + 'Model';
     this.model_generate = props.model_generate;
     cb();
   }.bind(this));
@@ -31,7 +31,7 @@ CollectionGenerator.prototype.askFor = function askFor() {
 
 CollectionGenerator.prototype.files = function files() {
   this.normalize_name = capitalize(this.name) + 'Collection';
-  this.copy('collection.coffee', 'app/scripts/collection/' + this.normalize_name + '.coffee');
+  this.copy('collection.js', 'app/scripts/collection/' + this.normalize_name + '.js');
   if (this.model_generate) {
     this.composeWith('sp:model', {
       args: [this.name],

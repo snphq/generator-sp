@@ -1,13 +1,8 @@
 'use strict';
 var path = require('path');
-var fs = require('fs');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
-
-function fixture(name) {
-  var fixturePath = path.join(__dirname, './fixtures/', name);
-  return fs.readFileSync(fixturePath, 'utf-8').trim();
-}
+var fixture = require('./_helpers').fixture;
 
 describe('sp generator model', function () {
   before(function (done) {

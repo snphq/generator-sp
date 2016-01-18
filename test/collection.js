@@ -2,6 +2,7 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
+var fixture = require('./_helpers').fixture;
 
 function createGenerator() {
   return helpers.run(path.join(__dirname, '../generators/collection'))
@@ -15,8 +16,12 @@ describe('sp generator collection', function () {
       .withPrompts({model_generate: true})
       .on('end', function () {
         assert.file([
-          'app/scripts/collection/PeopleCollection.coffee',
+          'app/scripts/collection/PeopleCollection.js',
           'app/scripts/model/PeopleModel.js',
+        ]);
+
+        assert.fileContent([
+          ['app/scripts/collection/PeopleCollection.js', fixture('PeopleCollection.js')],
         ]);
         done();
       });
@@ -27,7 +32,7 @@ describe('sp generator collection', function () {
       .withArguments(['news'])
       .withPrompts({model_generate: false})
       .on('end', function () {
-        assert.file(['app/scripts/collection/NewsCollection.coffee']);
+        assert.file(['app/scripts/collection/NewsCollection.js']);
         assert.noFile(['app/scripts/model/NewsModel.js']);
         done();
       });
