@@ -99,16 +99,7 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
   });
 
   // copy to dot files
-  [
-    'gulpconfig.coffee',
-    'gitattributes',
-    'gitignore',
-    'bowerrc',
-    'editorconfig',
-    'coffeelintrc',
-  ].forEach(function (path) {
-    self.copy(path, '.' + path);
-  });
+  this.directory('dotfiles', this.destinationRoot());
 };
 
 SpGenerator.prototype.install = function install() {
