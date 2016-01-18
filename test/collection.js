@@ -16,7 +16,7 @@ describe('sp generator collection', function () {
       .on('end', function () {
         assert.file([
           'app/scripts/collection/PeopleCollection.coffee',
-          'app/scripts/model/PeopleModel.coffee',
+          'app/scripts/model/PeopleModel.js',
         ]);
         done();
       });
@@ -28,7 +28,7 @@ describe('sp generator collection', function () {
       .withPrompts({model_generate: false})
       .on('end', function () {
         assert.file(['app/scripts/collection/NewsCollection.coffee']);
-        assert.noFile(['app/scripts/model/NewsModel.coffee']);
+        assert.noFile(['app/scripts/model/NewsModel.js']);
         done();
       });
   });
