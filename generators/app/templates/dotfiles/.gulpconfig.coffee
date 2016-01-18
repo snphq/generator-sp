@@ -37,3 +37,20 @@ module.exports =
       /^\/(bower_components|resources|browser\-sync|images|files|scripts|styles|favicon\.ico|robots\.txt|livereload\.js).*$/
     ]
 
+  getDefaultTaskList: ->
+    build = ["clean"]
+    build.push ["images", "fonts", "extras"] unless @isDev
+    build.push "sprites"
+    build.push "cssimage"
+    build.push "styles"
+    build.push "scripts.#{if @isDev then 'dev' else 'prod'}"
+    build.push "extras_js" unless @isDev
+    build.push "templates"
+    build.push "bs" if @isSrv
+    build.push "proxy" if @isSrv
+    build.push "watch" if @isSrv and @isDev
+    build.push ["imagemin.png"] if @isImageMin
+    build.push "revision" unless @isDev
+    build.push "git-version" unless @isDev
+    build.push "compress" unless @isDev
+    build

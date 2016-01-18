@@ -1,12 +1,93 @@
 {
   "name": "projects",
   "private": "true",
-  "dependencies": {},
+  "scripts": {
+    "tdd": "karma start",
+    "test": "npm run lint && karma start --single-run",
+    "lint": "npm run lintxo && npm run lintcoffee",
+    "lintcoffee": "coffeelint -f  .coffeelintrc app/scripts gulp webpack",
+    "lintxo": "xo *.js && xo app/scripts/**/*.js --esnext",
+    "precommit": "npm run test"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.3.14",
+    "backbone": "1.1.2",
+    "backbone-mixin": "lexich/backbone-mixin",
+    "backbone.epoxy": "^1.3.4",
+    "cookies": "^0.5.1",
+    "jquery": "^1.12.0",
+    "lodash": "^3.10.1",
+    "simple-blocks": "lexich/simple-blocks",
+    "sp-utils-bootstrapmodal": "lexich/sp-utils-bootstrapmodal",
+    "sp-utils-gaconstructor": "lexich/sp-utils-gaconstructor",
+    "sp-utils-middleware": "lexich/sp-utils-middleware",
+    "sp-utils-serverclient": "lexich/sp-utils-serverclient"
+  },
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "snp-gulp-tasks": "~0.1.0"
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.10.0",
+    "coffeelint": "^1.14.2",
+    "coffeelint-loader": "^0.1.1",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "gulp": "^3.9.0",
+    "husky": "^0.10.2",
+    "ibrik": "^2.0.0",
+    "ibrik-instrumenter-loader": "^0.1.1",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.8.0",
+    "karma": "^0.13.19",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.1",
+    "karma-notify-reporter": "^0.1.1",
+    "karma-nyan-reporter": "^0.2.3",
+    "karma-phantomjs-launcher": "^0.2.3",
+    "karma-phantomjs-shim": "^1.2.0",
+    "karma-sinon-chai": "^1.1.0",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.3.4",
+    "node-sass": "^3.4.2",
+    "null-loader": "^0.1.1",
+    "sass-loader": "^3.1.2",
+    "snp-gulp-tasks": "~0.1.0",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.11",
+    "webpack-dev-server": "^1.14.1",
+    "xo": "^0.9.0",
+    "xo-loader": "^0.5.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.12.0"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha",
+      "browser"
+    ],
+    "esnext": "true",
+    "globals": [
+      "$",
+      "_",
+      "expect",
+      "Modernizr",
+      "common",
+      "BUILD_MODE"
+    ],
+    "space": "true",
+    "rules": {
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ]
+    }
   }
 }
