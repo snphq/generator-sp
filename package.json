@@ -32,7 +32,9 @@
     "husky": "^0.10.2",
     "mocha": "^2.0.0",
     "underscore": "^1.8.2",
-    "xo": "^0.12.1"
+    "xo": "^0.12.1",
+    "yeoman-assert": "^2.1.1",
+    "yeoman-test": "^1.0.0"
   },
   "peerDependencies": {
     "generator-git-init": "*",
@@ -56,7 +58,7 @@
       "generators/*/*.js"
     ],
     "ignores": [
-        "generators/*/templates/**"
+      "generators/*/templates/**"
     ],
     "envs": [
       "node",

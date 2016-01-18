@@ -3,11 +3,11 @@ var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 
 var SpGenerator = module.exports = function SpGenerator() {
-  yeoman.generators.Base.apply(this, arguments);
+  yeoman.Base.apply(this, arguments);
   this.composeWith('git-init');
 };
 
-util.inherits(SpGenerator, yeoman.generators.Base);
+util.inherits(SpGenerator, yeoman.Base);
 
 SpGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
