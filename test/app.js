@@ -103,7 +103,7 @@ describe('sp generator', function () {
         'common.js',
         'Router.js',
         'preprocess.js',
-        'ServerApi.js',
+        'ServerAPI.js',
       ]),
       inDirectory('app/scripts/localization', [
         'Localization.js',
