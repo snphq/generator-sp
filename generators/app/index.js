@@ -68,7 +68,7 @@ SpGenerator.prototype.app = function app() {
   this.copy('app/favicon.ico', 'app/favicon.ico');
 };
 SpGenerator.prototype.cap = function cap() {
-  console.log('Accept ' + this.cap_project_name);
+  this.log('Accept ' + this.cap_project_name);
   var self = this;
   [
     'Capfile',

@@ -11,7 +11,7 @@ var ViewGenerator = module.exports = function ViewGenerator() {
   // By calling `NamedBase` here, we get the argument to the subgenerator call
   // as `this.name`.
   yeoman.generators.NamedBase.apply(this, arguments);
-  console.log('You called the view subgenerator with the argument ' + this.normalize_name + '.');
+  this.log('You called the view subgenerator with the argument ' + this.normalize_name + '.');
 };
 
 util.inherits(ViewGenerator, yeoman.generators.NamedBase);
@@ -62,7 +62,7 @@ ViewGenerator.prototype.askFor = function askFor() {
     if (this.viewType === 'item') {
       this.view_path = 'list';
     } else if (this.config.get('webpack')) {
-      console.log('componentPath ', props.componentPath);
+      this.log('componentPath ', props.componentPath);
       this.view_path = path.join('../', this.viewType, props.componentPath);
     } else {
       this.view_path = this.viewType;
