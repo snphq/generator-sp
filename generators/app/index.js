@@ -1,13 +1,9 @@
-'use strict';
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
-var fs = require('fs');
-var readFileAsString = require("html-wiring").readFileAsString;
-var _ = require('lodash');
 
-var SpGenerator = module.exports = function SpGenerator(args, options, config) {
+var SpGenerator = module.exports = function SpGenerator() {
   yeoman.generators.Base.apply(this, arguments);
 };
 
@@ -19,21 +15,21 @@ SpGenerator.prototype.askFor = function askFor() {
   // have Yeoman greet the user.
 
   var prompts = [{
-    name:"capprojectname",
-    message:"Input project name for Capistrano",
-    default:"sp-project"
-  },{
-    name: "csspreprocessor",
-    type: "list",
-    message: "Choose preprocessor style:",
-    choices:[{
-      name: "sass",
-      value: "sass"
-    },{
-      name: "scss",
-      value: "scss"
+    name: 'capprojectname',
+    message: 'Input project name for Capistrano',
+    default: 'sp-project',
+  }, {
+    name: 'csspreprocessor',
+    type: 'list',
+    message: 'Choose preprocessor style:',
+    choices: [{
+      name: 'sass',
+      value: 'sass',
+    }, {
+      name: 'scss',
+      value: 'scss',
     }],
-    default: "sass"
+    default: 'sass',
   }];
 
   this.prompt(prompts, function (props) {
@@ -53,71 +49,71 @@ SpGenerator.prototype.app = function app() {
 
   mkdirp('config');
 
-  this.directory('app/images','app/images');
-  //write styles
-  this.directory('app/styles','app/styles');
-  ["_common", "_fonts", "_mixins"].forEach(function(styleitem){
+  this.directory('app/images', 'app/images');
+  // write styles
+  this.directory('app/styles', 'app/styles');
+  ['_common', '_fonts', '_mixins'].forEach(function (styleitem) {
     self.fs.write(
-      path.join('app','styles', styleitem + "." + self.csspreprocessor), ""
+      path.join('app', 'styles', styleitem + '.' + self.csspreprocessor), ''
     );
   });
   this.copy(
-    path.join("app","_styles","main." + this.csspreprocessor),
-    path.join("app","styles","main." + this.csspreprocessor)
+    path.join('app', '_styles', 'main.' + this.csspreprocessor),
+    path.join('app', 'styles', 'main.' + this.csspreprocessor)
   );
   this.directory('app/scripts/coffee', 'app/scripts');
-  this.directory("app/scripts/" + this.csspreprocessor, "app/scripts");
+  this.directory('app/scripts/' + this.csspreprocessor, 'app/scripts');
   this.directory('app/html/jade', 'app/html');
-  this.copy("app/robots.txt","app/robots.txt");
-  this.copy("app/favicon.ico","app/favicon.ico");
+  this.copy('app/robots.txt', 'app/robots.txt');
+  this.copy('app/favicon.ico', 'app/favicon.ico');
 };
-SpGenerator.prototype.cap = function cap(){
-  console.log("Accept " + this.cap_project_name);
+SpGenerator.prototype.cap = function cap() {
+  console.log('Accept ' + this.cap_project_name);
   var self = this;
   [
     'Capfile',
     'Gemfile',
     'Gemfile.lock',
-  ].forEach(function(path){
-    self.copy(path,path);
+  ].forEach(function (path) {
+    self.copy(path, path);
   });
-  self.directory('config','config');
-}
+  self.directory('config', 'config');
+};
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
   mkdirp('gulp');
-  this.directory('gulp','gulp');
+  this.directory('gulp', 'gulp');
   [
     'gulpfile.js',
-  ].forEach(function(_p){
+  ].forEach(function (_p) {
     self.bulkCopy(_p, _p);
   });
-  //copy configs
+  // copy configs
   [
     'README.md',
     'haproxy-config.txt',
     'package.json',
     'bower.json',
-  ].forEach(function(path){
-    self.copy(path,path)
+  ].forEach(function (path) {
+    self.copy(path, path);
   });
 
-  //copy to dot files
+  // copy to dot files
   [
     'gulpconfig.coffee',
     'gitattributes',
     'gitignore',
     'bowerrc',
     'editorconfig',
-    'coffeelintrc'
-  ].forEach(function(path){
-    self.copy(path,'.' + path)
+    'coffeelintrc',
+  ].forEach(function (path) {
+    self.copy(path, '.' + path);
   });
 };
 
-SpGenerator.prototype.install = function install(){
-  this.installDependencies({ skipInstall: this.options['skip-install'] });
-  this.on('end', function() {
+SpGenerator.prototype.install = function install() {
+  this.installDependencies({skipInstall: this.options['skip-install']});
+  this.on('end', function () {
     this.spawnCommand('gulp', ['git-init']);
   });
 };

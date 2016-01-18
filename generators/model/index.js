@@ -1,14 +1,10 @@
-'use strict';
 var util = require('util');
 var yeoman = require('yeoman-generator');
-var fs = require('fs');
-var path = require('path');
-var capitalize = function(name){
-  return name[0].toUpperCase() + name.slice(1,name.length);
-}
+var capitalize = function (name) {
+  return name[0].toUpperCase() + name.slice(1, name.length);
+};
 
-var ModelGenerator = module.exports = function ModelGenerator(args, options, config) {
-
+var ModelGenerator = module.exports = function ModelGenerator() {
   // By calling `NamedBase` here, we get the argument to the subgenerator call
   // as `this.name`.
   yeoman.generators.NamedBase.apply(this, arguments);
@@ -17,6 +13,6 @@ var ModelGenerator = module.exports = function ModelGenerator(args, options, con
 
 util.inherits(ModelGenerator, yeoman.generators.NamedBase);
 ModelGenerator.prototype.files = function files() {
-    this.normalize_name = capitalize(this.name) + "Model"
-    this.copy('model.coffee',  'app/scripts/model/' + this.normalize_name + '.coffee');
-}
+  this.normalize_name = capitalize(this.name) + 'Model';
+  this.copy('model.coffee', 'app/scripts/model/' + this.normalize_name + '.coffee');
+};

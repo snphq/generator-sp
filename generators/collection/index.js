@@ -1,14 +1,12 @@
 'use strict';
 var util = require('util');
 var yeoman = require('yeoman-generator');
-var fs = require('fs');
-var path = require('path');
-var capitalize = function(name){
-  return name[0].toUpperCase() + name.slice(1,name.length);
+
+function capitalize(name) {
+  return name[0].toUpperCase() + name.slice(1, name.length);
 }
 
-var CollectionGenerator = module.exports = function ModelGenerator(args, options, config) {
-
+var CollectionGenerator = module.exports = function ModelGenerator() {
   // By calling `NamedBase` here, we get the argument to the subgenerator call
   // as `this.name`.
   yeoman.generators.NamedBase.apply(this, arguments);
@@ -19,24 +17,24 @@ util.inherits(CollectionGenerator, yeoman.generators.NamedBase);
 CollectionGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
   var prompts = [{
-    type: "confirm",
+    type: 'confirm',
     name: 'model_generate',
-    message: "Whould ypu like generate model " + this.name + "Model",
-    default: true
+    message: 'Whould ypu like generate model ' + this.name + 'Model',
+    default: true,
   }];
   this.prompt(prompts, function (props) {
-    this.model_name = this.name + "Model";
+    this.model_name = this.name + 'Model';
     this.model_generate = props.model_generate;
     cb();
   }.bind(this));
-}
+};
 
 CollectionGenerator.prototype.files = function files() {
-    this.normalize_name = capitalize(this.name) + "Collection"
-    this.copy('collection.coffee',  'app/scripts/collection/' + this.normalize_name + '.coffee');
-    if(this.model_generate){
-      this.composeWith("sp:model",{
-        args: [this.name],
-      });
-    }
-}
+  this.normalize_name = capitalize(this.name) + 'Collection';
+  this.copy('collection.coffee', 'app/scripts/collection/' + this.normalize_name + '.coffee');
+  if (this.model_generate) {
+    this.composeWith('sp:model', {
+      args: [this.name],
+    });
+  }
+};

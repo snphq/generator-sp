@@ -16,7 +16,8 @@
     "url": "git://github.com/snphq/generator-sp.git"
   },
   "scripts": {
-    "test": "mocha",
+
+    "test": "xo && mocha",
     "test-dev": "mocha --watch"
   },
   "files": [
@@ -29,7 +30,8 @@
   },
   "devDependencies": {
     "mocha": "^2.0.0",
-    "underscore": "^1.8.2"
+    "underscore": "^1.8.2",
+    "xo": "^0.12.1"
   },
   "peerDependencies": {
     "yo": ">=1.2.0"
@@ -46,5 +48,21 @@
   "directories": {
     "test": "test"
   },
+  "xo": {
+    "files": [
+      "test/*.js",
+      "generators/*/*.js"
+    ],
+    "envs": [
+      "node",
+      "mocha"
+    ],
+    "space": 2,
+    "rules": {
+        "comma-dangle": [2, "always-multiline"],
+        "camelcase": [0, {"properties": "never"}]
+    }
+  },
+
   "license": "MIT"
 }

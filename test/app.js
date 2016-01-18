@@ -1,10 +1,6 @@
-/*global describe, beforeEach, it*/
-'use strict';
 var path = require('path');
-var assert = require('assert');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
-var _ = require('underscore');
 
 describe('sp generator', function () {
   it('the generator can be required without throwing', function () {
@@ -14,7 +10,7 @@ describe('sp generator', function () {
   describe('run test', function () {
     var expectedContent = [
       ['bower.json', /"name": "projects"/],
-      ['package.json', /"name": "projects"/]
+      ['package.json', /"name": "projects"/],
     ];
     var expected = [
       '.bowerrc',
@@ -46,14 +42,14 @@ describe('sp generator', function () {
       'app/scripts/view/page/Error404Page/Error404Page.jade',
       'app/scripts/view/page/Error404Page/Error404Page.sass',
       'app/images/',
-      'app/styles/'
+      'app/styles/',
     ];
 
     var options = {
       'skip-install-message': true,
       'skip-install': true,
       'skip-welcome-message': true,
-      'skip-message': true
+      'skip-message': true,
     };
 
     var runGen;
@@ -74,10 +70,5 @@ describe('sp generator', function () {
         done();
       });
     });
-
-
   });
-
-
-
 });
