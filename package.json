@@ -16,9 +16,9 @@
     "url": "git://github.com/snphq/generator-sp.git"
   },
   "scripts": {
-
     "test": "xo && mocha",
-    "test-dev": "mocha --watch"
+    "test-dev": "mocha --watch",
+    "precommit": "npm test"
   },
   "files": [
     "generators"
@@ -29,6 +29,7 @@
     "yeoman-generator": "^0.22.3"
   },
   "devDependencies": {
+    "husky": "^0.10.2",
     "mocha": "^2.0.0",
     "underscore": "^1.8.2",
     "xo": "^0.12.1"
@@ -59,10 +60,17 @@
     ],
     "space": 2,
     "rules": {
-        "comma-dangle": [2, "always-multiline"],
-        "camelcase": [0, {"properties": "never"}]
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "camelcase": [
+        0,
+        {
+          "properties": "never"
+        }
+      ]
     }
   },
-
   "license": "MIT"
 }
