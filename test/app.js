@@ -2,24 +2,9 @@ var path = require('path');
 var helpers = require('yeoman-test');
 var assert = require('yeoman-assert');
 
-function inDirectory(path, files) {
-  return files.map(function (file) {
-    return path + '/' + file;
-  });
-}
-
-function viewFiles(path, name) {
-  var extensions = [
-    'js',
-    'jade',
-    'sass',
-    'package',
-  ];
-  var shortName = name.replace(/^_/, '');
-  return inDirectory(path, extensions.map(function (ext) {
-    return name + '/' + ((ext === 'package') ? 'package.json' : (shortName + '.' + ext));
-  }));
-}
+var customHelpers = require('./_helpers');
+var inDirectory = customHelpers.inDirectory;
+var viewFiles = customHelpers.viewFiles;
 
 describe('sp generator', function () {
   it('the generator can be required without throwing', function () {

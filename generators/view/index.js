@@ -1,104 +1,100 @@
 'use strict';
-var util = require('util');
 var yeoman = require('yeoman-generator');
-var path = require('path');
-var ViewActions = require('./ViewActions');
-var capitalize = function (name) {
-  return name[0].toUpperCase() + name.slice(1, name.length);
-};
+var _ = require('lodash');
 
-var ViewGenerator = module.exports = function ViewGenerator() {
-  // By calling `NamedBase` here, we get the argument to the subgenerator call
-  // as `this.name`.
-  yeoman.generators.NamedBase.apply(this, arguments);
-  this.log('You called the view subgenerator with the argument ' + this.normalize_name + '.');
-};
+module.exports = yeoman.Base.extend({
+  constructor: function () {
+    yeoman.Base.apply(this, arguments);
+    this.argument('path', {type: String, required: true});
+    this.log('You called the view subgenerator with the argument ' + this.normalize_name + '.');
+  },
 
-util.inherits(ViewGenerator, yeoman.generators.NamedBase);
-ViewGenerator.prototype.askFor = function askFor() {
-  var cb = this.async();
-  var prompts = [{
-    type: 'list',
-    name: 'viewType',
-    message: 'Select viewType',
-    choices: (this.config.get('webpack')) ? [
-        {name: 'component', value: 'component'},
-        {name: 'page', value: 'page'},
-    ] :
-      [
-        {name: 'widget', value: 'widget'},
-        {name: 'page', value: 'page'},
-        {name: 'layout', value: 'layout'},
-        {name: 'modal', value: 'modal'},
-        {name: 'item', value: 'item'},
-        {name: 'list', value: 'list'},
-      ],
-    default: (this.config.get('webpack')) ? 'component' : 'widget',
-  }];
-  if (this.config.get('webpack')) {
-    prompts.push({
-      type: 'input',
-      name: 'componentPath',
-      message: 'Your component path',
-      default: '',
-    });
-  }
+  _setTemplatesData: function () {
+    this.cssClassname = this._getCssClassName();
+    this.componentName = this._getComponentName();
+    this.baseClassPath = this._getBaseClassPath();
+  },
 
-  this.prompt(prompts, function (props) {
-    this.viewType = props.viewType;
-    this.viewTypeList = this.viewType === 'list';
-    if (this.viewType === 'item' || this.viewTypeList) {
-      this.normalize_name = capitalize(this.name) + 'Item';
-      this.css_classname = (this.name + '_Item').toLowerCase();
+  files: function () {
+    if (!this._isDirectoryValid()) {
+      this.log('You can`t create files not in component or page');
+      return;
     }
-    if (this.viewTypeList) {
-      this.normalize_name_list = capitalize(this.name) + 'List';
-      this.css_classname_list = (this.name + '_List').toLowerCase();
-      this.collection_name = capitalize(this.name) + 'Collection';
-    } else {
-      this.normalize_name_list = this.normalize_name = capitalize(this.name);
-      this.css_classname_list = this.css_classname = this.name.toLowerCase();
-      if (this.viewType === 'page') {
-        this.css_classname = 'p-' + this.css_classname;
-      }
-    }
-    if (this.viewType === 'item') {
-      this.view_path = 'list';
-    } else if (this.config.get('webpack')) {
-      this.log('componentPath ', props.componentPath);
-      this.view_path = path.join('../', this.viewType, props.componentPath);
-    } else {
-      this.view_path = this.viewType;
-    }
+    this._setTemplatesData();
+    this.copy('view.js', this._getFileName('js'));
+    this.copy('view.sass', this._getFileName('sass'));
+    this.copy('view.jade', this._getFileName('jade'));
+    this.copy('package.json', this._getPackageFileName());
+  },
 
-    this.coffee_base = '_' + capitalize(this.viewType);
-    this.is_webpack = this.config.get('webpack');
-    this.cssPreprocessor = this.config.get('csspreprocessor');
-    this.template_name = 'view';
-    if (this.viewType === 'modal') {
-      this.template_name = 'modal';
+  _getPath: function () {
+    var pathParts = this.path.split('/');
+    var innerPath = pathParts.slice(1, pathParts.length - 1);
+    return [
+      'app/scripts',
+      this._getRootParent(),
+    ].concat(innerPath).join('/');
+  },
+
+  _getRootParent: function () {
+    var shortcuts = {
+      p: 'page',
+      c: 'component',
+    };
+    var pathParts = this.path.split('/');
+    if (pathParts.length === 1) {
+      return 'component';
     }
-    cb();
-  }.bind(this));
-};
+    var rootParent = pathParts[0];
+    if (shortcuts[rootParent]) {
+      rootParent = shortcuts[rootParent];
+    }
+    return rootParent;
+  },
 
-ViewGenerator.prototype.files = function files() {
-  ViewActions.createView.call(
-    this,
-    this.view_path,
-    this.normalize_name,
-    this.normalize_name_list,
-    this.viewType,
-    this.viewTypeList,
-    this.destinationRoot(),
-    this.template_name
-  );
-  // createView(this);
+  _getFileName: function (ext) {
+    var name = this._getComponentName();
+    var parrentPath = this._getPath();
+    var localPath = name + '/' + name + '.' + ext;
+    return parrentPath + '/' + localPath;
+  },
 
-  /*
-  if(this.viewTypeList){
-    this.invoke("sp:collection",{
-      args:[this.name]
-    });
-  }*/
-};
+  _getPackageFileName: function () {
+    return this._getPath() + '/' + this._getComponentName() + '/package.json';
+  },
+
+  _getCssClassName: function () {
+    var className = _.kebabCase(
+      this._getComponentName()
+    );
+    if (this._getRootParent() === 'page') {
+      className = 'p-' + className;
+    }
+    return className;
+  },
+
+  _getComponentName: function () {
+    var pathParts = this.path.split('/');
+    var name = pathParts[pathParts.length - 1];
+    return _.upperFirst(
+      _.camelCase(name)
+    );
+  },
+
+  _getBaseClassPath: function () {
+    if (this._isRootComponent()) {
+      return this._getRootParent() + '/_Base';
+    }
+    return 'component/_Base';
+  },
+
+  _isDirectoryValid: function () {
+    var rootDir = this._getRootParent();
+    return rootDir === 'component' || rootDir === 'page';
+  },
+
+  _isRootComponent: function () {
+    var pathParts = this.path.split('/');
+    return pathParts.length <= 2;
+  },
+});
