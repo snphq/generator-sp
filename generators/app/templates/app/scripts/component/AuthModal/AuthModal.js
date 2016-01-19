@@ -2,19 +2,19 @@ import _Modal from '../_Modal';
 import './AuthModal.sass';
 import template from './AuthModal.jade';
 
-export default class AuthModal extends _Modal {
-  template = template;
-  className = 'auth-modal modal';
+export default _Modal.extend({
+  template,
+  className: 'auth-modal modal',
 
-  ui = {
+  ui: {
     ok: '[data-ok]',
-  };
+  },
 
-  events = {
+  events: {
     'click @ui.ok': 'onClickAuth',
-  };
+  },
 
   onClickAuth() {
     return this.ok('User auth');
-  }
-}
+  },
+});
