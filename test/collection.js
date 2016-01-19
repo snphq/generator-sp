@@ -6,7 +6,8 @@ var fixture = require('./_helpers').fixture;
 
 function createGenerator() {
   return helpers.run(path.join(__dirname, '../generators/collection'))
-    .withGenerators([path.join(__dirname, '../generators/model')]);
+    .withGenerators([path.join(__dirname, '../generators/model')])
+    .withLocalConfig({webpack: true});
 }
 
 describe('sp generator collection', function () {

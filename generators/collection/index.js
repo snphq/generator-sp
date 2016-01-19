@@ -28,6 +28,10 @@ module.exports = yeoman.Base.extend({
   },
 
   files: function () {
+    if (!this.config.get('webpack')) {
+      this.log('You cant use this version of generator for old. You should downgrade it to use it here');
+      return;
+    }
     this.normalize_name = capitalize(this.name) + 'Collection';
     this.copy('collection.js', 'app/scripts/collection/' + this.normalize_name + '.js');
     if (this.model_generate) {

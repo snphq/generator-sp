@@ -7,7 +7,8 @@ var viewFiles = require('./_helpers').viewFiles;
 function createGenerator(args) {
   args = args.split(' ');
   return helpers.run(path.join(__dirname, '../generators/view'))
-    .withArguments(args);
+    .withArguments(args)
+    .withLocalConfig({webpack: true});
 }
 
 describe('view', function () {

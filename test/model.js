@@ -8,6 +8,7 @@ describe('sp generator model', function () {
   before(function (done) {
     helpers.run(path.join(__dirname, '../generators/model'))
       .withArguments(['todo'])
+      .withLocalConfig({webpack: true})
       .on('end', done);
   });
 

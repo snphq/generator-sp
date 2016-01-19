@@ -16,6 +16,10 @@ module.exports = yeoman.Base.extend({
   },
 
   files: function () {
+    if (!this.config.get('webpack')) {
+      this.log('You cant use this version of generator for old. You should downgrade it to use it here');
+      return;
+    }
     if (!this._isDirectoryValid()) {
       this.log('You can`t create files not in component or page');
       return;

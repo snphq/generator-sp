@@ -23,6 +23,7 @@ SpGenerator.prototype.askFor = function askFor() {
   this.prompt(prompts, function (props) {
     this.capprojectname = props.capprojectname;
     this.config.set(props);
+    this.config.set({webpack: true});
     cb();
   }.bind(this));
 };

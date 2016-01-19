@@ -139,5 +139,11 @@ describe('sp generator', function () {
         done();
       });
     });
+    it('sets webpack=true in config', function (done) {
+      runGen.withOptions(options).on('end', function () {
+        assert.fileContent('.yo-rc.json', /\"webpack\": true/);
+        done();
+      });
+    });
   });
 });
