@@ -148,6 +148,7 @@ describe('sp generator', function () {
       runGen.withOptions(options).on('end', function () {
         assert.file(expected);
         assert.noFile([
+          'app/favicon.ico',
         ]);
         assert.fileContent(expectedContent);
         done();
