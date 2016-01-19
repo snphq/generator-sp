@@ -1,9 +1,9 @@
 requireChild = require '../gulp/requireChild'
 
 webpack = requireChild('webpack')
-path = require('path')
+path = require 'path'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
-PROP = require('snp-gulp-tasks/lib/config')
+PROP = require 'snp-gulp-tasks/lib/config'
 ENV = if PROP and PROP.preprocess then Object.keys(PROP.preprocess()) else 'DEBUG'
 
 # TODO: do all thigs without gulp

@@ -14,16 +14,19 @@ html.no-js
     meta(name="viewport", content="width=device-width")
     //Place favicon.ico and apple-touch-icon.png in the root directory
     link(rel="shortcut icon", href="/favicon.ico?")
-
+    if modernizr
+      if jade_mode == "server"
+        script(src="http://localhost:8080/app/scripts/modernizr.bundle.js")
+      else
+        script(src="/scripts/modernizr.bundle.js")
     link(rel="stylesheet", href="/styles/main.css")
-    script(src="/bower_components/modernizr/modernizr.js")
     block head
 
   body
     if jade_mode == "server"
       include _ribbon
       +ribbon("Local")
-    
+
     block content
     if jade_mode == "server"
       script(src="http://localhost:8080/webpack-dev-server.js")
@@ -31,4 +34,4 @@ html.no-js
     else
       script(src="/scripts/app.bundle.js")
 
-    
+

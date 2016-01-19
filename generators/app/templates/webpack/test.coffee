@@ -1,4 +1,4 @@
-webpackConfig = require('./dev')
+webpackConfig = require('./dev')({test: true})
 loaders = webpackConfig.module.loaders
 
 replaceLoader = (list, testValue, newLoader) ->
