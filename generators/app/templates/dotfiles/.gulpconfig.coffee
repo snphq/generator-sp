@@ -44,7 +44,6 @@ module.exports =
     build.push "cssimage"
     build.push "styles"
     build.push "scripts.#{if @isDev then 'dev' else 'prod'}"
-    build.push "extras_js" unless @isDev
     build.push "templates"
     build.push "bs" if @isSrv
     build.push "proxy" if @isSrv
