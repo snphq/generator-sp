@@ -68,5 +68,5 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 SpGenerator.prototype.install = function install() {
-  this.installDependencies({skipInstall: this.options['skip-install']});
+  this.npmInstall([], {skipInstall: this.options['skip-install']});
 };
