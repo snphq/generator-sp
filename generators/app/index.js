@@ -58,7 +58,6 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     'haproxy-config.txt',
     'karma.conf.js',
     'package.json',
-    'bower.json',
   ].forEach(function (path) {
     self.copy(path, path);
   });
@@ -72,5 +71,5 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 SpGenerator.prototype.install = function install() {
-  this.installDependencies({skipInstall: this.options['skip-install']});
+  this.npmInstall([], {skipInstall: this.options['skip-install']});
 };
