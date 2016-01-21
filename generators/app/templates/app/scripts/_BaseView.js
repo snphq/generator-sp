@@ -8,5 +8,5 @@ const SuperClass = mixinBackbone(Backbone.Epoxy.View);
 export default SuperClass.extend({
   templateFunc() {
     return this.template || this.$el.html() || '';
-  },
+  }
 });

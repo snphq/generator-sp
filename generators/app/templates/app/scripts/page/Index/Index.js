@@ -13,19 +13,19 @@ export default _Page.extend({
   regions: {
     share: {
       el: '[data-view=share]',
-      view: Share,
-    },
+      view: Share
+    }
   },
 
   ui: {
-    auth: '[data-js="auth"]',
+    auth: '[data-js="auth"]'
   },
 
   events: {
-    'click @ui.auth': 'onClick',
+    'click @ui.auth': 'onClick'
   },
 
   onClick() {
     return (new AuthModal()).showModal();
-  },
+  }
 });

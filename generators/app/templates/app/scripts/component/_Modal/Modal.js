@@ -12,7 +12,7 @@ const Modal = BootstrapModal.extend({
 
   layoutManager() {
     return common.app.layout.getModalLayout();
-  },
+  }
 });
 
 export default viewMixin(Modal);

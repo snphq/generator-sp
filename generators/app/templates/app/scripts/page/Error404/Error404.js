@@ -4,5 +4,5 @@ import './Error404.sass';
 
 export default _Page.extend({
   template,
-  className: 'p-error404',
+  className: 'p-error404'
 });
