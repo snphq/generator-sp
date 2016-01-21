@@ -5,7 +5,7 @@ import common from './common';
 import IndexPage from 'page/Index';
 import Error404Page from 'page/Error404';
 
-function showPage(View, options = {}, callback) {
+function showPage(View, options = {}, callback = () => {}) {
   return common.app.layout.setContent(View, options, callback);
 }
 

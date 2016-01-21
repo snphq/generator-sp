@@ -31,7 +31,7 @@ window.common = {
   // Google Analitics
   ga: null,
   localization: new Localization(),
-  sblocks: sblocks(),
+  sblocks: sblocks()
 };
 
 export default window.common;

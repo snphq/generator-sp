@@ -9,9 +9,9 @@ if (BUILD_MODE === 'DEBUG') {
       vk: {appID: 0},
       ok: {
         appID: 0,
-        appKey: 'CBAHGDCOABABABABA',
-      },
-    },
+        appKey: 'CBAHGDCOABABABABA'
+      }
+    }
   };
 }
 
@@ -24,9 +24,9 @@ if (BUILD_MODE === 'DIST') {
       vk: {appID: 0},
       ok: {
         appID: 0,
-        appKey: 'CBAHGDCOABABABABA',
-      },
-    },
+        appKey: 'CBAHGDCOABABABABA'
+      }
+    }
   };
 }
 
@@ -39,9 +39,9 @@ if (BUILD_MODE === 'PROD') {
       vk: {appID: 0},
       ok: {
         appID: 0,
-        appKey: 'CBAHGDCOABABABABA',
-      },
-    },
+        appKey: 'CBAHGDCOABABABABA'
+      }
+    }
   };
 }
 

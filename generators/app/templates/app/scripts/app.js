@@ -53,7 +53,7 @@ export default class Application {
       layout.showCurrent();
       this.layout = layout;
       return Backbone.history.start(({
-        pushState: Modernizr.history,
+        pushState: Modernizr.history
       }));
     }
 

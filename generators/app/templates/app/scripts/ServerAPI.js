@@ -11,9 +11,9 @@ export default class ServerAPI extends ServerClient {
   getData() {
     return this.get({
       url: '/api',
-      stub: async => {
+      stub: (async) => {
         async.resolve('stub data');
-      },
+      }
     });
   }
 }
