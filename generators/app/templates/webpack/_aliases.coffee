@@ -12,6 +12,6 @@ module.exports = {
   # 'jquery': path.join(__dirname, 'node_modules/jquery/dist/jquery')
   'epoxy': 'backbone.epoxy'
   'underscore': 'lodash'
-  # 'bootstrap': path.join(__dirname, '/node_modules/bootstrap/dist/js/bootstrap')
+  'bootstrap': path.join(__dirname, '../node_modules/bootstrap/dist/js/bootstrap')
   'simple-blocks': 'simple-blocks/dist/simpleblocks'
 }

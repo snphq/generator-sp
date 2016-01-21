@@ -58,7 +58,6 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
     'haproxy-config.txt',
     'karma.conf.js',
     'package.json',
-    'bower.json',
   ].forEach(function (path) {
     self.copy(path, path);
   });

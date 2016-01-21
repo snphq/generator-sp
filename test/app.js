@@ -13,12 +13,10 @@ describe('sp generator', function () {
 
   describe('run test', function () {
     var expectedContent = [
-      ['bower.json', /"name": "projects"/],
       ['package.json', /"name": "projects"/],
     ];
 
     var dotFiles = [
-      '.bowerrc',
       '.editorconfig',
       '.coffeelintrc',
       '.gitignore',
@@ -60,7 +58,6 @@ describe('sp generator', function () {
 
     var projectFiles = [
       'package.json',
-      'bower.json',
       'gulpfile.js',
       'haproxy-config.txt',
       'karma.conf.js',
@@ -113,6 +110,16 @@ describe('sp generator', function () {
       ]
     );
 
+    var unexpected = [
+      'bower.json',
+      '.bowerrc',
+    ].concat(
+      inDirectory('app', [
+        'favicon.ico',
+        'styles/_bootstrap.scss',
+      ])
+    );
+
     var options = {
       'skip-install-message': true,
       'skip-install': true,
@@ -132,13 +139,18 @@ describe('sp generator', function () {
     it('creates expected files', function (done) {
       runGen.withOptions(options).on('end', function () {
         assert.file(expected);
-        assert.noFile([
-          'app/favicon.ico',
-        ]);
         assert.fileContent(expectedContent);
         done();
       });
     });
+
+    it('dont creates unexpected files', function (done) {
+      runGen.withOptions(options).on('end', function () {
+        assert.noFile(unexpected);
+        done();
+      });
+    });
+
     it('sets webpack=true in config', function (done) {
       runGen.withOptions(options).on('end', function () {
         assert.fileContent('.yo-rc.json', /\"webpack\": true/);
