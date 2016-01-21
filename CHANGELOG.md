@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - Add compression on build for generated project
  - Add `--modal` option in view generator
  - Add test generator.
+ - Remove bower dependencies.
+ - Add npm packages: bootstrap, font-awesome, reset.css, sp-utils-paginatecollection, imports-loader.
+ - Add test for check unexpected files (bower.json, .bowerrc, favicon.ico, bootstrap file).
+ - Change dependencies installation (remove bower).
 
 ## [1.0.0] - 2016-01-20
  - Add webpack configuration
