@@ -113,4 +113,15 @@ describe('view', function () {
       done();
     });
   });
+
+  it('should create modalView if option --modal set', function (done) {
+    createGenerator('testModal')
+    .withOptions({modal: true})
+    .on('end', function () {
+      assert.fileContent([
+        ['app/scripts/component/TestModal/TestModal.js', fixture('TestModal/TestModal.js')],
+      ]);
+      done();
+    });
+  });
 });

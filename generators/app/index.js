@@ -63,7 +63,10 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
   });
 
   // copy to dot files
-  this.directory('dotfiles', this.destinationRoot());
+  this.fs.copy(
+    this.templatePath('dotfiles/.*'),
+    this.destinationRoot()
+  );
   // this.directory('webpack', 'webpack');
 };
 

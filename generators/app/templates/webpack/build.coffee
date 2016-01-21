@@ -6,9 +6,14 @@ PROP = require 'snp-gulp-tasks/lib/config'
 
 module.exports = ->
   config.output.path = PROP.path.scripts('dest')
-  config.plugins.concat [
+  config.plugins = config.plugins.concat [
     new webpack.optimize.UglifyJsPlugin
+      compress:
+        dead_code: true
+        drop_debugger: true
+        unsafe: true
+        evaluate: true
+        unused: true
     new ModernizrWebpackPlugin(require './_modernizr')
   ]
   config
-

@@ -20,6 +20,8 @@ html.no-js
       else
         script(src="/scripts/modernizr.bundle.js")
     link(rel="stylesheet", href="/styles/main.css")
+    if jade_mode != "server"
+      link(rel="stylesheet", href="/styles/app.css")
     block head
 
   body
@@ -33,5 +35,3 @@ html.no-js
       script(src="http://localhost:8080/app/scripts/app.bundle.js")
     else
       script(src="/scripts/app.bundle.js")
-
-

@@ -6,6 +6,7 @@ module.exports = yeoman.Base.extend({
   constructor: function () {
     yeoman.Base.apply(this, arguments);
     this.argument('path', {type: String, required: true});
+    this.option('coffee');
     this.log('You called the view subgenerator with the argument ' + this.normalize_name + '.');
   },
 
@@ -25,10 +26,17 @@ module.exports = yeoman.Base.extend({
       return;
     }
     this._setTemplatesData();
-    this.copy('view.js', this._getFileName('js'));
+    this.copy(this._getJsTemplate(), this._getFileName('js'));
     this.copy('view.sass', this._getFileName('sass'));
     this.copy('view.jade', this._getFileName('jade'));
     this.copy('package.json', this._getPackageFileName());
+  },
+
+  _getJsTemplate: function () {
+    if (this.options.modal) {
+      return 'modal.js';
+    }
+    return 'view.js';
   },
 
   _getPath: function () {
