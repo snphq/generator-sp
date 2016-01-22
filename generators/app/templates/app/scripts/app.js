@@ -14,7 +14,7 @@ const sblocksComponents = [
   // simple-blocks implementation
   // https://github.com/lexich/simple-blocks
 ];
-const Modernizr = window.Modernizr || {history: false};
+const Modernizr = window.Modernizr;
 
 $(document).ajaxSend((event, jqxhr, settings) => {
   if (settings.type !== 'GET') {
@@ -53,7 +53,7 @@ export default class Application {
       layout.showCurrent();
       this.layout = layout;
       return Backbone.history.start(({
-        pushState: Modernizr.history,
+        pushState: (window.history && window.history.pushState),
       }));
     }
 
