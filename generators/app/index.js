@@ -4,7 +4,11 @@ var mkdirp = require('mkdirp');
 
 var SpGenerator = module.exports = function SpGenerator() {
   yeoman.Base.apply(this, arguments);
-  this.composeWith('git-init');
+  if (!process.env.TEST) {
+    this.composeWith('git-init', {}, {
+      local: require.resolve('generator-git-init/generators/app'),
+    });
+  }
 };
 
 util.inherits(SpGenerator, yeoman.Base);
