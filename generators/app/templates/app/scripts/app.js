@@ -14,7 +14,7 @@ const sblocksComponents = [
   // simple-blocks implementation
   // https://github.com/lexich/simple-blocks
 ];
-const Modernizr = window.Modernizr;
+// const Modernizr = window.Modernizr;
 
 $(document).ajaxSend((event, jqxhr, settings) => {
   if (settings.type !== 'GET') {
