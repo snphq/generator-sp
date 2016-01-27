@@ -127,35 +127,23 @@ describe('sp generator', function () {
       'skip-message': true,
     };
 
-    var runGen;
-
-    beforeEach(function () {
-      runGen = helpers
+    before(function (done) {
+      helpers
         .run(path.join(__dirname, '../generators/app'))
-        .inDir(path.join(__dirname, '.tmp'))
-        .withGenerators([[helpers.createDummyGenerator(), 'git-init']]);
+        .withOptions(options).on('end', done);
     });
 
-    it('creates expected files', function (done) {
-      runGen.withOptions(options).on('end', function () {
-        assert.file(expected);
-        assert.fileContent(expectedContent);
-        done();
-      });
+    it('creates expected files', function () {
+      assert.file(expected);
+      assert.fileContent(expectedContent);
     });
 
-    it('dont creates unexpected files', function (done) {
-      runGen.withOptions(options).on('end', function () {
-        assert.noFile(unexpected);
-        done();
-      });
+    it('dont creates unexpected files', function () {
+      assert.noFile(unexpected);
     });
 
-    it('sets webpack=true in config', function (done) {
-      runGen.withOptions(options).on('end', function () {
-        assert.fileContent('.yo-rc.json', /\"webpack\": true/);
-        done();
-      });
+    it('sets webpack=true in config', function () {
+      assert.fileContent('.yo-rc.json', /\"webpack\": true/);
     });
   });
 });
