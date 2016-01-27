@@ -53,7 +53,7 @@ export default class Application {
       layout.showCurrent();
       this.layout = layout;
       return Backbone.history.start(({
-        pushState: (window.history && window.history.pushState),
+        pushState: Boolean(window.history && window.history.pushState),
       }));
     }
 
