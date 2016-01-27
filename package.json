@@ -38,7 +38,6 @@
     "yeoman-test": "^1.0.0"
   },
   "peerDependencies": {
-    "generator-git-init": "*",
     "yo": ">=1.2.0"
   },
   "engines": {
