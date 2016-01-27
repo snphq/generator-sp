@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Add generator-git-init into npm local dependencies.
 
 ## [1.0.1] - 2016-01-22
 - Remove extra_js from default tasks list
