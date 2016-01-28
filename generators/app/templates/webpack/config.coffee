@@ -3,6 +3,7 @@ requireChild = require '../gulp/requireChild'
 webpack = requireChild('webpack')
 path = require 'path'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
+autoprefixer = require 'autoprefixer'
 PROP = require 'snp-gulp-tasks/lib/config'
 ENV = if PROP and PROP.preprocess then Object.keys(PROP.preprocess()) else 'DEBUG'
 
@@ -58,7 +59,7 @@ doConfig = ->
       loader: 'jade'
     ,
       test: /\.sass$/
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass')
+      loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
     ,
       test: /\.css$/
       loader: ExtractTextPlugin.extract('style', 'css')
@@ -79,6 +80,7 @@ doConfig = ->
       /jquery\/dist\/jquery\.js/
       /^backbone\/backbone\.js/
     ]
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
   plugins: [
     new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(ENV))
     new (webpack.ContextReplacementPlugin)(/node_modules\/moment\//, /ru/)
