@@ -5,11 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [1.0.2] - 2016-01-28
+## [2.0.2] - 2016-01-28
 - Add generator-git-init into npm local dependencies.
 - Add common.js exporting method in es6 modules
 
-## [1.0.1] - 2016-01-22
+## [2.0.1] - 2016-01-22
 - Remove extra_js from default tasks list
 - Fix dotfiles copying(.gitignore wasnt copied)
 - Add compression on build for generated project
@@ -20,7 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test for check unexpected files (bower.json, .bowerrc, favicon.ico, bootstrap file).
 - Change dependencies installation (remove bower).
 
-## [1.0.0] - 2016-01-20
+## [2.0.0] - 2016-01-20
  - Add webpack configuration
  - Add tests in generated project(karma, mocha, chai, sinon)
  - Add precommit hooks for tests and linter(xo) in generated project
