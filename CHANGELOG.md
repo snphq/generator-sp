@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update phantomjs
 - Change autoprefixer-loader package to postcss-loader.
 - Fix pushState bug.
+- Update generator-git-init and use `commit` option to create initial commit on app create
 
 ## [2.0.2] - 2016-01-28
 - Add generator-git-init into npm local dependencies.
