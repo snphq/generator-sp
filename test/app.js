@@ -7,8 +7,9 @@ var inDirectory = customHelpers.inDirectory;
 var viewFiles = customHelpers.viewFiles;
 
 describe('sp generator', function () {
-  it('the generator can be required without throwing', function () {
+  it('the generator can be required without throwing', function (done) {
     this.app = require('../generators/app');
+    done();
   });
 
   describe('run test', function () {
