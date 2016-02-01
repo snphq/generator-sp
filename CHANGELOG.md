@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.0.3] - 2016-02-01
 - Update phantomjs
 - Change autoprefixer-loader package to postcss-loader.
 - Fix pushState bug.
