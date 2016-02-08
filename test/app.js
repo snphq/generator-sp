@@ -50,9 +50,9 @@ describe('sp generator', function () {
         'main.coffee',
       ]),
       inDirectory('app/scripts/utils', [
-        'jqueryPatch.coffee',
-        'ShareConstructor.coffee',
-        'SWFConstructor.coffee',
+        'jqueryPatch.js',
+        'ShareConstructor.js',
+        'SWFConstructor.js',
         'ViewMixin.js',
       ])
     );
