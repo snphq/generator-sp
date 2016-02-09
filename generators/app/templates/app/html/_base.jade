@@ -1,0 +1,37 @@
+doctype html
+| <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+| <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+| <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+| <!--[if gt IE 8]><!-->
+html.no-js
+  | <!--<![endif]-->
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    block title
+      title Projects
+      meta(name="description", content="")
+    meta(name="viewport", content="width=device-width")
+    //Place favicon.ico and apple-touch-icon.png in the root directory
+    link(rel="shortcut icon", href="/favicon.ico?")
+    if modernizr
+      if jade_mode == "server"
+        script(src="http://localhost:8080/app/scripts/modernizr.bundle.js")
+      else
+        script(src="/scripts/modernizr.bundle.js")
+    link(rel="stylesheet", href="/styles/main.css")
+    if jade_mode != "server"
+      link(rel="stylesheet", href="/styles/app.css")
+    block head
+
+  body
+    if jade_mode == "server"
+      include _ribbon
+      +ribbon("Local")
+
+    block content
+    if jade_mode == "server"
+      script(src="http://localhost:8080/webpack-dev-server.js")
+      script(src="http://localhost:8080/app/scripts/app.bundle.js")
+    else
+      script(src="/scripts/app.bundle.js")

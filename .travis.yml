@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - '0.10'
+  - v5
+  - v4
+  - '0.12'
 before_install:
-  - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-sp' ]; then cd .. && eval "mv $currentfolder generator-sp" && cd generator-sp; fi
+  - 'currentfolder=${PWD##*/}'
+  - 'if [ "$currentfolder" != ''generator-sp'' ]; then cd .. && eval "mv $currentfolder generator-sp" && cd generator-sp; fi'
