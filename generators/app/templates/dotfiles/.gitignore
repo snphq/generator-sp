@@ -1,0 +1,17 @@
+node_modules
+/dist
+/prod
+.tmp
+.sass-cache
+app/bower_components
+.idea
+/app/*.html
+/arhive
+/app/images/vendor/
+
+/app/styles/vendor/*
+!/app/styles/vendor/_bootstrap.scss
+!/app/styles/vendor/__vendor.scss
+/app/styles/_sprites.scss
+app/scripts/view/**/*.css
+app/scripts/view/**/*.css.map
