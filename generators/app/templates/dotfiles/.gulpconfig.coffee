@@ -42,7 +42,6 @@ module.exports =
     build.push ["images", "fonts", "extras"] unless @isDev
     build.push "sprites"
     build.push "cssimage"
-    build.push "styles"
     build.push "scripts.#{if @isDev then 'dev' else 'prod'}"
     build.push "templates"
     build.push "bs" if @isSrv
