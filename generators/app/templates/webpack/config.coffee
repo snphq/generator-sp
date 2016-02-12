@@ -10,7 +10,7 @@ ENV = if PROP and PROP.preprocess then Object.keys(PROP.preprocess().context)[0]
 
 doConfig = ->
   context: path.resolve 'app'
-  entry: app: [ './scripts/main.js' ]
+  entry: app: [ 'babel-polyfill', './scripts/main.js' ]
   resolve:
     extensions: [
       ''
