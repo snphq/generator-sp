@@ -14,7 +14,7 @@ module.exports = function (config) {
       // fraworks
       'karma-mocha',
       'karma-chai',
-      'karma-sinon-chai',
+      'karma-chai-sinon',
       'karma-phantomjs-shim',
 
       // environment
@@ -32,7 +32,7 @@ module.exports = function (config) {
 
     basePath: '',
 
-    frameworks: ['mocha', 'chai', 'sinon-chai', 'phantomjs-shim'],
+    frameworks: ['mocha', 'chai', 'chai-sinon', 'phantomjs-shim'],
 
     // list of files / patterns to load in the browser
     files: [
