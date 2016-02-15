@@ -106,7 +106,6 @@ describe('sp generator', function () {
       viewFiles('app/scripts/component', 'Layout'),
       [
         'app/images/',
-        'app/styles/',
         'app/html/',
       ]
     );
@@ -117,7 +116,8 @@ describe('sp generator', function () {
     ].concat(
       inDirectory('app', [
         'favicon.ico',
-        'styles/_bootstrap.scss',
+        'styles/',
+        'images/_sprites',
       ])
     );
 
