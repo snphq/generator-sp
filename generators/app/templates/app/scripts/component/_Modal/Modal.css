@@ -1,0 +1,52 @@
+@b modal {
+  position: fixed;
+  size: 100%;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  display: block;
+  right: auto;
+  bottom: auto;
+  z-index: 101;
+}
+
+@b modal-header {
+  text-align: center;
+  @e close {
+    margin-right: 10%;
+    float: right;
+  }
+}
+
+@b modal-dialog {
+  background: #FFFFFF;
+  display: table;
+  position: relative;
+  min-width: 60%;
+  margin: 10px auto;
+}
+
+@b modal-content {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  border-radius: 0;
+  size: 100%;
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+@b modal-body {
+  max-height: 100%;
+  padding: 0;
+}
+
+@b modal-title {
+  text-align: center;
+}
+
+@b modal-backdrop.in {
+  opacity: 0.9;
+  z-index: 100;
+}

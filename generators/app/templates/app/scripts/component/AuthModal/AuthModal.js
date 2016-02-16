@@ -1,5 +1,5 @@
 import _Modal from '../_Modal';
-import './AuthModal.sass';
+import './AuthModal.css';
 import template from './AuthModal.jade';
 
 export default _Modal.extend({

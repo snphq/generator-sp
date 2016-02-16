@@ -61,7 +61,7 @@ doConfig = ->
       loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
     ,
       test: /\.css$/
-      loader: ExtractTextPlugin.extract('style', 'css')
+      loader: ExtractTextPlugin.extract('style', 'css!postcss')
     ,
       test: /\.svg$/
       loader: 'file?limit=4096'
@@ -80,7 +80,28 @@ doConfig = ->
       /^backbone\/backbone\.js/
     ]
   postcss: [
-    (require 'autoprefixer') { browsers: ['last 2 versions'] }
+    (require 'stylelint') { configFile: '.stylelintrc' }
+    require('postcss-browser-reporter')
+    require('postcss-import')
+    require('postcss-size')
+    require('postcss-svgo')
+    require('postcss-assets') {
+      basePath: 'app/'
+      loadPaths: ['images/']
+    }
+    (require 'postcss-bem') {
+      style: 'suit',
+      separators:
+        namespace: '-'
+        descendent: '--'
+        modifier: '.__'
+      shortcuts:
+        component: 'b'
+        descendent: 'e'
+        modifier: 'm'
+        utility: 'u'
+    }
+    require('postcss-cssnext')
   ]
   plugins: [
     new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(ENV))

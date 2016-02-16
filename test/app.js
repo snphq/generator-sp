@@ -24,6 +24,7 @@ describe('sp generator', function () {
       '.gitattributes',
       '.gulpconfig.coffee',
       '.yo-rc.json',
+      '.stylelintrc',
     ];
 
     var capFiles = [

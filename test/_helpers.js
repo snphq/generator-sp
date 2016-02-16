@@ -12,7 +12,7 @@ function viewFiles(path, name) {
   var extensions = [
     'js',
     'jade',
-    'sass',
+    'css',
     'package',
   ];
   var shortName = name.replace(/^_/, '');

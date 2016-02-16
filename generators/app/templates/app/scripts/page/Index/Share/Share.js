@@ -1,6 +1,6 @@
 import _Base from 'component/_Base';
 import template from './Share.jade';
-import './Share.sass';
+import './Share.css';
 
 export default _Base.extend({
 
