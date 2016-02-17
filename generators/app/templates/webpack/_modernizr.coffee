@@ -1,25 +1,20 @@
 path = require 'path'
-PROP = require 'snp-gulp-tasks/lib/config'
 
-config = {
+module.exports = config = {
   # All avaliable settings here:
   # https://github.com/Modernizr/Modernizr/blob/master/lib/config-all.json
-  filename: 'modernizr.bundle.js',
+  filename: 'frassets/modernizr.[hash].js',
   classPrefix: 'mzr-',
   options: [
     'setClasses',
   ],
+  minify:
+    output:
+      comments: false
+      beautify: false
   # 'feature-detects': [
     # 'audio',
     # 'css/animations',
     # 'history',
   # ]
 }
-if not PROP.isDev
-  config.minify = {
-    output: {
-      comments: false
-      beautify: false
-    }
-  }
-module.exports = config

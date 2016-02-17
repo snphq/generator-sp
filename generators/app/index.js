@@ -59,11 +59,12 @@ SpGenerator.prototype.projectfiles = function projectfiles() {
   this.directory('gulp', 'gulp');
   // copy configs
   [
-    'gulpfile.js',
     'README.md',
     'haproxy-config.txt',
     'karma.conf.js',
     'package.json',
+    'run-dev.js',
+    'run-build.js',
   ].forEach(function (path) {
     self.copy(path, path);
   });

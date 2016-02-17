@@ -1,11 +1,9 @@
-requireChild = require '../gulp/requireChild'
-config = (require './config')()
-webpack = requireChild 'webpack'
+makeConfig = require './_config'
+webpack = require 'webpack'
 ModernizrWebpackPlugin = require 'modernizr-webpack-plugin'
-PROP = require 'snp-gulp-tasks/lib/config'
 
-module.exports = ->
-  config.output.path = PROP.path.scripts('dest')
+module.exports = (opts = {})->
+  config = makeConfig(opts)
   config.plugins = config.plugins.concat [
     new webpack.optimize.UglifyJsPlugin
       compress:

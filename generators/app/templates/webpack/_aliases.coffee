@@ -1,6 +1,7 @@
 path = require 'path'
 
 module.exports = {
+  'images': path.join(__dirname, '../app/images')
   'utils': path.join(__dirname, '../app/scripts/utils')
   'common': path.join(__dirname, '../app/scripts/common')
   'model': path.join(__dirname, '../app/scripts/model')
