@@ -58,7 +58,7 @@ doConfig = ->
       loader: 'jade'
     ,
       test: /\.sass$/
-      loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+      loader: ExtractTextPlugin.extract('style', 'css!postcss?pack=sass!sass')
     ,
       test: /\.css$/
       loader: ExtractTextPlugin.extract('style', 'css!postcss')
@@ -79,30 +79,7 @@ doConfig = ->
       /jquery\/dist\/jquery\.js/
       /^backbone\/backbone\.js/
     ]
-  postcss: [
-    (require 'stylelint') { configFile: '.stylelintrc' }
-    require('postcss-browser-reporter')
-    require('postcss-import')
-    require('postcss-size')
-    require('postcss-svgo')
-    require('postcss-assets') {
-      basePath: 'app/'
-      loadPaths: ['images/']
-    }
-    (require 'postcss-bem') {
-      style: 'suit',
-      separators:
-        namespace: '-'
-        descendent: '--'
-        modifier: '.__'
-      shortcuts:
-        component: 'b'
-        descendent: 'e'
-        modifier: 'm'
-        utility: 'u'
-    }
-    require('postcss-cssnext')
-  ]
+  postcss: (require './_postcss')
   plugins: [
     new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(ENV))
     new (webpack.ContextReplacementPlugin)(/node_modules\/moment\//, /ru/)

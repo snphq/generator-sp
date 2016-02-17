@@ -1,3 +1,5 @@
+@import './Share-patch-1.css';
+
 @b share {
   @e social {
     display: inline-block;
