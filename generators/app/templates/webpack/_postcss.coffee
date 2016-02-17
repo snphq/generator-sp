@@ -1,5 +1,4 @@
-requireChild = require '../gulp/requireChild'
-webpack = requireChild('webpack')
+webpack = require 'webpack'
 
 defaultPlugins = [
   require('postcss-import') {
@@ -25,7 +24,7 @@ defaultPlugins = [
   }
   require('postcss-cssnext')
 ]
-config = () ->
+config = ->
   defaults: [
     (require 'stylelint') { configFile: '.stylelintrc' }
     require('postcss-browser-reporter')
