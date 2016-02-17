@@ -1,14 +1,13 @@
-requireChild = require '../gulp/requireChild'
-
-webpack = requireChild('webpack')
+webpack = require 'webpack'
 path = require 'path'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
-PROP = require 'snp-gulp-tasks/lib/config'
-ENV = if PROP and PROP.preprocess then Object.keys(PROP.preprocess().context)[0] else 'DEBUG'
+HtmlWebpackPlugin = require 'html-webpack-plugin'
 
 # TODO: do all thigs without gulp
 
-doConfig = ->
+doConfig = (opts = {})->
+  BUILD_MODE = opts.BUILD_MODE
+  IS_DEV = !!opts.IS_DEV
   context: path.resolve 'app'
   entry: app: [ 'babel-polyfill', './scripts/main.js' ]
   resolve:
@@ -23,10 +22,7 @@ doConfig = ->
 
   resolveLoader: modulesDirectories: ['node_modules']
 
-  output:
-    path: path.join(__dirname, '/app/scripts/')
-    filename: '[name].bundle.js'
-    chunkFilename: '[id].bundle.js'
+  # output is definded in build an dev configs
 
   module:
     preLoaders: [
@@ -64,13 +60,17 @@ doConfig = ->
       loader: ExtractTextPlugin.extract('style', 'css!postcss')
     ,
       test: /\.svg$/
-      loader: 'file?limit=4096'
+      loader: 'file?name=frassets/[name].[hash:6].[ext]&limit=4096'
     ,
       test: /\.png$/
-      loader: 'file?limit=10000'
+      loader: 'file?name=frassets/[name].[hash:6].[ext]&limit=4096'
     ,
       test: /\.jpe?g$/
-      loader: 'file?limit=10000'
+      loader: 'file?name=frassets/[name].[hash:6].[ext]&limit=4096'
+    ,
+    # custom file types
+      test: /\.(pdf|zip)$/
+      loader: 'file?name=files/[name].[hash:6].[ext]'
     ,
       test: /\/bootstrap\/dist\/js\/bootstrap\.js/
       loader: 'imports?jQuery=jquery'
@@ -81,15 +81,29 @@ doConfig = ->
     ]
   postcss: (require './_postcss')
   plugins: [
-    new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(ENV))
+    new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(BUILD_MODE))
     new (webpack.ContextReplacementPlugin)(/node_modules\/moment\//, /ru/)
     new (webpack.ProvidePlugin)(
       $: 'jquery'
       jQuery: 'jquery'
       _: 'underscore')
-    new ExtractTextPlugin('../styles/app.css',
+    new (HtmlWebpackPlugin)({
+        filename: 'index.html'
+        template: 'html/index.jade'
+      }),
+    new (HtmlWebpackPlugin)({
+        filename: 'auth_fail.html'
+        template: 'html/auth_fail.jade'
+        inject: false
+      }),
+    new (HtmlWebpackPlugin)({
+        filename: 'auth_success.html'
+        template: 'html/auth_success.jade'
+        inject: false
+      }),
+    new ExtractTextPlugin('frassets/app.[contenthash].css',
       allChunks: true
-      disable: PROP.isDev)
+      disable: IS_DEV)
   ]
 
   coffeelint: configFile: '.coffeelintrc'

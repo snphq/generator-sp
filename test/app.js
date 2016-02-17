@@ -22,7 +22,6 @@ describe('sp generator', function () {
       '.coffeelintrc',
       '.gitignore',
       '.gitattributes',
-      '.gulpconfig.coffee',
       '.yo-rc.json',
       '.stylelintrc',
     ];
@@ -60,11 +59,10 @@ describe('sp generator', function () {
 
     var projectFiles = [
       'package.json',
-      'gulpfile.js',
       'haproxy-config.txt',
       'karma.conf.js',
-      'gulp/requireChild.coffee',
-      'gulp/tasks/.gitkeep',
+      'run-dev.js',
+      'run-build.js',
     ].concat(
       inDirectory('webpack', [
         '_aliases.coffee',

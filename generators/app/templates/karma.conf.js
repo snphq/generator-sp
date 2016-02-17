@@ -36,7 +36,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/babel-polyfill/dist/polyfill.js',
+      {pattern: 'node_modules/babel-polyfill/dist/polyfill.js', included: false},
       {pattern: 'app/scripts/**/__test__/*.js'},
       {pattern: 'app/scripts/**/*.js', included: false},
     ],

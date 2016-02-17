@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Remove all gulp dependencies
 - Remove snp-gulp-task styles dependency.
 - Remove folder app/styles.
 - Remove font-awesome.
