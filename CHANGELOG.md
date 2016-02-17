@@ -8,6 +8,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Remove snp-gulp-task styles dependency.
 - Remove folder app/styles.
 - Remove font-awesome.
+- Migrate to cssnext PostCSS, add plugins:
+    - postcss-assets,
+    - postcss-bem,
+    - postcss-browser-reporter,
+    - postcss-cssnext,
+    - postcss-import,
+    - postcss-size,
+    - postcss-svgo,
+    - stylelint.
 
 ## [2.0.3] - 2016-02-01
 - Update phantomjs

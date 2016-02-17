@@ -1,0 +1,16 @@
+@import './Share-patch-1.css';
+
+@b share {
+  @e social {
+    display: inline-block;
+    color: #000000;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+    text-decoration: none;
+    margin-right: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

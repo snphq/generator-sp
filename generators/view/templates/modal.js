@@ -1,5 +1,5 @@
 import _Modal from 'component/_Modal';
-import './<%= componentName %>.sass';
+import './<%= componentName %>.css';
 import template from './<%= componentName %>.jade';
 
 export default _Modal.extend({

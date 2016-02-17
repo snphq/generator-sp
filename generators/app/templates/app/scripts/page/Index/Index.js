@@ -2,7 +2,7 @@ import _Page from '../_Base';
 import AuthModal from 'component/AuthModal';
 import Share from './Share';
 import template from './Index.jade';
-import './Index.sass';
+import './Index.css';
 
 export default _Page.extend({
 

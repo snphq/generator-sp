@@ -54,10 +54,10 @@ doConfig = (opts = {})->
       loader: 'jade'
     ,
       test: /\.sass$/
-      loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+      loader: ExtractTextPlugin.extract('style', 'css!postcss?pack=sass!sass')
     ,
       test: /\.css$/
-      loader: ExtractTextPlugin.extract('style', 'css')
+      loader: ExtractTextPlugin.extract('style', 'css!postcss')
     ,
       test: /\.svg$/
       loader: 'file?name=frassets/[name].[hash:6].[ext]&limit=4096'
@@ -79,9 +79,7 @@ doConfig = (opts = {})->
       /jquery\/dist\/jquery\.js/
       /^backbone\/backbone\.js/
     ]
-  postcss: [
-    (require 'autoprefixer') { browsers: ['last 2 versions'] }
-  ]
+  postcss: (require './_postcss')
   plugins: [
     new (webpack.DefinePlugin)(BUILD_MODE: JSON.stringify(BUILD_MODE))
     new (webpack.ContextReplacementPlugin)(/node_modules\/moment\//, /ru/)

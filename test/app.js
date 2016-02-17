@@ -23,6 +23,7 @@ describe('sp generator', function () {
       '.gitignore',
       '.gitattributes',
       '.yo-rc.json',
+      '.stylelintrc',
     ];
 
     var capFiles = [

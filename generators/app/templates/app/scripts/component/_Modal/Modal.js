@@ -1,7 +1,7 @@
 import BootstrapModal from 'sp-utils-bootstrapmodal';
 import viewMixin from 'utils/ViewMixin';
 import common from 'common';
-import './Modal.sass';
+import './Modal.css';
 
 const Modal = BootstrapModal.extend({
   autoremove: true,
