@@ -1,4 +1,3 @@
-require('coffee-script/register');
 const makeConfig = require('./webpack/build');
 const webpack = require('webpack');
 const rimraf = require('rimraf');
@@ -37,4 +36,3 @@ function build() {
 }
 
 rimraf(buildPath, build);
-
