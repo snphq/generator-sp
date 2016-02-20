@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - postcss-size,
     - postcss-svgo,
     - stylelint.
+- Migrate from coffee script to ES6 in webpack configs. 
 
 ## [2.0.3] - 2016-02-01
 - Update phantomjs

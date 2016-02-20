@@ -3,7 +3,7 @@
 
 // Karma configuration
 require('coffee-script/register');
-var webpackConfig = require('./webpack/test.coffee');
+var webpackConfig = require('./webpack/test.js');
 const ibrik = require('ibrik');
 delete webpackConfig.entry;
 

@@ -5,8 +5,8 @@
     "tdd": "karma start",
     "test": "npm run lint && karma start --single-run",
     "lint": "npm run lintxo && npm run lintcoffee",
-    "lintcoffee": "coffeelint -f  .coffeelintrc app/scripts webpack",
-    "lintxo": "xo *.js && xo app/scripts/**/*.js --esnext",
+    "lintcoffee": "coffeelint -f .coffeelintrc app/scripts",
+    "lintxo": "xo *.js && xo app/scripts/**/*.js webpack/**/*.js --esnext",
     "dev": "MODE=DEBUG node ./run-dev.js",
     "dist": "MODE=DIST node ./run-build.js",
     "prod": "MODE=PROD node ./run-build.js",
@@ -108,6 +108,12 @@
       "comma-dangle": [
         2,
         "always-multiline"
+      ],
+      "camelcase": [
+        1,
+        {
+          "properties": "always"
+        }
       ]
     }
   }

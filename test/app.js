@@ -65,10 +65,13 @@ describe('sp generator', function () {
       'run-build.js',
     ].concat(
       inDirectory('webpack', [
-        '_aliases.coffee',
-        'build.coffee',
-        'dev.coffee',
-        'test.coffee',
+        '_aliases.js',
+        '_config.js',
+        '_modernizr.js',
+        '_postcss.js',
+        'build.js',
+        'dev.js',
+        'test.js',
       ])
     );
 
