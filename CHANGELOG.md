@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.0] - 2016-02-25
 - Remove all gulp dependencies
 - Remove snp-gulp-task styles dependency.
 - Remove folder app/styles.
