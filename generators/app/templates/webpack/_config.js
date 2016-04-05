@@ -64,7 +64,7 @@ const doConfig = opts => {
         },
         {
           test: /\.(svg|png|jpe?g)$/,
-          loader: 'file?name=frassets/[name].[hash:6].[ext]&limit=4096',
+          loader: 'url?name=frassets/[name].[hash:6].[ext]&limit=4096',
         },
         {
         // custom file types
