@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Change .stylelintrc from JSON to YAML
+- Add html-webpack-plugin in package.json
+- Change loader for images - url-loader
 
 ## [2.1.0] - 2016-02-25
 - Remove all gulp dependencies
@@ -19,7 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - postcss-size,
     - postcss-svgo,
     - stylelint.
-- Migrate from coffee script to ES6 in webpack configs. 
+- Migrate from coffee script to ES6 in webpack configs.
 
 ## [2.0.3] - 2016-02-01
 - Update phantomjs
