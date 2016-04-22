@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change .stylelintrc from JSON to YAML
 - Add html-webpack-plugin in package.json
 - Change loader for images - url-loader
+- Add path 'files' to webpack aliases config
 
 ## [2.1.0] - 2016-02-25
 - Remove all gulp dependencies
