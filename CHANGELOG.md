@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.1] - 2016-04-22
 - Change .stylelintrc from JSON to YAML
 - Add html-webpack-plugin in package.json
 - Change loader for images - url-loader
