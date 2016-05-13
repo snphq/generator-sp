@@ -63,8 +63,24 @@ const doConfig = opts => {
           loader: ExtractTextPlugin.extract('style', 'css!postcss'),
         },
         {
-          test: /\.(svg|png|jpe?g)$/,
-          loader: 'url?name=frassets/[name].[hash:6].[ext]&limit=4096',
+          test: /\.(png|jpe?g)$/,
+          loader: 'url?name=frassets/images/[name].[hash:6].[ext]&limit=4096',
+        },
+        {
+          test: /images\/.*?\.(svg)$/,
+          loader: 'url?name=frassets/images/[name].[hash:6].[ext]&limit=4096',
+        },
+        {
+          test: /\.woff2?$/,
+          loader: 'url?limit=10000&name=frassets/fonts/[name].[hash:6].[ext]'
+        },
+        {
+          test: /\.([ot]tf|eot)$/,
+          loader: 'file?name=frassets/fonts/[name].[hash:6].[ext]',
+        },
+        {
+          test: /fonts\/.*?\.(svg)$/,
+          loader: 'file?name=frassets/fonts/[name].[hash:6].[ext]',
         },
         {
         // custom file types

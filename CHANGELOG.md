@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Add path 'fonts' to webpack aliases config
+- Add path 'packages' to webpack aliases config
+- Add loading fonts to webpack config
+- Add publicPath to webpack build config for correct url-loading
+- Add examples of url-loading of fonts and images
+- Change Layout styles
+- Remove 'function-whitespace-after', 'value-list-comma-space-after',
+  'declaration-colon-space-after', 'selector-no-type', 'no-duplicate-selectors'
+  from .stylelintrc
 
 ## [2.1.1] - 2016-04-22
 - Change .stylelintrc from JSON to YAML

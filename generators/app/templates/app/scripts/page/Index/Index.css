@@ -3,13 +3,29 @@
     font-size: 60px;
     line-height: 1;
     letter-spacing: -1px;
+    font-family: 'MullerMedium', 'Arial';
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
   }
   @e share {
     margin-top: 10px;
   }
-  @e img {
+  @e img-inline {
     background-image: inline('cat.png');
     size: width('cat.png') height('cat.png');
+    display: inline-block;
+  }
+  @e img {
+    background-image: url('~images/kitty.png');
+    size: width('kitty.png') height('kitty.png');
+    display: inline-block;
+  }
+  @e img-svg {
+    background-image: url('~images/black_cat.svg');
+    size: 256px 256px;
+    background-size: contain;
+    display: inline-block;
   }
   @e svgo-example {
     width: 40px;
