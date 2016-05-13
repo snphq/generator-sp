@@ -13,29 +13,17 @@
       -
         severity: "warning"
     function-url-quotes: "single"
-    function-whitespace-after:
-      - "always"
-      -
-        severity: "warning"
     number-leading-zero: "always"
     number-max-precision: 3
     number-zero-length-no-unit: true
     string-quotes: "single"
     value-no-vendor-prefix: true
-    value-list-comma-space-after:
-      - "always"
-      -
-        severity: "warning"
     property-no-vendor-prefix: true
     declaration-bang-space-after:
       - "never"
       -
         severity: "warning"
     declaration-bang-space-before:
-      - "always"
-      -
-        severity: "warning"
-    declaration-colon-space-after:
       - "always"
       -
         severity: "warning"
@@ -73,7 +61,6 @@
         severity: "warning"
     selector-no-attribute: true
     selector-no-id: true
-    selector-no-type: true
     selector-no-universal: true
     selector-no-vendor-prefix: true
     selector-pseudo-element-colon-notation: "single"
@@ -127,7 +114,6 @@
         severity: "warning"
     max-empty-lines: 1
     max-line-length: 120
-    no-duplicate-selectors: true
     no-eol-whitespace:
       - true
       -

@@ -3,7 +3,9 @@ const path = require('path');
 module.exports = {
   'images': path.join(__dirname, '../app/images'),
   'files': path.join(__dirname, '../app/files'),
+  'fonts': path.join(__dirname, '../app/fonts'),
   'utils': path.join(__dirname, '../app/scripts/utils'),
+  'packages': path.join(__dirname, '../app/scripts/packages'),
   'common': path.join(__dirname, '../app/scripts/common'),
   'model': path.join(__dirname, '../app/scripts/model'),
   'collection': path.join(__dirname, '../app/scripts/collection'),

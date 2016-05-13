@@ -107,6 +107,8 @@ describe('sp generator', function () {
       viewFiles('app/scripts/component', 'AuthModal'),
       viewFiles('app/scripts/component', 'Layout'),
       [
+        'app/files/',
+        'app/fonts/',
         'app/images/',
         'app/html/',
       ]

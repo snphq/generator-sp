@@ -3,6 +3,7 @@ import AuthModal from 'component/AuthModal';
 import Share from './Share';
 import template from './Index.jade';
 import './Index.css';
+import 'fonts/Muller/muller.css';
 
 export default _Page.extend({
 
