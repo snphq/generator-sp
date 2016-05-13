@@ -72,7 +72,7 @@ const doConfig = opts => {
         },
         {
           test: /\.woff2?$/,
-          loader: 'url?limit=10000&name=frassets/fonts/[name].[hash:6].[ext]'
+          loader: 'url?limit=10000&name=frassets/fonts/[name].[hash:6].[ext]',
         },
         {
           test: /\.([ot]tf|eot)$/,
