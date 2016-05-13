@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.2] - 2016-05-13
 - Add path 'fonts' to webpack aliases config
 - Add path 'packages' to webpack aliases config
 - Add loading fonts to webpack config
