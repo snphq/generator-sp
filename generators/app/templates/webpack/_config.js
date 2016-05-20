@@ -104,7 +104,9 @@ const doConfig = opts => {
       new (webpack.ProvidePlugin)({
         $: 'jquery',
         jQuery: 'jquery',
+        /* eslint quote-props: "off" */
         'window.jQuery': 'jquery',
+        'window.$': 'jquery',
         _: 'underscore',
       }),
       new (HtmlWebpackPlugin)({
