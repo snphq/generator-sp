@@ -10,6 +10,7 @@ module.exports = opts => {
   config.plugins = config.plugins.concat([
     new webpack.optimize.UglifyJsPlugin({
       compress: {
+        /* eslint camelcase: "off" */
         dead_code: true,
         drop_debugger: true,
         unsafe: true,
