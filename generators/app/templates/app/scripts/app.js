@@ -24,53 +24,53 @@ $(document).ajaxSend((event, jqxhr, settings) => {
 });
 
 export default class Application {
-    constructor(common) {
-      common.router = new Router();
-      common.api = new ServerApi();
-      this.$document = $(document);
+  constructor(common) {
+    common.router = new Router();
+    common.api = new ServerApi();
+    this.$document = $(document);
 
-      // Init UserModel
-      // common.user = new UserModel();
+    // Init UserModel
+    // common.user = new UserModel();
 
-       // Init google analitics
-      // common.ga = new GAConstructor(preprocess.GA, Backbone, true);
+     // Init google analitics
+    // common.ga = new GAConstructor(preprocess.GA, Backbone, true);
 
-      // common.sapi = new social.SocialApi({
-      //   vk: new social.VKApi(preprocess.social.vk.appID),
-      //   fb: new social.FBApi(preprocess.social.fb.appID),
-      //   ok: new social.OKApi(preprocess.social.ok.appID, preprocess.social.ok.appKey)
-      // });
+    // common.sapi = new social.SocialApi({
+    //   vk: new social.VKApi(preprocess.social.vk.appID),
+    //   fb: new social.FBApi(preprocess.social.fb.appID),
+    //   ok: new social.OKApi(preprocess.social.ok.appID, preprocess.social.ok.appKey)
+    // });
 
-      this.initPushstateLinks();
-    }
+    this.initPushstateLinks();
+  }
 //
-    start() {
-      for (let i = 0, sblock; i < sblocksComponents.length; i++) {
-        sblock = sblocksComponents[i];
-        common.sblocks.add(sblock);
-      }
-      common.sblocks.init($('body'));
-      const layout = new Layout({el: '#layout'});
-      layout.showCurrent();
-      this.layout = layout;
-      return Backbone.history.start(({
-        pushState: Boolean(window.history && window.history.pushState),
-      }));
+  start() {
+    for (let i = 0, sblock; i < sblocksComponents.length; i++) {
+      sblock = sblocksComponents[i];
+      common.sblocks.add(sblock);
     }
+    common.sblocks.init($('body'));
+    const layout = new Layout({el: '#layout'});
+    layout.showCurrent();
+    this.layout = layout;
+    return Backbone.history.start(({
+      pushState: Boolean(window.history && window.history.pushState),
+    }));
+  }
 
-    initPushstateLinks() {
-      const selector = 'a:not([data-link]):not([href^="javascript:"])';
-      this.$document.on('click', selector, function (evt) {
-        $('.dropdown.open').removeClass('open');
-        if (Boolean($(this).parents('.pluso-box').length)) {
-          return;
-        }
-        const href = $(this).attr('href') || '';
-        const protocol = `${this.protocol}//`;
-        if (href.slice(0, protocol.length) !== protocol) {
-          evt.preventDefault();
-          common.router.navigate(href, true);
-        }
-      });
-    }
+  initPushstateLinks() {
+    const selector = 'a:not([data-link]):not([href^="javascript:"])';
+    this.$document.on('click', selector, function (evt) {
+      $('.dropdown.open').removeClass('open');
+      if ($(this).parents('.pluso-box').length) {
+        return;
+      }
+      const href = $(this).attr('href') || '';
+      const protocol = `${this.protocol}//`;
+      if (href.slice(0, protocol.length) !== protocol) {
+        evt.preventDefault();
+        common.router.navigate(href, true);
+      }
+    });
+  }
 }

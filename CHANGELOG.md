@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.2.0] - 2016-05-20
+- Change xo and xo-linter versions
+- Add comments with eslint rules in webpack config file and in app files
+- Fix indentation bugs in app files
+- Add to webpack config exporting jquery as 'window.jQuery' and 'window.$'
+  (for jquery-based paskages, e.g. velocity)
+
 ## [2.1.2] - 2016-05-13
 - Add path 'fonts' to webpack aliases config
 - Add path 'packages' to webpack aliases config

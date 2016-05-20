@@ -20,6 +20,7 @@ window.common = {
   images: null,
   async() {
     /* eslint new-cap: 0*/
+    /* eslint babel/new-cap: 0 */
     return $.Deferred();
   },
   // ServerApi
