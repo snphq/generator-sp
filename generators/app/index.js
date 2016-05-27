@@ -49,14 +49,11 @@ SpGenerator.prototype.cap = function cap() {
     self.copy(path, path);
   });
   self.directory('webpack', 'webpack');
-  self.directory('gulp', 'gulp');
   self.directory('config', 'config');
 };
 
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
-  mkdirp('gulp');
-  this.directory('gulp', 'gulp');
   // copy configs
   [
     'README.md',
