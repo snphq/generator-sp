@@ -1,6 +1,5 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
-var mkdirp = require('mkdirp');
 
 var SpGenerator = module.exports = function SpGenerator() {
   yeoman.Base.apply(this, arguments);
