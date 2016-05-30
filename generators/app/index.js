@@ -1,6 +1,5 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
-var mkdirp = require('mkdirp');
 
 var SpGenerator = module.exports = function SpGenerator() {
   yeoman.Base.apply(this, arguments);
@@ -49,14 +48,11 @@ SpGenerator.prototype.cap = function cap() {
     self.copy(path, path);
   });
   self.directory('webpack', 'webpack');
-  self.directory('gulp', 'gulp');
   self.directory('config', 'config');
 };
 
 SpGenerator.prototype.projectfiles = function projectfiles() {
   var self = this;
-  mkdirp('gulp');
-  this.directory('gulp', 'gulp');
   // copy configs
   [
     'README.md',

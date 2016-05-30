@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.2.1] - 2016-05-27
+- Remove folder gulp
+- Remove mkdrip from package.json
+
 ## [2.2.0] - 2016-05-20
 - Change xo and xo-linter versions
 - Add comments with eslint rules in webpack config file and in app files
