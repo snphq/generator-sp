@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Change README of project
 
 ## [2.2.1] - 2016-05-27
 - Remove folder gulp
@@ -90,3 +91,4 @@ Unfortunately, there were no changelog before 2016-01-18. Nowbody can reconstruc
  - @RomanovRoman
  - @donbobka
  - @i-suhar
+ - @kkateivanova

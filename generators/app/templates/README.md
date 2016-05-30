@@ -2,123 +2,87 @@
 
 ## Особенности
 
-* автоматическая сборка проекта с помощью [gulpjs](http://gulpjs.com/)
-* поддерка [postcss](https://github.com/postcss/postcss)
+* автоматическая сборка проекта с помощью [npm](https://www.npmjs.com) и [webpack](https://webpack.github.io/)
+* поддерка [postcss](https://github.com/postcss/postcss) и cssnext(http://cssnext.io/)
 * поддержка [ES6](http://www.ecma-international.org/ecma-262/6.0/)
 * шаблонизатор [jade](http://jade-lang.com/)
 * встроенный proxy-сервер, для доступа к удаленному backend api и также конфиг для использования внешнего [haproxy](http://www.haproxy.org/)
-* проверка валидности  используемых *.js файлов
+* проверка валидности  используемых *.js, *.css файлов
 * [editorconfig](http://editorconfig.org/)
 
 
 ## Быстрый старт
 
-Для работы с проектом необходимо иметь установленный [node.js](http://nodejs.org/), и [gulpjs](http://gulpjs.com/).
+Для работы текущей системы потребуется [Node.js](http://nodejs.org/) и его пакеты, установленные глобально:
 
-Для старта приложения достаточно ввести
+- [webpack](https://webpack.github.io/) - система сборки frontend-проектов;
+- [yo](http://yeoman.io/) - библиотека для генерации шаблонных frontend-проектов;
+- [generator-sp](https://github.com/snphq/generator-sp) - генератор шаблона проекта, используемый в Salt & Pepper.
+
+Для старта приложения в режиме разработки достаточно ввести
 ```bash
-$ gulp
+$ npm run dev
 ```
 
-
-Для упрощения настройки приложения наиболее важные опции вынесены файл `.gulpconfig.json`. Ниже приведена структура файла.
-
-```coffeescript
-module.exports =
-  app: "app"
-  extras:[]
-  scripts:[]
-
-  # browserSync settings (http://www.browsersync.io/docs/options/)
-  browserSync:
-    port: 9000
-    open: false
-
-  cdn:
-    host: ""
-
-  # Use spritesmith options to configure for each sprite   https://github.com/twolfson/gulp.spritesmith#documentation
-  sprites: {
-    # icons:
-    #   cssFormat: 'css'
-  }
-
-  proxy:
-    port: 9001
-    remotes:
-      dist:
-        host: "project.snpdev.ru"
-        port: 80
-        https: false
-      prod:
-        host: "project.ru"
-        port: 80
-        https: false
-    activeRemote: 'dist'
-    pushState: true
-    remoteRoutes: [
-      /^\/(api|auth|admin|assets|system|rich).*$/
-    ]
-    localRoutes: [
-      /^\/(bower_components|resources|browser\-sync|images|files|scripts|styles|favicon\.ico|robots\.txt|livereload\.js).*$/
-    ]
-
-  getDefaultTaskList: ->
-    build = ["clean"]
-    build.push ["images", "fonts", "extras"] unless @isDev
-    build.push "sprites"
-    build.push "cssimage"
-    build.push "scripts.#{if @isDev then 'dev' else 'prod'}"
-    build.push "templates"
-    build.push "bs" if @isSrv
-    build.push "proxy" if @isSrv
-    build.push "watch" if @isSrv and @isDev
-    build.push ["imagemin.png"] if @isImageMin
-    build.push "revision" unless @isDev
-    build.push "git-version" unless @isDev
-    build.push "compress" unless @isDev
-    build
+Для запуска приложения в режиме TDD достаточно ввести
+```bash
+$ npm run tdd
 ```
-
-В данный файл необходимо вносить глобальные настройки проекта.
 
 ## Структура проекта
 
-Ниже представлена структура проекта с пояснениями. Плюсом отмечены важные файлы и директории.
+Ниже представлена структура проекта(основные папки и файлы) с комментариями.
 
-```
-.tmp
-+app - здесь расположены все исходные файлы
-  html - шаблоны генерируемых html-страниц. содержимое данной директори собирается в корень проекта
-  images - изображения
-  scripts - скрипты в формате ES6
-  	main.js
-  styles - стили
-  templates - родительские jade шаблоны
-  robots.txt  
-+dist - в данную директорию gulp помещает собранный проект в develop mode
-+production - в данную директорию gulp помещает собранный проект в production mode
-node_modules - модули node.js, нужные для работы gulp
-+.editorconfig - настройки форматирования для данного проекта
-.gitattributes
-.gitignore
-+.gulpconfig.json - важные настройки gulp
-+gulpfile.js - конфигурация gulp.
-+gulp - в данной директории хранятся файлы для конфигурации gulp
-+package.json - список расширений node.js
-README.md - ;)
-```
+| Директория /файл  | Комментарий |
+| ------------------ | ---------- |
+| `.tmp/ `| папка для хранения промежуточных компилируемых файлов |
+| `app/  `| здесь расположены все исходные файлы web-приложения |
+| `config/ `| настройки деплоя проекта |
+| `dist/ `| в данную директорию webpack помещает собранный проект в режиме dist |
+| `node_modules/` | модули node.js, нужные для работы приложения |
+| `prod/ `| в данную директорию webpack помещает собранный проект в режиме prod |
+| `webpack/` | директория с настройками webpack |
+| `.coffeelintrc` | настройки проверки синтаксиса coffee. См. <http://www.coffeelint.org/>|
+| `.editorconfig`| настройки форматирования для данного проекта. См. <http://editorconfig.org/> |
+| `.styleelintrc` | настройки проверки синтаксиса css. См. <https://github.com/stylelint/stylelint>|
+| `Capfile` | файл конфигурации для Capistrano |
+| `haproxy-config.txt` | настройки proxy-сервера |
+| `karma.conf.js` | настройки тест-раннера karma |
+| `package.json` | список расширений node.js |
+
+Часть файлов не описаны для облегчения восприятия.
+
+Структура директории `app` следующая:
+
+| Директория/файл | Комментарий |
+| --------------- | ----------- |
+| `files/` | файлы, которые должны быть доступны на сайте и присутствовать без изменений |
+| `fonts/` | файлы шрифтов, которые используются на сайте |
+| `html/` | шаблоны генерируемых html-страниц. содержимое данной директори собирается в корень проекта |
+| `images/` | изображения, которые используются на сайте |
+| `scripts/` | скрипты |
+| `└── __test__` | директория с тестами |
+| `└── component` | директория с универсальными компонентами |
+| `└── localization` | директория с файлами для перевода |
+| `└── packages` | директория с пакетами |
+| `└── page` | директория со страницами |
+| `└── utils` | директория с утилитами |
+| `└── app.js` | файл создания приложения |
+| `└── main.js` | файл с которого начинается загрузка всех зависимостей |
+
+
+В директории `app` есть директории `component` и `page`. Директория `component` содержит универсальные компоненты, которые используются на нескольких страницах и в других компонентах. Специфичные компоненты, которые используются единожды на конкретных страницах или в компонентах, создаются прямо в них.
 
 ## Быстрая справка
 
 Здесь приведены команы консоли для работы с проектом
 
-
 Команда | Пояснение
 ------- | ---------
-`npm install` | Установка всех расширений node.js, необходимых для работы gulp.  Обычно выполняется при инициализации проекта единожды
 `npm install jquery --save` | Установка указанной библиотеки и сохранения записи об этом в `package.json`
-`gulp` | Запуск gulp в режиме сервера. При изменениях в исходных файлах происходит перезагрузка страницы в браузере. Вся разработка должна происходить в данном режиме
-`gulp --mode dist` | Аналогичен `gulp`, но сервер отдает файлы из директории `dist`. Данный режим важен для тестирования реализованного функцила перед выгрузкой проекта на тестовый сервер. Для внесения изменения сервер нужно перезагрузить
-`gulp --mode production` | Аналогичен `gulp`, но сервер отдает файлы из директории `production`. Данный режим важен для тестирования реализованного функцила перед выгрузкой проекта на тестовый сервер. Для внесения изменения сервер нужно перезагрузить
-`gulp --mode dist --build` | Сборка проекта без старта сервера
+`npm run dev` | Запуск npm в режиме сервера. При изменениях в исходных файлах происходит перезагрузка страницы в браузере. Вся разработка должна происходить в данном режиме
+`npm run tdd` | Запуск npm в режиме TDD. При изменениях в тестовых файлах происходит прогон всех тестов
+`npm run dist` | Сборка проекта для тестового сервера, без старта сервера
+`npm run prod` | Сборка проекта для боевого сервера, без старта сервера
+`npm run dist; bundle exec cap testing deploy` | Сборка проекта и деплой на тестовый сервер
+`npm run prod; bundle exec cap production deploy` | Сборка проекта и деплой на боевой сервер
