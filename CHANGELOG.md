@@ -5,8 +5,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 - Change README of project
-
-## [2.2.1] - 2016-05-27
 - Remove folder gulp
 - Remove mkdrip from package.json
 
