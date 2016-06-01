@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change README of project
 - Remove folder gulp
 - Remove mkdrip from package.json
+- Fix layout setContent bug - add parameter 'options'
 
 ## [2.2.0] - 2016-05-20
 - Change xo and xo-linter versions

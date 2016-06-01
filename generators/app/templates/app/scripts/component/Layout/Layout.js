@@ -9,8 +9,8 @@ export default _Base.extend({
 
   initialize() {},
 
-  setContent(View, callback) {
-    return this.r.content.show(View, () => {
+  setContent(View, options, callback) {
+    return this.r.content.show(View, options, () => {
       const view = this.r.content.getViewDI(View);
       if (typeof callback === 'function') {
         return callback(view);
