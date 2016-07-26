@@ -1,7 +1,7 @@
 import _Base from 'component/_Base';
 import template from './Share.jade';
 import './Share.css';
-import './Share-patch-2.sass';
+import './Share-patch-two.sass';
 
 export default _Base.extend({
 
