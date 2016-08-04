@@ -63,7 +63,7 @@ const doConfig = opts => {
           loader: ExtractTextPlugin.extract('style', 'css!postcss'),
         },
         {
-          test: /\.(png|jpe?g)$/,
+          test: /\.(png|jpe?g|ico)$/,
           loader: 'url?name=frassets/images/[name].[hash:6].[ext]&limit=4096',
         },
         {
