@@ -12,8 +12,7 @@
 
 ## First launch
 
-You should have installed [Node.js](http://nodejs.org/) version >= 5
-Check version of node by running
+You should have installed [Node.js](http://nodejs.org/) version >= 5. Check version of node by running
 ```bash
 $ node -v
 ```
@@ -23,8 +22,7 @@ You should install npm packages by running command below in project root directo
 $ npm i
 ```
 
-You should have installed [ruby](https://www.ruby-lang.org/)
-Check version of ruby by running
+You should have installed [ruby](https://www.ruby-lang.org/). Check version of ruby by running
 ```bash
 $ ruby -v
 ```
@@ -55,6 +53,7 @@ $ bundle
 | `.editorconfig`| formatting settings <http://editorconfig.org/> |
 | `.styleelintrc` | css linter settings <https://github.com/stylelint/stylelint>|
 | `Capfile` | Capistrano configuration file |
+| `Gemfile` | Ruby gems file |
 | `haproxy-config.txt` | proxy-server configuration file |
 | `karma.conf.js` | karma runner settings |
 | `package.json` | node.js packages list |
@@ -66,7 +65,7 @@ Part of files isn't described for understanding facilitating.
 | --------------- | ----------- |
 | `files/` | files, which should be avaliable on site and be without changes |
 | `fonts/` | font files |
-| `html/` | html-pages templates |
+| `html/` | html-pages jade templates |
 | `images/` | images |
 | `scripts/` | scripts |
 | `└── __test__` | tests |
@@ -88,7 +87,6 @@ There are console commands below for project development
 |`npm run dev` | Launch project in development mode with hot reloader.|
 |`npm run test` | Run project tests once.|
 |`npm run tdd` | Launch project in TDD mode. Every code change cause tests run.|
-|`npm run dist` | Build project for test server in directory `dist`.|
-|`npm run prod` | Build project for production server in directory `prod`.|
-|`bundle exec cap (testing|production) deploy:setup`| Preparing test/production server for project deployment (runs once before first deploy)|
+|`npm run (dist|prod)` | Build project for test/production server in directory `dist`/`prod`.|
+|`bundle exec cap (testing|production) deploy:setup`| Preparing test/production server for project deployment (runs once before first deployment)|
 |`bundle exec cap (testing|production) deploy` | Deploy test/production build on test/production server.|
