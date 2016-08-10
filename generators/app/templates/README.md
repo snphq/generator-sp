@@ -65,12 +65,13 @@ Part of files isn't described for understanding facilitating.
 ## Commands
 
 There are console commands below for project development
-Command | Clarification
-------- | ---------
-`npm run dev` | Launch project in development mode with hot reloader.
-`npm run test` | Run project tests once.
-`npm run tdd` | Launch project in TDD mode. Every code change cause tests run.
-`npm run dist` | Build project for test server in directory `dist`.
-`npm run prod` | Build project for production server in directory `prod`.
-`bundle exec cap testing deploy` | Deploy test build on test server.
-`bundle exec cap production deploy` | Deploy production build on production server.
+
+|Command | Clarification|
+|------- | ---------|
+|`npm run dev` | Launch project in development mode with hot reloader.|
+|`npm run test` | Run project tests once.|
+|`npm run tdd` | Launch project in TDD mode. Every code change cause tests run.|
+|`npm run dist` | Build project for test server in directory `dist`.|
+|`npm run prod` | Build project for production server in directory `prod`.|
+|`bundle exec cap testing deploy` | Deploy test build on test server.|
+|`bundle exec cap production deploy` | Deploy production build on production server.|
