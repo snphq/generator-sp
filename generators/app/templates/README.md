@@ -7,6 +7,7 @@
 * built-in proxy-server for remote backend API access and configuration for using [haproxy](http://www.haproxy.org/)
 * *.js, *.css files validation
 * [editorconfig](http://editorconfig.org/)
+* [capistrano](http://capistranorb.com)
 
 
 ## First launch
@@ -20,6 +21,22 @@ $ node -v
 You should install npm packages by running command below in project root directory
 ```bash
 $ npm i
+```
+
+You should have installed [ruby](https://www.ruby-lang.org/)
+Check version of ruby by running
+```bash
+$ ruby -v
+```
+
+You should have installed ruby gem [bundler](https://www.ruby-lang.org/) by running
+```bash
+$ gem install bundler
+```
+
+You should install gems by running command below in project root directory
+```bash
+$ bundle
 ```
 
 
@@ -73,5 +90,5 @@ There are console commands below for project development
 |`npm run tdd` | Launch project in TDD mode. Every code change cause tests run.|
 |`npm run dist` | Build project for test server in directory `dist`.|
 |`npm run prod` | Build project for production server in directory `prod`.|
-|`bundle exec cap testing deploy` | Deploy test build on test server.|
-|`bundle exec cap production deploy` | Deploy production build on production server.|
+|`bundle exec cap (testing|production) deploy:setup`| Preparing test/production server for project deployment (runs once before first deploy)|
+|`bundle exec cap (testing|production) deploy` | Deploy test/production build on test/production server.|
