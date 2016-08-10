@@ -1,88 +1,76 @@
-# Скелет frontend проекта
+## Project features
 
-## Особенности
-
-* автоматическая сборка проекта с помощью [npm](https://www.npmjs.com) и [webpack](https://webpack.github.io/)
-* поддерка [postcss](https://github.com/postcss/postcss) и cssnext(http://cssnext.io/)
-* поддержка [ES6](http://www.ecma-international.org/ecma-262/6.0/)
-* шаблонизатор [jade](http://jade-lang.com/)
-* встроенный proxy-сервер, для доступа к удаленному backend api и также конфиг для использования внешнего [haproxy](http://www.haproxy.org/)
-* проверка валидности  используемых *.js, *.css файлов
+* automatic project build by [npm](https://www.npmjs.com) and [webpack](https://webpack.github.io/)
+* [postcss](https://github.com/postcss/postcss) and cssnext(http://cssnext.io/) support
+* [ES6](http://www.ecma-international.org/ecma-262/6.0/) support
+* [jade](http://jade-lang.com/) support
+* built-in proxy-server for remote backend API access and configuration for using [haproxy](http://www.haproxy.org/)
+* *.js, *.css files validation
 * [editorconfig](http://editorconfig.org/)
 
 
-## Быстрый старт
+## First launch
 
-Для работы текущей системы потребуется [Node.js](http://nodejs.org/) и его пакеты, установленные глобально:
-
-- [webpack](https://webpack.github.io/) - система сборки frontend-проектов;
-- [yo](http://yeoman.io/) - библиотека для генерации шаблонных frontend-проектов;
-- [generator-sp](https://github.com/snphq/generator-sp) - генератор шаблона проекта, используемый в Salt & Pepper.
-
-Для старта приложения в режиме разработки достаточно ввести
+You should have installed [Node.js](http://nodejs.org/) version >= 5
+Check version of node by running
 ```bash
-$ npm run dev
+$ node -v
 ```
 
-Для запуска приложения в режиме TDD достаточно ввести
+You should install npm packages by running command below in project root directory
 ```bash
-$ npm run tdd
+$ npm i
 ```
 
-## Структура проекта
 
-Ниже представлена структура проекта(основные папки и файлы) с комментариями.
+## Project structure
 
-| Директория /файл  | Комментарий |
+| Directory / file  | Comment |
 | ------------------ | ---------- |
-| `.tmp/ `| папка для хранения промежуточных компилируемых файлов |
-| `app/  `| здесь расположены все исходные файлы web-приложения |
-| `config/ `| настройки деплоя проекта |
-| `dist/ `| в данную директорию webpack помещает собранный проект в режиме dist |
-| `node_modules/` | модули node.js, нужные для работы приложения |
-| `prod/ `| в данную директорию webpack помещает собранный проект в режиме prod |
-| `webpack/` | директория с настройками webpack |
-| `.coffeelintrc` | настройки проверки синтаксиса coffee. См. <http://www.coffeelint.org/>|
-| `.editorconfig`| настройки форматирования для данного проекта. См. <http://editorconfig.org/> |
-| `.styleelintrc` | настройки проверки синтаксиса css. См. <https://github.com/stylelint/stylelint>|
-| `Capfile` | файл конфигурации для Capistrano |
-| `haproxy-config.txt` | настройки proxy-сервера |
-| `karma.conf.js` | настройки тест-раннера karma |
-| `package.json` | список расширений node.js |
+| `.tmp/ `| directory for temporary build files |
+| `app/  `| all sources of project |
+| `config/ `| deploy configuration |
+| `dist/ `| project build for test server |
+| `node_modules/` | node.js modules required for project |
+| `prod/ `| project build for production server |
+| `webpack/` | webpack configuration files |
+| `.coffeelintrc` | coffee linter settings <http://www.coffeelint.org/>|
+| `.editorconfig`| formatting settings <http://editorconfig.org/> |
+| `.styleelintrc` | css linter settings <https://github.com/stylelint/stylelint>|
+| `Capfile` | Capistrano configuration file |
+| `haproxy-config.txt` | proxy-server configuration file |
+| `karma.conf.js` | karma runner settings |
+| `package.json` | node.js packages list |
+Part of files isn't described for understanding facilitating.
 
-Часть файлов не описаны для облегчения восприятия.
+`app` directory structure:
 
-Структура директории `app` следующая:
-
-| Директория/файл | Комментарий |
+| Directory / file  | Comment |
 | --------------- | ----------- |
-| `files/` | файлы, которые должны быть доступны на сайте и присутствовать без изменений |
-| `fonts/` | файлы шрифтов, которые используются на сайте |
-| `html/` | шаблоны генерируемых html-страниц. содержимое данной директори собирается в корень проекта |
-| `images/` | изображения, которые используются на сайте |
-| `scripts/` | скрипты |
-| `└── __test__` | директория с тестами |
-| `└── component` | директория с универсальными компонентами |
-| `└── localization` | директория с файлами для перевода |
-| `└── packages` | директория с пакетами |
-| `└── page` | директория со страницами |
-| `└── utils` | директория с утилитами |
-| `└── app.js` | файл создания приложения |
-| `└── main.js` | файл с которого начинается загрузка всех зависимостей |
+| `files/` | files, which should be avaliable on site and be without changes |
+| `fonts/` | font files |
+| `html/` | html-pages templates |
+| `images/` | images |
+| `scripts/` | scripts |
+| `└── __test__` | tests |
+| `└── component` | universal components |
+| `└── localization` | files with translations |
+| `└── packages` | packages |
+| `└── page` | pages components |
+| `└── utils` | utilities |
+| `└── app.js` | application file |
+| `└── main.js` | entry-point file |
 
 
-В директории `app` есть директории `component` и `page`. Директория `component` содержит универсальные компоненты, которые используются на нескольких страницах и в других компонентах. Специфичные компоненты, которые используются единожды на конкретных страницах или в компонентах, создаются прямо в них.
+## Commands
 
-## Быстрая справка
-
-Здесь приведены команы консоли для работы с проектом
-
-Команда | Пояснение
+There are console commands below for project development
+Command | Clarification
 ------- | ---------
-`npm install jquery --save` | Установка указанной библиотеки и сохранения записи об этом в `package.json`
-`npm run dev` | Запуск npm в режиме сервера. При изменениях в исходных файлах происходит перезагрузка страницы в браузере. Вся разработка должна происходить в данном режиме
-`npm run tdd` | Запуск npm в режиме TDD. При изменениях в тестовых файлах происходит прогон всех тестов
-`npm run dist` | Сборка проекта для тестового сервера, без старта сервера
-`npm run prod` | Сборка проекта для боевого сервера, без старта сервера
-`npm run dist; bundle exec cap testing deploy` | Сборка проекта и деплой на тестовый сервер
-`npm run prod; bundle exec cap production deploy` | Сборка проекта и деплой на боевой сервер
+`npm run dev` | Launch project in development mode with hot reloader.
+`npm run test` | Run project tests once.
+`npm run tdd` | Launch project in TDD mode. Every code change cause tests run.
+`npm run dist` | Build project for test server in directory `dist`.
+`npm run prod` | Build project for production server in directory `prod`.
+`bundle exec cap testing deploy` | Deploy test build on test server.
+`bundle exec cap production deploy` | Deploy production build on production server.
