@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 - Add .ico to webpack loaders config
+- Change README of project - add info and translate on english
 
 ## [2.2.1] - 2016-07-26
 - Change README of project
