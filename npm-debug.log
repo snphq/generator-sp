@@ -1,0 +1,46 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/Sergey/.nvm/versions/node/v6.2.0/bin/node',
+1 verbose cli   '/Users/Sergey/.nvm/versions/node/v6.2.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'precommit' ]
+2 info using npm@3.10.5
+3 info using node@v6.2.0
+4 verbose run-script [ 'precommit' ]
+5 info lifecycle generator-sp@2.2.2~precommit: generator-sp@2.2.2
+6 verbose lifecycle generator-sp@2.2.2~precommit: unsafe-perm in lifecycle true
+7 verbose lifecycle generator-sp@2.2.2~precommit: PATH: /Users/Sergey/.nvm/versions/node/v6.2.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/Sergey/Development/projects/code/generator-sp/node_modules/.bin:/Users/Sergey/.nvm/versions/node/v6.2.0/bin:/Users/Sergey/.nvm/versions/node/v6.2.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/Sergey/Development/projects/code/generator-sp/node_modules/husky/node_modules/.bin:/Users/Sergey/Development/projects/code/generator-sp/node_modules/.bin:/Users/Sergey/.nvm/versions/node/v6.2.0/bin:/Users/Sergey/.nvm/versions/node/v6.2.0/bin:/Users/Sergey/.avn/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+8 verbose lifecycle generator-sp@2.2.2~precommit: CWD: /Users/Sergey/Development/projects/code/generator-sp
+9 silly lifecycle generator-sp@2.2.2~precommit: Args: [ '-c', 'npm test' ]
+10 silly lifecycle generator-sp@2.2.2~precommit: Returned: code: 1  signal: null
+11 info lifecycle generator-sp@2.2.2~precommit: Failed to exec precommit script
+12 verbose stack Error: generator-sp@2.2.2 precommit: `npm test`
+12 verbose stack Exit status 1
+12 verbose stack     at EventEmitter.<anonymous> (/Users/Sergey/.nvm/versions/node/v6.2.0/lib/node_modules/npm/lib/utils/lifecycle.js:242:16)
+12 verbose stack     at emitTwo (events.js:106:13)
+12 verbose stack     at EventEmitter.emit (events.js:191:7)
+12 verbose stack     at ChildProcess.<anonymous> (/Users/Sergey/.nvm/versions/node/v6.2.0/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+12 verbose stack     at emitTwo (events.js:106:13)
+12 verbose stack     at ChildProcess.emit (events.js:191:7)
+12 verbose stack     at maybeClose (internal/child_process.js:850:16)
+12 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+13 verbose pkgid generator-sp@2.2.2
+14 verbose cwd /Users/Sergey/Development/projects/code/generator-sp
+15 error Darwin 15.6.0
+16 error argv "/Users/Sergey/.nvm/versions/node/v6.2.0/bin/node" "/Users/Sergey/.nvm/versions/node/v6.2.0/bin/npm" "run" "precommit"
+17 error node v6.2.0
+18 error npm  v3.10.5
+19 error code ELIFECYCLE
+20 error generator-sp@2.2.2 precommit: `npm test`
+20 error Exit status 1
+21 error Failed at the generator-sp@2.2.2 precommit script 'npm test'.
+21 error Make sure you have the latest version of node.js and npm installed.
+21 error If you do, this is most likely a problem with the generator-sp package,
+21 error not with npm itself.
+21 error Tell the author that this fails on your system:
+21 error     npm test
+21 error You can get information on how to open an issue for this project with:
+21 error     npm bugs generator-sp
+21 error Or if that isn't available, you can get their info via:
+21 error     npm owner ls generator-sp
+21 error There is likely additional logging output above.
+22 verbose exit [ 1, true ]

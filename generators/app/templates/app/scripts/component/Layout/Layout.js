@@ -1,5 +1,6 @@
 import _Base from '../_Base';
-import './Layout.css';
+import 'reset.css'
+import './Layout.sass';
 
 export default _Base.extend({
   regions: {

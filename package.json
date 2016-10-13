@@ -18,7 +18,6 @@
   "scripts": {
     "test": "xo && TEST=true mocha",
     "test-dev": "TEST=true mocha --watch",
-    "precommit": "npm test"
   },
   "files": [
     "generators"

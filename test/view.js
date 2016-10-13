@@ -18,7 +18,7 @@ describe('view', function () {
       assert.file(viewFiles('app/scripts/page', 'Sample'));
       assert.fileContent([
         ['app/scripts/page/Sample/Sample.js', fixture('Sample/Sample.js')],
-        ['app/scripts/page/Sample/Sample.css', '@b p-sample {\n}'],
+        ['app/scripts/page/Sample/Sample.sass', '.p-sample'],
         ['app/scripts/page/Sample/Sample.jade', '.p-sample'],
         ['app/scripts/page/Sample/package.json', '"main": "./Sample.js"'],
       ]);
@@ -49,7 +49,7 @@ describe('view', function () {
     createGenerator('demoListViewSample')
     .on('end', function () {
       assert.fileContent([
-        ['app/scripts/component/DemoListViewSample/DemoListViewSample.css', 'demo-list-view-sample'],
+        ['app/scripts/component/DemoListViewSample/DemoListViewSample.sass', 'demo-list-view-sample'],
       ]);
       done();
     });

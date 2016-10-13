@@ -27,7 +27,7 @@ module.exports = yeoman.Base.extend({
     }
     this._setTemplatesData();
     this.copy(this._getJsTemplate(), this._getFileName('js'));
-    this.copy('view.css', this._getFileName('css'));
+    this.copy('view.sass', this._getFileName('sass'));
     this.copy('view.jade', this._getFileName('jade'));
     this.copy('package.json', this._getPackageFileName());
   },
