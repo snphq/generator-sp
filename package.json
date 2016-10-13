@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "xo && TEST=true mocha",
-    "test-dev": "TEST=true mocha --watch",
+    "test-dev": "TEST=true mocha --watch"
   },
   "files": [
     "generators"
