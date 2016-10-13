@@ -1,5 +1,4 @@
 import _Base from '../_Base';
-import 'reset.css'
 import './Layout.sass';
 
 export default _Base.extend({
